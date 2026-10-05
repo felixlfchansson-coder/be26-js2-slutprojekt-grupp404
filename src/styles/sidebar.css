@@ -1,0 +1,314 @@
+/* ========================================
+   SIDEBAR
+======================================== */
+
+.sidebar {
+  min-height: 100vh;
+  padding: 24px 16px;
+
+  background-color: var(--color-sidebar);
+  color: var(--color-text-light);
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+.sidebar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.sidebar__logo-image {
+  width: 32px;
+  height: 32px;
+
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sidebar__logo h1,
+.sidebar__logo span {
+  font-size: 18px;
+  font-weight: 700;
+
+  color: var(--color-text-light);
+}
+
+
+/* ========================================
+   PROFILE
+======================================== */
+
+.sidebar__profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 32px;
+}
+
+.sidebar__profile-image {
+  width: 40px;
+  height: 40px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+.sidebar__profile-info {
+  min-width: 0;
+}
+
+#profile-name {
+  font-size: 13px;
+  font-weight: 600;
+
+  color: var(--color-text-light);
+}
+
+#profile-email {
+  margin-top: 2px;
+
+  font-size: 11px;
+
+  color: var(--color-sidebar-muted);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   NAVIGATION
+======================================== */
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+/* Kanban heading */
+
+.sidebar__heading {
+  margin-top: 16px;
+  margin-bottom: 4px;
+
+  padding: 0 12px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  color: var(--color-sidebar-muted);
+}
+
+
+/* Navigation links */
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 10px 12px;
+
+  color: var(--color-sidebar-text);
+  text-decoration: none;
+
+  border-radius: 8px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar__link svg {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+/* Hover */
+
+.sidebar__link:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-text-light);
+}
+
+
+/* Active page */
+
+.sidebar__link--active {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.sidebar__link--active:hover {
+  background-color: var(--color-primary-hover);
+}
+
+
+/* ========================================
+   MESSAGE BADGE
+======================================== */
+
+#message-count {
+  margin-left: auto;
+
+  min-width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 6px;
+
+  border-radius: 999px;
+
+  background-color: var(--color-danger);
+  color: white;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Dölj badge när den är tom */
+
+#message-count:empty {
+  display: none;
+}
+
+
+/* ========================================
+   MY PROJECTS
+======================================== */
+
+.sidebar__projects {
+  margin-top: 32px;
+}
+
+.sidebar__projects h2 {
+  margin-bottom: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: var(--color-sidebar-text);
+}
+
+
+/* ========================================
+   PROJECT LIST
+   TypeScript kan lägga projekt här senare
+======================================== */
+
+#sidebar-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  margin-bottom: 6px;
+}
+
+
+/* Dynamiskt projekt */
+
+.sidebar__project-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  color: var(--color-sidebar-text);
+  text-decoration: none;
+
+  font-size: 12px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar__project-link:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-text-light);
+}
+
+
+/* Färgprick framför projekt */
+
+.sidebar__project-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background-color: var(--color-primary);
+
+  flex-shrink: 0;
+}
+
+
+/* ========================================
+   ADD PROJECT BUTTON
+======================================== */
+
+.sidebar__add-project {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 9px 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: transparent;
+  color: var(--color-sidebar-text);
+
+  font-size: 12px;
+  font-weight: 500;
+
+  text-align: left;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.sidebar__add-project svg {
+  width: 16px;
+  height: 16px;
+
+  flex-shrink: 0;
+}
+
+.sidebar__add-project:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-text-light);
+}

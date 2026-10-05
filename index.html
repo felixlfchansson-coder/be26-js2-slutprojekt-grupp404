@@ -1,13 +1,153 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mall-ts-vite</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/scrum-manager-logo.png"
+  />
+
+  <title>Scrum Manager | Projekt</title>
   </head>
+
   <body>
-    <div id="app"></div>
+
+    <aside class="sidebar">
+
+    <header class="sidebar__logo">
+  <img
+    src="/scrum-manager-logo.png"
+    alt=""
+    class="sidebar__logo-image"
+  />
+
+  <span>Scrum Manager</span>
+    </header>
+    <section class="sidebar__profile">
+      <img
+        class="sidebar__profile-image"
+        src="/placeholder-profile.png"
+        alt="Profilbild"
+      />
+
+      <div class="sidebar__profile-info">
+        <p id="profile-name">Användare</p>
+        <p id="profile-email">user@example.com</p>
+      </div>
+    </section>
+
+      <nav class="sidebar__nav">
+
+      <a href="#" class="sidebar__link">
+        <i data-lucide="house"></i>
+        <span>Översikt</span>
+      </a>
+
+      <a href="#" class="sidebar__link">
+        <i data-lucide="chart-no-axes-column-increasing"></i>
+        <span>Progress</span>
+      </a>
+
+      <a href="#" class="sidebar__link">
+        <i data-lucide="message-square"></i>
+        <span>Meddelanden</span>
+      </a>
+
+      <a href="#" class="sidebar__link sidebar__link--active">
+        <i data-lucide="folder"></i>
+        <span>Projekt</span>
+      </a>
+
+      </nav>
+
+
+      <!-- DYNAMISK PROJEKTLISTA -->
+      <section class="sidebar__projects">
+
+        <h2>Mina projekt</h2>
+
+        <nav id="sidebar-project-list">
+          <!-- TypeScript -->
+        </nav>
+
+       <button
+          class="sidebar__add-project"
+          id="add-project-button"
+          type="button"
+        >
+          <i data-lucide="plus"></i>
+          <span>Lägg till projekt</span>
+        </button>
+
+      </section>
+
+    </aside>
+
+    <main class="dashboard">
+
+      <header class="dashboard__header">
+
+        <div>
+          <h2>Alla projekt</h2>
+          <p>
+            Visa kategori, medlemmar och sortera i deadline.
+          </p>
+        </div>
+
+
+        <div class="dashboard__controls">
+
+          <label>
+            <span>Projekt</span>
+
+            <select id="category-filter">
+              <option value="all">Alla</option>
+            </select>
+          </label>
+
+
+          <label>
+            <span>Medlemmar</span>
+
+            <select id="member-filter">
+              <option value="all">Alla</option>
+            </select>
+          </label>
+
+
+          <label>
+            <span>Sortera</span>
+
+            <select id="project-sort">
+              <option value="deadline">
+                Deadline (närmast)
+              </option>
+            </select>
+          </label>
+
+
+          <button id="new-project-button" type="button">
+            + Nytt projekt
+          </button>
+
+        </div>
+
+      </header>
+
+      <section
+        id="project-list"
+        class="project-list"
+        aria-label="Alla projekt"
+      >
+      </section>
+
+    </main>
+
+
     <script type="module" src="/src/main.ts"></script>
+
   </body>
 </html>

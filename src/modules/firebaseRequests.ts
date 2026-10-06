@@ -40,7 +40,6 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
     }
 }
 
-    // PARTICIPATINGMEMBERS - an object of strings - will list names of members - how to declare that in TS?
 export async function addNewProject(newProjectTitle:string, newProjectDescription:string, newProjectDeadline:number, newProjectMembers:object){
     try{
         const option = {

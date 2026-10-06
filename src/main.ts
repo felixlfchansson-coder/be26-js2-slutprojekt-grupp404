@@ -1,6 +1,8 @@
 // import { getData } from "./modules/firebaserequests.js"
 import "./styles/style.css";
 import { createIcons, House, ChartNoAxesColumnIncreasing, MessageSquare, Folder } from "lucide";
+import { renderProjects } from "./ui/renderProjects.js";
+import { getData  } from "./modules/firebaseRequests.js";
 
 createIcons({
   icons: {
@@ -10,3 +12,13 @@ createIcons({
     Folder,
   },
 });
+
+async function init() {
+    const projects = await getData("projects");
+
+    console.log(projects);
+
+    renderProjects(projects);
+}
+
+init();

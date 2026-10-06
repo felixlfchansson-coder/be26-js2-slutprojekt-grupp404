@@ -106,4 +106,26 @@
   border-radius: 14px;
 }
 
+.kanban {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
 
+.kanban__column {
+    min-height: 180px;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.kanban__column--todo {
+    background-color: var(--color-todo-bg);
+}
+
+.kanban__column--progress {
+    background-color: var(--color-progress-bg);
+}
+
+.kanban__column--done {
+    background-color: var(--color-done-bg);
+}

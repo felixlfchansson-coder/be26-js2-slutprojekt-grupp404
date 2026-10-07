@@ -1,11 +1,13 @@
 import { baseURL } from "../modules/firebaseRequest.ts";
-import type { MemberCategory } from "./task.ts";
+import type { MemberCategory } from "./Task.ts";
+//do we need this union type (MemberNames)?
+//Should i replace it by string[]?
 export type MemberNames = "Felix" | "Ash" | "Tatiana";
 
 export class User {
   public readonly userID: number;
   public readonly userName: MemberNames;
-  public readonly url: string;
+  public readonly userURL: string;
   private _userCategory: MemberCategory;
   private _userTasks: number;
   private _userProjects: string[];
@@ -19,7 +21,7 @@ export class User {
   ) {
     this.userID = userID;
     this.userName = userName;
-    this.url = `${baseURL}/${this.userID}.json`;
+    this.userURL = `${baseURL}/${this.userID}.json`;
     this._userCategory = userCategory;
     this._userTasks = userTasks;
     this._userProjects = userProjects;

@@ -1,3 +1,4 @@
+
 import "./styles/style.css";
 import { createIcons, House, ChartNoAxesColumnIncreasing, MessageSquare, Folder } from "lucide";
 import { renderProjects } from "./ui/renderProjects.js";

@@ -5,28 +5,28 @@ import type {Task } from "./task.ts";
 
 export class Project {
   public readonly projectID: number;
-  public readonly projectName: string;
+  public readonly projectTitle: string;
   public readonly projectURL: string;
   private _projectDescription: string;
   private _projectDeadline: number;
-  private _projectMember: MemberCategory;
+  private _projectMembers: MemberCategory;
   //Not sure about having Task as the type...
   private _projectTasks: Task;
-
+//Felix: i changed to tile instead of name to make it match firebase.
   constructor(
     projectID: number,
-    projectName: string,
+    projectTitle: string,
     projectDescription: string,
     projectDeadline: number,
-    projectMember: MemberCategory,
+    projectMembers: MemberCategory,
     projectTasks: Task,
   ) {
     this.projectID = projectID;
-    this.projectName = projectName;
+    this.projectTitle = projectTitle;
     this.projectURL = `${baseURL}/${this.projectID}.json`;
     this._projectDescription = projectDescription;
     this._projectDeadline = projectDeadline;
-    this._projectMember = projectMember;
+    this._projectMembers = projectMembers;
     this._projectTasks = projectTasks;
   }
   get projectDescription() {
@@ -44,11 +44,11 @@ export class Project {
     this._projectDeadline = newProjectDeadline;
   }
 
-  get projectMember() {
-    return this._projectMember;
+  get projectMembers() {
+    return this._projectMembers;
   }
-  set projectMember(newProjectMember: MemberCategory) {
-    this._projectMember = newProjectMember;
+  set projectMembers(newProjectMembers: MemberCategory) {
+    this._projectMembers = newProjectMembers;
   }
 
   get projectTasks() {

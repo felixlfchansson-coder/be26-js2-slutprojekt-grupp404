@@ -1,10 +1,25 @@
-export function renderTask(task: any) {
-    const taskElement = document.createElement("div");
-     taskElement.classList.add("task");
-// TODO: Byt ut any och uppdatera property-namnen när Task class/type är klar
+import type { Task } from "../model/task";
+
+export function renderTask(task: Task) {
+    const taskElement = document.createElement("article");
+    taskElement.classList.add("task");
+
     taskElement.innerHTML = `
-        <h3>${task.name}</h3>
-        <p>${task.description}</p>
+        <div class="task__header">
+            <h5>${task.taskTitle}</h5>
+            <span class="task__priority">
+                Prioritet ${task.taskPriority}
+            </span>
+        </div>
+
+        <p class="task__description">
+            ${task.taskDescription}
+        </p>
+
+        <div class="task__footer">
+            <span>${task.taskCategory}</span>
+            <span>Deadline: ${task.taskDeadline}</span>
+        </div>
     `;
 
     return taskElement;

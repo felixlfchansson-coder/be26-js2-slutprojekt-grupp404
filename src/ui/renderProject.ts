@@ -1,13 +1,36 @@
-export function renderProject(project: any) {
-    // TODO: Byt ut any och uppdatera property-namnen när Project class/type är klar
+import type { Project } from "../model/Project";
 
+function formatDeadline(deadline: number): string {
+    const value = deadline.toString().padStart(6, "0");
+
+    const day = value.slice(0, 2);
+    const month = value.slice(2, 4);
+    const year = `20${value.slice(4, 6)}`;
+
+    const date = new Date(`${year}-${month}-${day}`);
+
+    return date.toLocaleDateString("sv-SE", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+export function renderProject(project: Project) {
     const projectElement = document.createElement("div");
     projectElement.classList.add("project");
 
     projectElement.innerHTML = `
         <div class="project__header">
-            <h3>${project.name}</h3>
-            <p>${project.description}</p>
+            <div>
+                <h3>${project.projectTitle}</h3>
+                <p>${project.projectDescription}</p>
+            </div>
+
+           <div class="project__info">
+            <span>Deadline: ${formatDeadline(project.projectDeadline)}</span>
+            <span>Medlem: ${project.projectMembers}</span>
+        </div>
         </div>
 
         <div class="kanban">

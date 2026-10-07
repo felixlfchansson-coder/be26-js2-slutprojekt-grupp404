@@ -1,4 +1,4 @@
-import { baseURL } from "./modules/firebaseRequests.ts";
+import { baseURL } from "../modules/firebaseRequests.ts";
 import type { MemberCategory } from "./task.ts";
 export type MemberNames = "Felix" | "Ash" | "Tatiana";
 

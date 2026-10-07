@@ -1,6 +1,6 @@
 export type MemberCategory='frontend'|'backend'|'ux'
-export type TaskPriority='1'|'2'|'3'
-export type TaskStatus = 'toDo'|'inProgress'|'completed'
+export type TaskPriority='High'|'Medium'|'Low'
+export type TaskStatus = 'To Do'|'In Progress'|'Completed'
 
 
 export interface Task {

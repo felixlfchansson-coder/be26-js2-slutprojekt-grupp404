@@ -179,6 +179,23 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
     }
 }
 
+export async function deleteMember(memberID:string) {
+    const options = {
+        method: "DELETE"
+    }
+    try {
+        const response = await fetch(`${baseURL}/members${memberID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("Deletion failed")
+        }
+        const data = await response.json();
+        return "Member Deleted!"
+    }
+    catch (error) {
+        throw error
+        }
+}
+
 export async function deleteProject(projectID:string) {
     const options = {
         method: "DELETE"

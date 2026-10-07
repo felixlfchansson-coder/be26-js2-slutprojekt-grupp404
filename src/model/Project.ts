@@ -1,6 +1,6 @@
 import { baseURL } from "../modules/firebaseRequests.ts";
-import type {MemberCategory} from "./task";
-import type {Task } from "./task.ts";
+//import type {MemberCategory} from "./Task.ts";
+import  {Task} from "./Task.ts";
 //This is a draft for the class, and we can change the properties if you think they are inadequate
 
 export class Project {
@@ -9,7 +9,9 @@ export class Project {
   public readonly projectURL: string;
   private _projectDescription: string;
   private _projectDeadline: number;
-  private _projectMember: MemberCategory;
+  //Ash you said to change projectMember to string[], right?
+  //Should i change the member variable in the user too?
+  private _projectMember: string[];
   //Not sure about having Task as the type...
   private _projectTasks: Task;
 
@@ -18,7 +20,7 @@ export class Project {
     projectName: string,
     projectDescription: string,
     projectDeadline: number,
-    projectMember: MemberCategory,
+    projectMember: string[],
     projectTasks: Task,
   ) {
     this.projectID = projectID;
@@ -47,7 +49,7 @@ export class Project {
   get projectMember() {
     return this._projectMember;
   }
-  set projectMember(newProjectMember: MemberCategory) {
+  set projectMember(newProjectMember: string[]) {
     this._projectMember = newProjectMember;
   }
 

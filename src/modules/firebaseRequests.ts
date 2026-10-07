@@ -178,3 +178,54 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
         throw error
     }
 }
+
+export async function deleteMember(memberID:string) {
+    const options = {
+        method: "DELETE"
+    }
+    try {
+        const response = await fetch(`${baseURL}/members${memberID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("Deletion failed")
+        }
+        const data = await response.json();
+        return "Member Deleted!"
+    }
+    catch (error) {
+        throw error
+        }
+}
+
+export async function deleteProject(projectID:string) {
+    const options = {
+        method: "DELETE"
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("Deletion failed")
+        }
+        const data = await response.json();
+        return "Project Deleted!"
+    }
+    catch (error) {
+        throw error
+        }
+}
+
+export async function deleteTask(projectID:string, taskID:string) {
+    const options = {
+        method: "DELETE"
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("Deletion failed")
+        }
+        const data = await response.json();
+        return "Task Deleted!"
+    }
+    catch (error) {
+        throw error
+        }
+}

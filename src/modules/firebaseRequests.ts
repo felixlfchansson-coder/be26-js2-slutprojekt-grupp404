@@ -41,6 +41,7 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
 }
 
 export async function addNewProject(newProjectTitle:string, newProjectDescription:string, newProjectDeadline:number, newProjectMembers:object){
+
     try{
         const option = {
             method: "POST",

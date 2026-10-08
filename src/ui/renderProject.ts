@@ -30,6 +30,9 @@ export function renderProject(project: Project) {
            <div class="project__info">
             <span>Deadline: ${formatDeadline(project.projectDeadline)}</span>
             <span>Medlem: ${project.projectMembers}</span>
+            <button class="project__add-task" type="button">
+            + Lägg till task
+    </button>
         </div>
         </div>
 

@@ -29,7 +29,7 @@ export class Task {
   ) {
     this.taskID = taskID;
     this.taskTitle = taskTitle;
-    this.taskURL = `${baseURL}/${this.taskID}.json`;
+    this.taskURL = `${baseURL}/projects/${projectID}tasks${taskID}.json`;
     this._taskDescription = taskDescription;
     this._taskMember = taskMember;
     this._taskCategory = taskCategory;

@@ -7,9 +7,8 @@ export function renderProjects(projects: Record<string, Project>) {
     if (projectsContainer) {
         projectsContainer.innerHTML = "";
 
-        Object.entries(projects).forEach(([key, project]) => {
-            const projectElement = renderProject(project);
-
+       Object.entries(projects).forEach(([key, project], index) => {
+            const projectElement = renderProject(project as Project, index);
             projectsContainer.appendChild(projectElement);
         });
     }

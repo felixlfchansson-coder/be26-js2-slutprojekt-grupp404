@@ -89,31 +89,151 @@
 }
 
 
-/* Projects */
+/* ===== Projects ===== */
 
-.project-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.project-list,
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .project {
-  padding: 16px;
+    padding: 20px 22px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
 
-  background-color: var(--color-surface);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
 
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+.project:hover {
+    border-color: #c7c9f5;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.055);
+}
+
+/* ===== Project header ===== */
+
+.project__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+/* Project title / collapse button */
+
+.project__toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 6px 0;
+    border: none;
+    background: transparent;
+
+    color: var(--color-text);
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.project__toggle:hover {
+    color: var(--color-primary);
+}
+
+.project__toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.project__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+
+    background-color: #eef0ff;
+    color: var(--color-primary);
+    font-size: 11px;
+}
+/* Project description */
+
+.project__header p {
+    margin: 4px 0 0 28px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+}
+
+/* ===== Project information ===== */
+
+.project__info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.project__info span {
+    padding: 6px 10px;
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Add task button */
+
+.project__add-task {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.project__add-task:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* ===== Kanban ===== */
 
 .kanban {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
 }
 
+.kanban[hidden] {
+    display: none;
+}
+
 .kanban__column {
-    min-height: 180px;
+    min-width: 0;
+    min-height: 130px;
     padding: 12px;
     border-radius: 10px;
 }
@@ -130,63 +250,78 @@
     background-color: var(--color-done-bg);
 }
 
-.project {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    padding: 16px;
+/* ===== Responsive ===== */
+
+@media (max-width: 900px) {
+    .project__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .project__info {
+        width: 100%;
+    }
 }
 
-.project__header {
+@media (max-width: 600px) {
+    .kanban {
+        grid-template-columns: 1fr;
+    }
+
+    .project {
+        padding: 12px;
+    }
+}
+
+/* ===== Kanban column design ===== */
+
+.kanban__column {
+    min-height: 140px;
+    padding: 14px;
+    border-radius: 12px;
+}
+
+.kanban__header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 16px;
 }
 
-.project__header h3 {
-    margin: 0 0 4px;
-    font-size: 1.1rem;
-    color: var(--color-text);
-}
-
-.project__header p {
+.kanban__header h4 {
     margin: 0;
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.project__info {
-    display: flex;
+.kanban__count {
+    display: inline-flex;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
-    flex-shrink: 0;
+
+    min-width: 25px;
+    height: 25px;
+    padding: 0 7px;
+
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    color: var(--color-text);
+    font-size: 12px;
+    font-weight: 700;
 }
 
-.project__info span {
-    padding: 6px 10px;
-    background-color: var(--color-surface-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    color: var(--color-text-secondary);
-    font-size: 0.8rem;
-    font-weight: 500;
+.kanban__empty {
+    margin: 20px 0;
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    opacity: 0.8;
 }
 
-.project__add-task {
-    background-color: var(--color-primary);
-    color: var(--color-text-light);
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.project__add-task:hover {
-    background-color: var(--color-primary-hover);
+.task-list:not(:empty) + .kanban__empty {
+    display: none;
 }

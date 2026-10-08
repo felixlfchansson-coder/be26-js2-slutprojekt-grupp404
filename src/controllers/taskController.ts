@@ -1,18 +1,16 @@
-import { renderProjectForm } from "../ui/projectForm";
+import { renderTaskForm } from "../ui/taskForm";
 
+export function initTaskController() {
+    document.addEventListener("click", (event) => {
+        const target = event.target;
 
-export function initProjectController() {
-    const newProjectButton = document.getElementById("new-project-button");
+        if (!(target instanceof Element)) return;
 
-    console.log("Hittade knappen:", newProjectButton);
+        const addTaskButton = target.closest(".project__add-task");
 
-    if (!newProjectButton) return;
+        if (!addTaskButton) return;
 
-    newProjectButton.addEventListener("click", () => {
-        console.log("Knappen klickades!");
-
-        const overlay = renderProjectForm();
-
+        const overlay = renderTaskForm();
         document.body.appendChild(overlay);
 
         const closeButton = overlay.querySelector(".modal__close");

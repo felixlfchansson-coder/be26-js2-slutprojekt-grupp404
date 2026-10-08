@@ -1,5 +1,5 @@
 import { renderProjectForm } from "../ui/projectForm";
-
+import { addNewProject } from "../modules/projects";
 
 export function initProjectController() {
     const newProjectButton = document.getElementById("new-project-button");
@@ -30,5 +30,32 @@ export function initProjectController() {
                 closeModal();
             }
         });
+        
+        const form = overlay.querySelector<HTMLFormElement>("#project-form")
+        form?.addEventListener("submit", async event =>{
+            event.preventDefault()
+    
+            const formData = new FormData(form)
+
+            const title = String(formData.get("projectTitle") ?? "")
+            const description = String(formData.get("projectDescription") ?? "")
+            const deadline = String(formData.get("projectDeadline") ?? "")
+            // const members = String[](formData.get("project-members-list") ?? "")
+
+                try {
+                    await addNewProject(
+                        title,
+                        description,
+                        Date.parse(deadline),
+                        members // commented line above - needs array data type to make work.
+                )
+
+            console.log("Project added!")
+            closeModal()
+
+            } catch (error) {
+                console.error("Could not add project: ", error)
+            }
+        })
     });
 }

@@ -66,7 +66,7 @@ export function renderProjectForm(): HTMLDivElement {
                         Avbryt
                     </button>
 
-                    <button type="submit" class="modal__submit">
+                    <button type="submit" class="modal__submit" id="projectSubmitButton">
                         Skapa projekt
                     </button>
                 </div>

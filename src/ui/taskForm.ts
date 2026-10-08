@@ -108,6 +108,7 @@ export function renderTaskForm(): HTMLDivElement {
                     <button
                         type="submit"
                         class="modal__submit"
+                        id="taskSubmitButton"
                     >
                         Skapa task
                     </button>

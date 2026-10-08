@@ -173,3 +173,20 @@
     font-size: 0.8rem;
     font-weight: 500;
 }
+
+.project__add-task {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.project__add-task:hover {
+    background-color: var(--color-primary-hover);
+}

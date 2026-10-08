@@ -48,3 +48,4 @@ export class User {
     this._userProjects = newUserProjects;
   }
 }
+

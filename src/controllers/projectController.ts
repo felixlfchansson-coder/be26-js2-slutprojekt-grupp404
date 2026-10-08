@@ -40,13 +40,15 @@ export function initProjectController() {
             const title = String(formData.get("projectTitle") ?? "")
             const description = String(formData.get("projectDescription") ?? "")
             const deadline = String(formData.get("projectDeadline") ?? "")
+                let returnDeadline: string | number= deadline.replace("-", "")
+                    returnDeadline = parseFloat(returnDeadline)
             // const members = String[](formData.get("project-members-list") ?? "")
 
                 try {
                     await addNewProject(
                         title,
                         description,
-                        Date.parse(deadline),
+                        returnDeadline,
                         members // commented line above - needs array data type to make work.
                 )
 

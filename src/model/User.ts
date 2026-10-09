@@ -4,50 +4,50 @@ import type { MemberCategory } from "./task.ts";
 //Should i replace it by string[]?
 export type MemberNames = "Felix" | "Ash" | "Tatiana";
 
-export class User {
-  public readonly userID: number;
-  public readonly userName: MemberNames;
-  public readonly userURL: string;
-  private _userCategory: MemberCategory;
-  private _userTasks: number;
-  private _userProjects: string[];
+export class Member {
+  public readonly memberID: number;
+  public readonly memberName: MemberNames;
+  public readonly memberURL: string;
+  private _memberCategory: MemberCategory;
+  private _memberTasks: number;
+  private _memberProjects: string[];
 
   constructor(
-    userID: number,
-    userName: MemberNames,
-    userCategory: MemberCategory,
-    userTasks: number,
-    userProjects: string[],
+    memberID: number,
+    memberName: MemberNames,
+    memberCategory: MemberCategory,
+    memberTasks: number,
+    memberProjects: string[],
   ) {
-    this.userID = userID;
-    this.userName = userName;
-    this.userURL = `${baseURL}/${this.userID}.json`;
-    this._userCategory = userCategory;
-    this._userTasks = userTasks;
-    this._userProjects = userProjects;
+    this.memberID = memberID;
+    this.memberName = memberName;
+    this.memberURL = `${baseURL}/${this.memberID}.json`;
+    this._memberCategory = memberCategory;
+    this._memberTasks = memberTasks;
+    this._memberProjects = memberProjects;
   }
 
-  get userCategory() {
-    return this._userCategory;
+  get memberCategory() {
+    return this._memberCategory;
   }
 
-  set userCategory(newUserCategory) {
-    this._userCategory = newUserCategory;
+  set memberCategory(newmemberCategory) {
+    this._memberCategory = newmemberCategory;
   }
 
-  get userTasks() {
-    return this._userTasks;
+  get memberTasks() {
+    return this._memberTasks;
   }
 
-  set userTasks(newUserTasks) {
-    this._userTasks = newUserTasks;
+  set memberTasks(newmemberTasks) {
+    this._memberTasks = newmemberTasks;
   }
 
-  get userProjects() {
-    return this._userProjects;
+  get memberProjects() {
+    return this._memberProjects;
   }
-  set userProjects(newUserProjects) {
-    this._userProjects = newUserProjects;
+  set memberProjects(newmemberProjects) {
+    this._memberProjects = newmemberProjects;
   }
 }
 

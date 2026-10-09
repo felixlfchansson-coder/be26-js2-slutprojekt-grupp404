@@ -40,7 +40,7 @@ export function initProjectController() {
             const title = String(formData.get("projectTitle") ?? "")
             const description = String(formData.get("projectDescription") ?? "")
             const deadline = String(formData.get("projectDeadline") ?? "")
-                let returnDeadline: string | number= deadline.replace("-", "")
+                let returnDeadline: string | number = deadline.replaceAll("-", "")
                     returnDeadline = parseFloat(returnDeadline)
             const members = Object(formData.get("project-members-list") ?? "")
 

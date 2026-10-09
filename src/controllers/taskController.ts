@@ -43,9 +43,10 @@ export function initTaskController() {
             const description = String(formData.get("taskDescription") ?? "")
             const category = String(formData.get("taskCategory") ?? "")
             const deadline = String(formData.get("taskDeadline") ?? "")
+                let returnDeadline: string | number= deadline.replace("-", "")
+                    returnDeadline = parseFloat(returnDeadline)
             const priority = String(formData.get("taskPriority") ?? "")
             const taskStatus = String(formData.get("status") ?? "")
- 
 
                 try {
                     await addNewTask(
@@ -53,7 +54,7 @@ export function initTaskController() {
                         title,
                         description,
                         category,
-                        Date.parse(deadline),
+                        returnDeadline,
                         priority,
                         taskStatus,
 

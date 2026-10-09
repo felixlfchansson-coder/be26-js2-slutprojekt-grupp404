@@ -1,4 +1,4 @@
-// Member
+// // Member
 export function newMemberForm() {
     form.addEventListener("submit", async event =>{
         event.preventDefault()

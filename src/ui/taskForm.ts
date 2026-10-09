@@ -68,9 +68,9 @@ export function renderTaskForm(): HTMLDivElement {
                         required
                     >
                         <option value="">Välj prioritet</option>
-                        <option value="1">1 – Hög</option>
-                        <option value="2">2 – Medel</option>
-                        <option value="3">3 – Låg</option>
+                        <option value="High">1 – Hög</option>
+                        <option value="Medium">2 – Medel</option>
+                        <option value="Low">3 – Låg</option>
                     </select>
                 </div>
 
@@ -88,12 +88,12 @@ export function renderTaskForm(): HTMLDivElement {
                     <label for="task-status">Status</label>
                     <select
                         id="task-status"
-                        name="status"
+                        name="taskStatus"
                         required
                     >
-                        <option value="toDo">Att göra</option>
-                        <option value="inProgress">Pågående</option>
-                        <option value="completed">Klart</option>
+                        <option value="To Do">Att göra</option>
+                        <option value="In Progress">Pågående</option>
+                        <option value="Completed">Klart</option>
                     </select>
                 </div>
 

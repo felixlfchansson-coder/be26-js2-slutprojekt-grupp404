@@ -1,5 +1,7 @@
-import type { Project } from "../model/Project";
 
+import { renderTask } from "./renderTask";
+import type { Task } from "../model/task";
+import type { ProjectData } from "./projectData";
 function formatDeadline(deadline: number): string {
     const value = deadline.toString().padStart(6, "0");
 
@@ -16,7 +18,7 @@ function formatDeadline(deadline: number): string {
     });
 }
 
-export function renderProject(project: Project, index: number) {
+export function renderProject(project: ProjectData, index: number, tasks: Task[] = []) {
     const projectElement = document.createElement("div");
     projectElement.classList.add("project");
     const isExpanded = index === 0;
@@ -103,5 +105,50 @@ export function renderProject(project: Project, index: number) {
                 arrow.textContent = expanded ? "▼" : "▶";
             }
         });
+    renderProjectTasks(projectElement, tasks);
     return projectElement;
+}
+
+function renderProjectTasks(
+    projectElement: HTMLElement,
+    tasks: Task[]
+) {
+    tasks.forEach((task) => {
+        let columnSelector: string;
+
+        switch (task.taskStatus) {
+            case "To Do":
+                columnSelector = ".task-list--todo";
+                break;
+
+            case "In Progress":
+                columnSelector = ".task-list--progress";
+                break;
+
+            case "Completed":
+                columnSelector = ".task-list--done";
+                break;
+
+           default:
+    console.warn("Okänd task-status:", task.taskStatus);
+    return;
+        }
+
+        const taskList =
+            projectElement.querySelector<HTMLElement>(columnSelector);
+
+        if (!taskList) return;
+
+        // Visa tasken i rätt kolumn
+        taskList.appendChild(renderTask(task));
+
+        // Uppdatera kolumnens räknare
+        const column = taskList.closest(".kanban__column");
+        const counter =
+            column?.querySelector<HTMLElement>(".kanban__count");
+
+        if (counter) {
+            counter.textContent = String(taskList.children.length);
+        }
+    });
 }

@@ -27,6 +27,7 @@ export class Task {
     taskPriority: TaskPriority,
     taskDeadline: number,
     taskCreationDate: number,
+    projectID: string,
   ) {
     this.taskID = taskID;
     this.taskTitle = taskTitle;

@@ -325,3 +325,159 @@
 .task-list:not(:empty) + .kanban__empty {
     display: none;
 }
+/* Task-kort */
+.task {
+    background-color: #ffffff;
+    border: 1px solid #e8eaf0;
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(20, 25, 50, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    overflow-wrap: anywhere;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(20, 25, 50, 0.1);
+}
+
+/* Mellanrum mellan tasks */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Titel */
+.task h5 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #20243a;
+}
+
+/* Beskrivning */
+.task p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #626b80;
+}
+
+/* Övrig information */
+.task span {
+    font-size: 0.78rem;
+    color: #697386;
+}
+/* TASK CARDS */
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+.task {
+    background: #ffffff;
+    border: 1px solid #e6e9f2;
+    border-radius: 12px;
+    padding: 14px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    min-width: 0;
+    overflow-wrap: anywhere;
+
+    box-shadow: 0 2px 6px rgba(30, 40, 70, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 40, 70, 0.1);
+}
+
+/* Titel och prioritet */
+
+.task__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.task__title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #20243a;
+}
+
+.task__priority {
+    flex-shrink: 0;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.task__priority--high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.task__priority--medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.task__priority--low {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* Beskrivning */
+
+.task__description {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #64748b;
+    white-space: pre-wrap;
+}
+
+/* Kategori och deadline */
+
+.task__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.task__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-transform: capitalize;
+}
+
+.task__deadline {
+    font-size: 0.75rem;
+    color: #64748b;
+    white-space: nowrap;
+}

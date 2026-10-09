@@ -25,6 +25,7 @@ async function init() {
     const projects = await getData("projects");
 
     console.log(projects);
+    console.log("TASKS FRÅN FIREBASE:", projects.tasks);
 
     renderProjects(projects);
 }

@@ -13,7 +13,7 @@ export class Project {
   //Should i change the member variable in the user too?
   private _projectMember: string[];
   //Not sure about having Task as the type...
-  private _projectTasks: Task;
+  private _projectTasks: Task[];
 //Felix: i changed to tile instead of name to make it match firebase.
   constructor(
     projectID: number,
@@ -21,7 +21,7 @@ export class Project {
     projectDescription: string,
     projectDeadline: number,
     projectMember: string[],
-    projectTasks: Task,
+    projectTasks: Task[],
   ) {
     this.projectID = projectID;
     this.projectTitle = projectTitle;
@@ -57,7 +57,7 @@ export class Project {
     return this._projectTasks;
   }
 
-  set projectTasks(newProjectTasks: Task) {
+  set projectTasks(newProjectTasks: Task[]) {
     this._projectTasks = newProjectTasks;
   }
 }

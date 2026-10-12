@@ -1,6 +1,6 @@
 
 import { renderTask } from "./renderTask";
-import type { Task } from "../model/task";
+import type { Task } from "../model/Task";
 import type { ProjectData } from "./projectData";
 function formatDeadline(deadline: number): string {
     const value = deadline.toString().padStart(6, "0");

@@ -1,5 +1,5 @@
-import {Task } from "../model/Task.ts";
-import {Project} from "../model/Project.ts";
+import { Task } from "../model/Task.ts";
+import { Project } from "../model/Project.ts";
 const sortTaskBtn=document.querySelector<HTMLSelectElement>("#project-sort")
 
 

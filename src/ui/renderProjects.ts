@@ -4,7 +4,7 @@ import {
     type MemberCategory,
     type TaskPriority,
     type TaskStatus
-} from "../model/task";
+} from "../model/Task";
 type FirebaseTask = {
     taskTitle: string;
     taskDescription: string;

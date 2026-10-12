@@ -1,3 +1,16 @@
+
+import {
+    createElement,
+    ListTodo,
+    FileText,
+    Tags,
+    Flag,
+    CalendarDays,
+    CircleCheck,
+    X,
+    Check
+} from "lucide";
+
 export function renderTaskForm(): HTMLDivElement {
     const overlay = document.createElement("div");
     overlay.classList.add("modal-overlay");
@@ -14,16 +27,17 @@ export function renderTaskForm(): HTMLDivElement {
                 <button
                     type="button"
                     class="modal__close"
-                    aria-label="Stäng formuläret"
-                >
-                    &times;
+                    aria-label="Stäng formuläret">
                 </button>
             </div>
 
             <form id="task-form">
 
                 <div class="form-group">
-                    <label for="task-title">Titel</label>
+                    <label for="task-title">
+                        <span class="task-form__title-icon"></span>
+                        Titel
+                    </label>
                     <input
                         type="text"
                         id="task-title"
@@ -35,6 +49,7 @@ export function renderTaskForm(): HTMLDivElement {
 
                 <div class="form-group">
                     <label for="task-description">
+                        <span class="task-form__description-icon"></span>
                         Beskrivning (Markdown)
                     </label>
                     <textarea
@@ -47,7 +62,10 @@ export function renderTaskForm(): HTMLDivElement {
                 </div>
 
                 <div class="form-group">
-                    <label for="task-category">Kategori</label>
+                    <label for="task-category">
+                        <span class="task-form__category-icon"></span>
+                        Kategori
+                    </label>
                     <select
                         id="task-category"
                         name="taskCategory"
@@ -61,7 +79,10 @@ export function renderTaskForm(): HTMLDivElement {
                 </div>
 
                 <div class="form-group">
-                    <label for="task-priority">Prioritet</label>
+                    <label for="task-priority">
+                        <span class="task-form__priority-icon"></span>
+                        Prioritet
+                    </label>
                     <select
                         id="task-priority"
                         name="taskPriority"
@@ -75,7 +96,10 @@ export function renderTaskForm(): HTMLDivElement {
                 </div>
 
                 <div class="form-group">
-                    <label for="task-deadline">Deadline</label>
+                    <label for="task-deadline">
+                        <span class="task-form__deadline-icon"></span>
+                        Deadline
+                    </label>
                     <input
                         type="date"
                         id="task-deadline"
@@ -85,7 +109,10 @@ export function renderTaskForm(): HTMLDivElement {
                 </div>
 
                 <div class="form-group">
-                    <label for="task-status">Status</label>
+                    <label for="task-status">
+                        <span class="task-form__status-icon"></span>
+                        Status
+                    </label>
                     <select
                         id="task-status"
                         name="taskStatus"
@@ -100,16 +127,15 @@ export function renderTaskForm(): HTMLDivElement {
                 <div class="modal__actions">
                     <button
                         type="button"
-                        class="modal__cancel"
-                    >
+                        class="modal__cancel">
                         Avbryt
                     </button>
 
                     <button
                         type="submit"
                         class="modal__submit"
-                        id="taskSubmitButton"
-                    >
+                        id="taskSubmitButton">
+                        <span class="task-form__submit-icon"></span>
                         Skapa task
                     </button>
                 </div>
@@ -117,6 +143,30 @@ export function renderTaskForm(): HTMLDivElement {
             </form>
         </div>
     `;
+
+    const addIcon = (
+        selector: string,
+        icon: typeof ListTodo,
+        size = 16
+    ) => {
+        const element = overlay.querySelector(selector);
+
+        element?.appendChild(
+            createElement(icon, {
+                width: size,
+                height: size
+            })
+        );
+    };
+
+    addIcon(".modal__close", X, 18);
+    addIcon(".task-form__title-icon", ListTodo);
+    addIcon(".task-form__description-icon", FileText);
+    addIcon(".task-form__category-icon", Tags);
+    addIcon(".task-form__priority-icon", Flag);
+    addIcon(".task-form__deadline-icon", CalendarDays);
+    addIcon(".task-form__status-icon", CircleCheck);
+    addIcon(".task-form__submit-icon", Check);
 
     return overlay;
 }

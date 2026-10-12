@@ -1,18 +1,32 @@
 
 import "./styles/style.css";
-import { createIcons, ChartNoAxesColumnIncreasing, UserRoundPlus, CalendarDays, Folder } from "lucide";
+import {
+    createIcons,
+    ChartNoAxesColumnIncreasing,
+    UserRoundPlus,
+    UserRound,
+    BriefcaseBusiness,
+    CalendarDays,
+    Folder,
+    X,
+    Check
+} from "lucide";
 import { renderProjects } from "./ui/renderProjects.ts";
 import { getData  } from "./modules/firebaseRequest.ts";
 import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 
 createIcons({
-  icons: {
-    ChartNoAxesColumnIncreasing,
-    UserRoundPlus,
-    Folder,
-    CalendarDays
-  },
+    icons: {
+        ChartNoAxesColumnIncreasing,
+        UserRoundPlus,
+        UserRound,
+        BriefcaseBusiness,
+        Folder,
+        CalendarDays,
+        X,
+        Check
+    }
 });
 
 

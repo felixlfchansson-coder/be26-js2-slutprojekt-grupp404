@@ -5,6 +5,7 @@ import {
     type TaskPriority,
     type TaskStatus
 } from "../model/task";
+
 type FirebaseTask = {
     taskTitle: string;
     taskDescription: string;

@@ -2,6 +2,19 @@
 import { renderTask } from "./renderTask";
 import type { Task } from "../model/task";
 import type { ProjectData } from "./projectData";
+
+import {
+    createElement,
+    ChevronDown,
+    ChevronRight,
+    CalendarDays,
+    UsersRound,
+    Plus,
+    ListTodo,
+    Clock3,
+    CircleCheck
+} from "lucide";
+
 function formatDeadline(deadline: number): string {
     const value = deadline.toString().padStart(6, "0");
 
@@ -18,9 +31,14 @@ function formatDeadline(deadline: number): string {
     });
 }
 
-export function renderProject(project: ProjectData, index: number, tasks: Task[] = []) {
+export function renderProject(
+    project: ProjectData,
+    index: number,
+    tasks: Task[] = []
+): HTMLElement {
     const projectElement = document.createElement("div");
     projectElement.classList.add("project");
+
     const isExpanded = index === 0;
 
     projectElement.innerHTML = `
@@ -31,7 +49,7 @@ export function renderProject(project: ProjectData, index: number, tasks: Task[]
                     type="button"
                     aria-expanded="${isExpanded}"
                 >
-                    <span class="project__arrow">${isExpanded ? "▼" : "▶"}</span>
+                    <span class="project__arrow"></span>
                     <span>${project.projectTitle}</span>
                 </button>
 
@@ -40,82 +58,150 @@ export function renderProject(project: ProjectData, index: number, tasks: Task[]
 
             <div class="project__info">
                 <span class="project__deadline">
-                <i data-lucide="calendar-days"></i>
-                Deadline: ${formatDeadline(project.projectDeadline)}
+                    <span class="project__deadline-icon"></span>
+                    Deadline: ${formatDeadline(project.projectDeadline)}
                 </span>
-                <span>Medlem: ${project.projectMembers ?? "Inga medlemmar"}</span>
-                <button class="project__add-task" type="button">
-                    + Lägg till task
+
+                <span class="project__members">
+                    <span class="project__members-icon"></span>
+                    Medlem: ${project.projectMembers ?? "Inga medlemmar"}
+                </span>
+
+                <button
+                    class="project__add-task"
+                    type="button"
+                >
+                    <span class="project__add-icon"></span>
+                    Lägg till task
                 </button>
             </div>
         </div>
-      <div class="kanban" ${isExpanded ? "" : "hidden"}>
 
-        <section class="kanban__column kanban__column--todo">
-            <div class="kanban__header">
-                <h4>Att göra</h4>
+        <div class="kanban" ${isExpanded ? "" : "hidden"}>
+
+            <section class="kanban__column kanban__column--todo">
+              <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--todo"></span>
+                    Att göra
+                </h4>
                 <span class="kanban__count">0</span>
             </div>
 
-            <div class="task-list task-list--todo"></div>
-            <p class="kanban__empty">Inga tasks ännu</p>
-        </section>
+                <div class="task-list task-list--todo"></div>
+                <p class="kanban__empty">Inga tasks ännu</p>
+            </section>
 
-        <section class="kanban__column kanban__column--progress">
-            <div class="kanban__header">
-                <h4>Pågående</h4>
-                <span class="kanban__count">0</span>
-            </div>
+            <section class="kanban__column kanban__column--progress">
+                <div class="kanban__header">
+                    <h4>
+                        <span class="kanban__icon kanban__icon--progress"></span>
+                        Pågående
+                    </h4>
+                    <span class="kanban__count">0</span>
+                </div>
 
-            <div class="task-list task-list--progress"></div>
-            <p class="kanban__empty">Inga tasks ännu</p>
-        </section>
+                <div class="task-list task-list--progress"></div>
+                <p class="kanban__empty">Inga tasks ännu</p>
+            </section>
 
-        <section class="kanban__column kanban__column--done">
-            <div class="kanban__header">
-                <h4>Klart</h4>
-                <span class="kanban__count">0</span>
-            </div>
+            <section class="kanban__column kanban__column--done">
+                <div class="kanban__header">
+                    <h4>
+                        <span class="kanban__icon kanban__icon--done"></span>
+                        Klart
+                    </h4>
+                    <span class="kanban__count">0</span>
+                </div>
 
-            <div class="task-list task-list--done"></div>
-            <p class="kanban__empty">Inga tasks ännu</p>
-        </section>
+                <div class="task-list task-list--done"></div>
+                <p class="kanban__empty">Inga tasks ännu</p>
+            </section>
 
-    </div>
+        </div>
     `;
 
-
-    const toggleButton = projectElement.querySelector<HTMLButtonElement>(
-    ".project__toggle"
+    // Hämta element för expandering
+    const toggleButton =
+        projectElement.querySelector<HTMLButtonElement>(
+            ".project__toggle"
         );
 
-        const kanban = projectElement.querySelector<HTMLElement>(".kanban");
+    const kanban =
+        projectElement.querySelector<HTMLElement>(".kanban");
 
-        const arrow = projectElement.querySelector<HTMLElement>(
+    const arrow =
+        projectElement.querySelector<HTMLElement>(
             ".project__arrow"
         );
 
-        toggleButton?.addEventListener("click", () => {
-            if (!kanban) return;
+    // Uppdatera pilen beroende på om projektet är öppet
+    function updateArrow(expanded: boolean) {
+        if (!arrow) return;
 
-            kanban.hidden = !kanban.hidden;
+        arrow.replaceChildren(
+            createElement(
+                expanded ? ChevronDown : ChevronRight,
+                {
+                    width: 18,
+                    height: 18
+                }
+            )
+        );
+    }
 
-            const expanded = !kanban.hidden;
+    // Lägg till Lucide-ikoner
+    function addIcon(
+        selector: string,
+        icon: typeof Plus
+    ) {
+        const element = projectElement.querySelector(selector);
 
-            toggleButton.setAttribute("aria-expanded", String(expanded));
+        element?.appendChild(
+            createElement(icon, {
+                width: 16,
+                height: 16
+            })
+        );
+    }
 
-            if (arrow) {
-                arrow.textContent = expanded ? "▼" : "▶";
-            }
-        });
+    // Visa rätt pil från början
+    updateArrow(isExpanded);
+
+    // Ikoner i projekthuvudet
+    addIcon(".project__deadline-icon", CalendarDays);
+    addIcon(".project__members-icon", UsersRound);
+    addIcon(".project__add-icon", Plus);
+    addIcon(".kanban__icon--todo", ListTodo);
+    addIcon(".kanban__icon--progress", Clock3);
+    addIcon(".kanban__icon--done", CircleCheck);
+
+    // Öppna och stäng projektets Kanban
+    toggleButton?.addEventListener("click", () => {
+        if (!kanban) return;
+
+        kanban.hidden = !kanban.hidden;
+
+        const expanded = !kanban.hidden;
+
+        toggleButton.setAttribute(
+            "aria-expanded",
+            String(expanded)
+        );
+
+        updateArrow(expanded);
+    });
+
+    // Rendera projektets tasks
     renderProjectTasks(projectElement, tasks);
+
     return projectElement;
 }
 
 function renderProjectTasks(
     projectElement: HTMLElement,
     tasks: Task[]
-) {
+): void {
     tasks.forEach((task) => {
         let columnSelector: string;
 
@@ -132,26 +218,36 @@ function renderProjectTasks(
                 columnSelector = ".task-list--done";
                 break;
 
-           default:
-    console.warn("Okänd task-status:", task.taskStatus);
-    return;
+            default:
+                console.warn(
+                    "Okänd task-status:",
+                    task.taskStatus
+                );
+                return;
         }
 
         const taskList =
-            projectElement.querySelector<HTMLElement>(columnSelector);
+            projectElement.querySelector<HTMLElement>(
+                columnSelector
+            );
 
         if (!taskList) return;
 
         // Visa tasken i rätt kolumn
         taskList.appendChild(renderTask(task));
 
-        // Uppdatera kolumnens räknare
+        // Uppdatera antalet tasks
         const column = taskList.closest(".kanban__column");
+
         const counter =
-            column?.querySelector<HTMLElement>(".kanban__count");
+            column?.querySelector<HTMLElement>(
+                ".kanban__count"
+            );
 
         if (counter) {
-            counter.textContent = String(taskList.children.length);
+            counter.textContent = String(
+                taskList.children.length
+            );
         }
     });
 }

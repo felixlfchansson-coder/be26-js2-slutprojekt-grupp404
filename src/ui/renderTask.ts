@@ -70,7 +70,6 @@ export function renderTask(task: Task): HTMLElement {
         );
     }
 
-    // Ta bort finns på alla tasks
     actions.appendChild(
         createActionButton("delete", "Ta bort task", Trash2)
     );

@@ -138,7 +138,6 @@ export function initTaskController() {
             }
             closeModal()
             return;
-
         })
     }
 

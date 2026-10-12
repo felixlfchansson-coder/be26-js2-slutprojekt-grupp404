@@ -1,8 +1,8 @@
-
 import { renderTaskForm } from "../ui/taskForm";
 import { addNewTask, deleteTask, changeTaskStatus, assignMembers } from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMemberOptions } from "../ui/assignMember";
+import { getData } from "../modules/firebaseRequest";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -115,6 +115,31 @@ export function initTaskController() {
                 closeModal();
             }
         });
+        const members = await getData("members")
+        const form = assignMemberOverlay.querySelector<HTMLFormElement>("#assign-member-form")
+        form?.addEventListener("submit", async event => {
+            event.preventDefault()
+
+            let assignedMembers:string[] = []
+            for (const ID in members) {
+                let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)
+                if (checkbox?.checked) {
+                    let assignedMember = document.querySelector("label[for=" + `${ID}` + "]");
+                    if (!assignedMember) return;
+                    assignedMembers.push(assignedMember?.innerHTML)
+                }
+            }
+            
+            try {
+            await assignMembers(assignedMembers, projectID, taskID);
+
+            } catch {
+                window.alert("Something went wrong. Could not assign members to task.");
+            }
+            closeModal()
+            return;
+
+        })
     }
 
         // LÄGG TILL TASK (din befintliga funktion)

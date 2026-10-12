@@ -78,5 +78,4 @@ export async function assignableMemberOptions() {
         `
         assignableMembersWrapper.append(assignableOptionDiv)
     }
-
 }

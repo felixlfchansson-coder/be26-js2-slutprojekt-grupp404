@@ -114,7 +114,8 @@ export async function assignMembers(newTaskMembers:string[], projectID:string, t
         method: "PATCH",
         body: JSON.stringify(
             {
-                taskMembers: newTaskMembers
+                taskMembers: newTaskMembers,
+                taskStatus: "In Progress"
             }
         ),
         headers: { 

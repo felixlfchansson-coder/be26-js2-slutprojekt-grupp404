@@ -13,7 +13,7 @@ type FirebaseTask = {
     taskPriority: TaskPriority;
     taskStatus: TaskStatus;
     taskDeadline: number;
-    taskMembers?: string[][];
+    taskMembers?: string[];
     taskCreationDate?: number;
 };
 

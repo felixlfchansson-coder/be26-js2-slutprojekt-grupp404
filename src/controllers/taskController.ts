@@ -115,6 +115,20 @@ export function initTaskController() {
                 closeModal();
             }
         });
+        const members = await getData("members")
+        const form = assignMemberOverlay.querySelector<HTMLFormElement>("#assign-member-form")
+        form?.addEventListener("submit", async event => {
+            event.preventDefault()
+            // Does not return true even when boxes are checked.
+            const formData = new FormData(form)
+            let assignedMembers = []
+            for (const ID in members) {
+                let checkbox = Boolean(formData.get(`${ID}`) ?? "")
+                if (checkbox) {
+                    console.log("first", checkbox)
+                } else console.log("second", checkbox)
+            }
+        })
     }
 
         // LÄGG TILL TASK (din befintliga funktion)

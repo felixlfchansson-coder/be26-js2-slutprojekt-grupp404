@@ -64,7 +64,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
         method: "PATCH",
         body: JSON.stringify(
             {
-                status: newStatus
+                taskStatus: newStatus
             }
         ),
         headers: { 

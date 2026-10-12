@@ -11,7 +11,7 @@ export class Project {
   
   //Ash you said to change projectMember to string[], right?
   //Should i change the member variable in the user too?
-  private _projectMember: string[];
+  private _projectMembers: string[];
   //Not sure about having Task as the type...
   private _projectTasks: Task[];
 //Felix: i changed to tile instead of name to make it match firebase.
@@ -20,9 +20,6 @@ export class Project {
     projectTitle: string,
     projectDescription: string,
     projectDeadline: number,
-    projectMember: string[],
-    projectTasks: Task[],
-
     projectMembers: string[],
     projectTasks: Task[]=[],
 
@@ -32,7 +29,7 @@ export class Project {
     this.projectURL = `${baseURL}/${this.projectID}.json`;
     this._projectDescription = projectDescription;
     this._projectDeadline = projectDeadline;
-    this._projectMember = projectMembers;
+    this._projectMembers = projectMembers;
     this._projectTasks = projectTasks;
   }
   get projectDescription() {
@@ -51,10 +48,10 @@ export class Project {
   }
 
   get projectMembers() {
-    return this._projectMember;
+    return this._projectMembers;
   }
   set projectMember(newProjectMembers: string[]) {
-    this._projectMember = newProjectMembers;
+    this._projectMembers = newProjectMembers;
   }
 
   get projectTasks(): Task[] {

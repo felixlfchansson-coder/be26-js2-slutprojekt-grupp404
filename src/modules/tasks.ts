@@ -47,7 +47,7 @@ export async function changePriority(newPriority:string, projectID:string, taskI
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("patching priority has failed")
         }
@@ -72,7 +72,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("patching priority has failed")
         }
@@ -97,7 +97,7 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("patching priority has failed")
         }
@@ -114,7 +114,7 @@ export async function deleteTask(projectID:string, taskID:string) {
         method: "DELETE"
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }

@@ -41,53 +41,6 @@
 
 
 /* ========================================
-   PROFILE
-======================================== */
-
-.sidebar__profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-bottom: 32px;
-}
-
-.sidebar__profile-image {
-  width: 40px;
-  height: 40px;
-
-  object-fit: cover;
-
-  border-radius: 50%;
-
-  flex-shrink: 0;
-}
-
-.sidebar__profile-info {
-  min-width: 0;
-}
-
-#profile-name {
-  font-size: 13px;
-  font-weight: 600;
-
-  color: var(--color-text-light);
-}
-
-#profile-email {
-  margin-top: 2px;
-
-  font-size: 11px;
-
-  color: var(--color-sidebar-muted);
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-/* ========================================
    NAVIGATION
 ======================================== */
 
@@ -124,13 +77,21 @@
   gap: 12px;
 
   width: 100%;
-
   padding: 10px 12px;
 
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+
   color: var(--color-sidebar-text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
   text-decoration: none;
 
-  border-radius: 8px;
+  cursor: pointer;
 
   transition:
     background-color 0.2s ease,
@@ -162,6 +123,11 @@
 
 .sidebar__link--active:hover {
   background-color: var(--color-primary-hover);
+}
+
+.sidebar__link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 

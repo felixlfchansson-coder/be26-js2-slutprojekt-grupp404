@@ -1,4 +1,4 @@
-import type { Task } from "../model/task";
+import type { Task } from "../model/Task";
 
 export function renderTask(task: Task): HTMLElement {
     const taskElement = document.createElement("article");

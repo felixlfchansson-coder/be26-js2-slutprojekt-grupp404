@@ -1,5 +1,5 @@
 import { baseURL } from "../modules/firebaseRequest.ts";
-import type { MemberCategory } from "./task.ts";
+import type { MemberCategory } from "./Task.ts";
 //do we need this union type (MemberNames)?
 //Should i replace it by string[]?
 export type MemberNames = "Felix" | "Ash" | "Tatiana";

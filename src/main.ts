@@ -1,6 +1,6 @@
 
 import "./styles/style.css";
-import { createIcons, House, ChartNoAxesColumnIncreasing, MessageSquare, Folder } from "lucide";
+import { createIcons, ChartNoAxesColumnIncreasing, UserRoundPlus, CalendarDays, Folder } from "lucide";
 import { renderProjects } from "./ui/renderProjects.ts";
 import { getData  } from "./modules/firebaseRequest.ts";
 
@@ -10,10 +10,10 @@ import { initTaskController } from "./controllers/taskController";
 
 createIcons({
   icons: {
-    House,
     ChartNoAxesColumnIncreasing,
-    MessageSquare,
+    UserRoundPlus,
     Folder,
+    CalendarDays
   },
 });
 

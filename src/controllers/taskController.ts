@@ -1,29 +1,74 @@
 
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask } from "../modules/tasks";
+import { addNewTask, deleteTask } from "../modules/tasks";
+
 
 export function initTaskController() {
-    document.addEventListener("click", (event) => {
+    document.addEventListener("click", async (event) => {
         const target = event.target;
 
         if (!(target instanceof Element)) return;
+// TA BORT TASK
+const deleteButton = target.closest<HTMLButtonElement>(
+    ".task__action--delete"
+);
 
+if (deleteButton) {
+    const taskElement = deleteButton.closest<HTMLElement>(".task");
+    const projectElement = deleteButton.closest<HTMLElement>(".project");
+
+    const taskID = taskElement?.dataset.taskId;
+    const projectID = projectElement?.dataset.projectId;
+
+    if (!taskID || !projectID || !taskElement) return;
+
+    const confirmed = window.confirm(
+        "Är du säker på att du vill ta bort denna task?"
+    );
+
+    if (!confirmed) return;
+
+    deleteButton.disabled = true;
+
+    try {
+        // Använder er befintliga Firebase-funktion
+        await deleteTask(projectID, taskID);
+
+        // Hitta kolumnen innan tasken tas bort
+        const taskList = taskElement.closest(".task-list");
+        const count = taskElement
+            .closest(".kanban__column")
+            ?.querySelector(".kanban__count");
+
+        // Ta bort kortet från sidan
+        taskElement.remove();
+
+        // Uppdatera antalet tasks
+        if (count && taskList) {
+            count.textContent = String(
+                taskList.querySelectorAll(".task").length
+            );
+        }
+    } catch {
+        deleteButton.disabled = false;
+        window.alert("Det gick inte att ta bort tasken.");
+    }
+
+    return;
+}
+        // LÄGG TILL TASK (din befintliga funktion)
         const addTaskButton = target.closest(".project__add-task");
 
         if (!addTaskButton) return;
 
-        // Hitta projektet som knappen tillhör
         const projectElement = addTaskButton.closest<HTMLElement>(".project");
         const projectID = projectElement?.dataset.projectId;
-
-        if (!projectID) {
-            console.error("Kunde inte hitta projektets ID");
-            return;
-        }
+        if (!projectID) return;
 
         openTaskModal(projectID);
     });
 }
+
 
 function openTaskModal(projectID: string) {
     const overlay = renderTaskForm();

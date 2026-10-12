@@ -26,63 +26,31 @@
 
   <span>Scrum Manager</span>
     </header>
-    <section class="sidebar__profile">
-      <img
-        class="sidebar__profile-image"
-        src="/placeholder-profile.png"
-        alt="Profilbild"
-      />
 
-      <div class="sidebar__profile-info">
-        <p id="profile-name">Användare</p>
-        <p id="profile-email">user@example.com</p>
-      </div>
-    </section>
+<nav class="sidebar__nav" aria-label="Huvudnavigation">
 
-      <nav class="sidebar__nav">
-
-      <a href="#" class="sidebar__link">
-        <i data-lucide="house"></i>
-        <span>Översikt</span>
-      </a>
-
-      <a href="#" class="sidebar__link">
-        <i data-lucide="chart-no-axes-column-increasing"></i>
-        <span>Progress</span>
-      </a>
-
-      <a href="#" class="sidebar__link">
-        <i data-lucide="message-square"></i>
-        <span>Meddelanden</span>
-      </a>
-
-      <a href="#" class="sidebar__link sidebar__link--active">
+    <a href="#projects-container"
+       class="sidebar__link sidebar__link--active"
+       id="nav-projects">
         <i data-lucide="folder"></i>
         <span>Projekt</span>
-      </a>
+    </a>
 
-      </nav>
+    <button type="button"
+            class="sidebar__link"
+            id="nav-progress">
+        <i data-lucide="chart-no-axes-column-increasing"></i>
+        <span>Progress</span>
+    </button>
 
+    <button type="button"
+            class="sidebar__link"
+            id="nav-add-member">
+        <i data-lucide="user-round-plus"></i>
+        <span>Ny medlem</span>
+    </button>
 
-      <!-- DYNAMISK PROJEKTLISTA -->
-      <section class="sidebar__projects">
-
-        <h2>Mina projekt</h2>
-
-        <nav id="sidebar-project-list">
-          <!-- TypeScript -->
-        </nav>
-
-       <button
-          class="sidebar__add-project"
-          id="add-project-button"
-          type="button"
-        >
-          <i data-lucide="plus"></i>
-          <span>Lägg till projekt</span>
-        </button>
-
-      </section>
+</nav>
 
     </aside>
 

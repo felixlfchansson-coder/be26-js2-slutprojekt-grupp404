@@ -3,8 +3,10 @@ import "./styles/style.css";
 import { createIcons, House, ChartNoAxesColumnIncreasing, MessageSquare, Folder } from "lucide";
 import { renderProjects } from "./ui/renderProjects.ts";
 import { getData  } from "./modules/firebaseRequest.ts";
-
-
+import { Project } from "./model/Project.ts";
+import { User } from "./model/User.ts";
+import type {MemberCategory,TaskPriority, TaskStatus } from "./model/Task.ts"
+import {Task } from "./model/Task.ts";
 import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 

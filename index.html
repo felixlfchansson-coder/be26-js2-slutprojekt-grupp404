@@ -119,12 +119,23 @@
 
 
           <label>
+            <!--Can we write Sortera uppgifter so that the user knows what the dropdown is sorting-->
             <span>Sortera</span>
-
+             <!--The sorting is supposed to be for the tasks if I understood the instructions right? Should we rename the ID?-->
             <select id="project-sort">
-              <option value="deadline">
+               <option value="sortAZ">
+               Titel A->Ö
+              </option>
+               <option value="sortZA">
+               Titel Ö->A
+              </option>
+              <option value="closestDeadline ">
                 Deadline (närmast)
               </option>
+               <option value="farthestDeadline">
+                Deadline (längst bort)
+              </option>
+             
             </select>
           </label>
 

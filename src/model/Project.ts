@@ -20,8 +20,12 @@ export class Project {
     projectTitle: string,
     projectDescription: string,
     projectDeadline: number,
+    projectMember: string[],
+    projectTasks: Task[],
+
     projectMembers: string[],
     projectTasks: Task[]=[],
+
   ) {
     this.projectID = projectID;
     this.projectTitle = projectTitle;

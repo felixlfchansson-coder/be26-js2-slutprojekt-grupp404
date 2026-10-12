@@ -13,7 +13,7 @@ type FirebaseTask = {
     taskPriority: TaskPriority;
     taskStatus: TaskStatus;
     taskDeadline: number;
-    taskMember?: string[];
+    taskMembers?: string[][];
     taskCreationDate?: number;
 };
 
@@ -61,7 +61,7 @@ return new Task(
     taskID,
     task.taskTitle,
     task.taskDescription ?? "",
-    task.taskMember ?? [],
+    task.taskMembers ?? [],
     task.taskCategory,
     status,
     priority,

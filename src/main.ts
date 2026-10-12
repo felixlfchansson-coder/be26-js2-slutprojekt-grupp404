@@ -15,6 +15,7 @@ import { renderProjects } from "./ui/renderProjects.ts";
 import { getData  } from "./modules/firebaseRequest.ts";
 import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
+import { initNewMemberController } from "./controllers/memberController.ts";
 
 createIcons({
     icons: {
@@ -33,6 +34,7 @@ createIcons({
 async function init() {
     initProjectController();
     initTaskController();
+    initNewMemberController();
     
     const projects = await getData("projects");
 

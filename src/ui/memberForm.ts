@@ -73,9 +73,9 @@ export function renderMemberForm(): HTMLDivElement {
                         <option value="" disabled selected>
                             Välj roll
                         </option>
-                        <option value="Developer">Developer</option>
-                        <option value="Scrum Master">Scrum Master</option>
-                        <option value="Product Owner">Product Owner</option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="UX">UX</option>
                     </select>
                 </div>
 

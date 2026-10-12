@@ -109,6 +109,31 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
     }
 }
 
+export async function assignMembers(newTaskMembers:string[], projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskMembers: newTaskMembers
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching task members has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
 export async function deleteTask(projectID:string, taskID:string) {
     const options = {
         method: "DELETE"

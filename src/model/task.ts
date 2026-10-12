@@ -8,9 +8,7 @@ export class Task {
   public readonly taskTitle: string;
   public readonly taskURL: string;
   private _taskDescription: string;
-  //added taskMember as one should be able to assign a task to a member. Don't know if the type is correct thought...
-  // Ash: proabably an array. That way we can add multiple members to one task if we want to.
-  private _taskMember: string[];
+  private _taskMembers: string[];
   private _taskCategory: MemberCategory;
   private _taskStatus: TaskStatus;
   private _taskPriority: TaskPriority;
@@ -21,7 +19,7 @@ export class Task {
     taskID: string,
     taskTitle: string,
     taskDescription: string,
-    taskMember: string[],
+    taskMembers: string[],
     taskCategory: MemberCategory,
     taskStatus: TaskStatus,
     taskPriority: TaskPriority,
@@ -31,11 +29,9 @@ export class Task {
   ) {
     this.taskID = taskID;
     this.taskTitle = taskTitle;
-    // extended URL so that they tasks are correcly nested inside the project they are for.
-    // Still need a way to pull correct project ID for the URL to use.
     this.taskURL = `${baseURL}/projects/${projectID}tasks${taskID}.json`;
     this._taskDescription = taskDescription;
-    this._taskMember = taskMember;
+    this._taskMembers = taskMembers;
     this._taskCategory = taskCategory;
     this._taskStatus = taskStatus;
     this._taskPriority = taskPriority;
@@ -51,12 +47,12 @@ export class Task {
     this._taskDescription = newTaskDescription;
   }
 
-  get taskMember() {
-    return this._taskMember;
+  get taskMembers() {
+    return this._taskMembers;
   }
 
-  set taskMember(newTaskMember: string[]) {
-    this._taskMember = newTaskMember;
+  set taskMembers(newTaskMember: string[]) {
+    this._taskMembers = newTaskMember;
   }
 
   get taskCategory() {

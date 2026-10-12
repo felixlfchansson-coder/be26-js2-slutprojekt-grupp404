@@ -1,7 +1,8 @@
 
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask, deleteTask, changeTaskStatus } from "../modules/tasks";
-
+import { addNewTask, deleteTask, changeTaskStatus, assignMembers } from "../modules/tasks";
+import { renderAssignMember } from "../ui/assignMember";
+import { assignableMemberOptions } from "../ui/assignMember";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -14,6 +15,9 @@ export function initTaskController() {
     );
     const completeTaskButton = target.closest<HTMLButtonElement>(
         ".task__action--complete"
+    );
+    const assignMemberButton = target.closest<HTMLButtonElement>(
+        ".task__action--assign"
     );
 
     if (deleteButton) {
@@ -77,12 +81,42 @@ export function initTaskController() {
             const taskStatus = "Completed"
             await changeTaskStatus(taskStatus, projectID, taskID);
         } catch {
-            completeTaskButton.disabled = false;
             window.alert("Det gick inte att klara tasken.");
         }
 
         return;
     }
+
+    // UNFINISHED ASSIGN MEMBER
+    if (assignMemberButton) {
+        assignableMemberOptions()
+        const taskElement = assignMemberButton.closest<HTMLElement>(".task");
+        const projectElement = assignMemberButton.closest<HTMLElement>(".project");
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+        if (!taskID || !projectID || !taskElement) return;
+        
+        const assignMemberOverlay = renderAssignMember()
+
+        document.body.appendChild(assignMemberOverlay);
+
+        const closeButton = assignMemberOverlay.querySelector(".modal__close");
+        const cancelButton = assignMemberOverlay.querySelector(".modal__cancel");
+
+        function closeModal() {
+            assignMemberOverlay.remove();
+        }
+
+        closeButton?.addEventListener("click", closeModal);
+        cancelButton?.addEventListener("click", closeModal);
+
+        assignMemberOverlay.addEventListener("click", (event) => {
+            if (event.target === assignMemberOverlay) {
+                closeModal();
+            }
+        });
+    }
+
         // LÄGG TILL TASK (din befintliga funktion)
         const addTaskButton = target.closest(".project__add-task");
 

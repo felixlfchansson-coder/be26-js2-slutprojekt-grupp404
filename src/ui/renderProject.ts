@@ -39,7 +39,10 @@ export function renderProject(project: ProjectData, index: number, tasks: Task[]
             </div>
 
             <div class="project__info">
-                <span>Deadline: ${formatDeadline(project.projectDeadline)}</span>
+                <span class="project__deadline">
+                <i data-lucide="calendar-days"></i>
+                Deadline: ${formatDeadline(project.projectDeadline)}
+                </span>
                 <span>Medlem: ${project.projectMembers ?? "Inga medlemmar"}</span>
                 <button class="project__add-task" type="button">
                     + Lägg till task

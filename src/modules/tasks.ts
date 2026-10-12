@@ -2,24 +2,25 @@ import { baseURL } from "./firebaseRequest.js";
 
     // DEADLINE set to number - this will be 6 digits refereing to day / month / year
     // will need to be manipulated for display on page vs how its held in database
-export async function addNewTask(projectID:string, newTaskTitle:string, taskDescription:string, newTaskDeadline:number, newPriority:string, taskStatus:string){
+export async function addNewTask(projectID:string, newTaskTitle:string, taskDescription:string, taskCategory:string, newTaskDeadline:number, newPriority:string, taskStatus:string){
     try{
         const option = {
             method: "POST",
             body: JSON.stringify(
                 {
                     taskTitle: newTaskTitle, 
-                    taskDescription: taskDescription, 
+                    taskDescription: taskDescription,
+                    taskCategory: taskCategory, 
                     taskDeadline: newTaskDeadline, 
-                    priority: newPriority, 
-                    status: taskStatus
+                    taskPriority: newPriority, 
+                    taskStatus: taskStatus
                 }),
             headers: {
                 "Content-type": "application/json"
             }
         }
     
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks.json`, option);
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks.json`, option);
     
         if(!response.ok){
             throw new Error("Post failed");

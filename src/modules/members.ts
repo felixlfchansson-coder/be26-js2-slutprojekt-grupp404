@@ -1,10 +1,10 @@
 import { baseURL } from "./firebaseRequest.js";
 
-export async function addNewMember(newFirstName:string, newSecondName:string, newRole:string){
+export async function addNewMember(newFirstName:string, newSecondName:string, newCategory:string){
     try{
         const option = {
             method: "POST",
-            body: JSON.stringify({FirstName: newFirstName, secondName: newSecondName, role: newRole}),
+            body: JSON.stringify({FirstName: newFirstName, secondName: newSecondName, role: newCategory}),
             headers: {
                 "Content-type": "application/json"
             }

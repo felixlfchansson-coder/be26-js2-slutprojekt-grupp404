@@ -1,5 +1,5 @@
 import { baseURL } from "../modules/firebaseRequest.ts";
-import  {Task} from "./Task.ts";
+import  {Task} from "./task.ts";
 //This is a draft for the class, and we can change the properties if you think they are inadequate
 
 export class Project {
@@ -22,13 +22,17 @@ export class Project {
     projectDeadline: number,
     projectMember: string[],
     projectTasks: Task[],
+
+    projectMembers: string[],
+    projectTasks: Task[]=[],
+
   ) {
     this.projectID = projectID;
     this.projectTitle = projectTitle;
     this.projectURL = `${baseURL}/${this.projectID}.json`;
     this._projectDescription = projectDescription;
     this._projectDeadline = projectDeadline;
-    this._projectMember = projectMember;
+    this._projectMember = projectMembers;
     this._projectTasks = projectTasks;
   }
   get projectDescription() {
@@ -46,14 +50,14 @@ export class Project {
     this._projectDeadline = newProjectDeadline;
   }
 
-  get projectMember() {
+  get projectMembers() {
     return this._projectMember;
   }
-  set projectMember(newProjectMember: string[]) {
-    this._projectMember = newProjectMember;
+  set projectMember(newProjectMembers: string[]) {
+    this._projectMember = newProjectMembers;
   }
 
-  get projectTasks() {
+  get projectTasks(): Task[] {
     return this._projectTasks;
   }
 

@@ -1,6 +1,6 @@
 import { baseURL } from "./firebaseRequest.js";
 
-export async function addNewProject(newProjectTitle:string, newProjectDescription:string, newProjectDeadline:number, newProjectMembers:object){
+export async function addNewProject(newProjectTitle:string, newProjectDescription:string, newProjectDeadline:number, newProjectMembers:string[]){
 
     try{
         const option = {

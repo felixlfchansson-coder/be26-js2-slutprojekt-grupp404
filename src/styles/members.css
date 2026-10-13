@@ -1,0 +1,330 @@
+
+/* =========================
+   MEMBERS PAGE
+========================= */
+
+.members-page {
+    width: 100%;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.members-page .dashboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.members-page .dashboard__header h2 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.members-page .dashboard__header p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+#new-member-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 9px;
+    background: #6558d3;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+#new-member-button:hover {
+    background: #5145bd;
+}
+
+.members-page__add-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
+.members-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.members-stats__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e8eaf0;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.members-stats__card > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+}
+
+.members-stats__icon--members {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.members-stats__icon--projects {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.members-stats__icon--tasks {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.members-stats__card p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.members-stats__card strong {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    color: #1e293b;
+}
+
+/* =========================
+   MEMBERS OVERVIEW
+========================= */
+
+.members-overview {
+    min-height: 350px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e8eaf0;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.members-overview__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.members-overview__header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.members-overview__search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 260px;
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #94a3b8;
+}
+
+.members-overview__search:focus-within {
+    border-color: #a5b4fc;
+    background: #fff;
+}
+
+.members-overview__search-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+#members-search {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #1e293b;
+    font: inherit;
+    font-size: 14px;
+}
+
+#members-search::placeholder {
+    color: #94a3b8;
+}
+
+/* =========================
+   MEMBERS CONTAINER
+========================= */
+
+.members-container {
+    width: 100%;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .members-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .members-page .dashboard__header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #new-member-button {
+        align-self: flex-start;
+    }
+
+    .members-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .members-overview {
+        padding: 18px;
+    }
+
+    .members-overview__header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .members-overview__search {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* =========================
+   MEMBERS TABLE
+========================= */
+
+.members-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.members-table thead {
+    background: #f8fafc;
+}
+
+.members-table th {
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    border-bottom: 1px solid #e8eaf0;
+}
+
+.members-table td {
+    padding: 18px 20px;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.members-table tbody tr:hover {
+    background: #fafbff;
+}
+
+/* =========================
+   MEMBER NAME & AVATAR
+========================= */
+
+.members-table__member {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.members-table__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+/* =========================
+   MEMBER CATEGORY
+========================= */
+
+.members-table__category {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.members-container__empty {
+    padding: 32px 16px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .members-container {
+        overflow-x: auto;
+    }
+
+    .members-table {
+        min-width: 560px;
+    }
+}
+

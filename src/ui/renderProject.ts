@@ -165,10 +165,8 @@ export function renderProject(
         );
     }
 
-    // Visa rätt pil från början
     updateArrow(isExpanded);
 
-    // Ikoner i projekthuvudet
     addIcon(".project__deadline-icon", CalendarDays);
     addIcon(".project__members-icon", UsersRound);
     addIcon(".project__add-icon", Plus);
@@ -176,7 +174,6 @@ export function renderProject(
     addIcon(".kanban__icon--progress", Clock3);
     addIcon(".kanban__icon--done", CircleCheck);
 
-    // Öppna och stäng projektets Kanban
     toggleButton?.addEventListener("click", () => {
         if (!kanban) return;
 
@@ -192,7 +189,7 @@ export function renderProject(
         updateArrow(expanded);
     });
 
-    // Rendera projektets tasks
+
     renderProjectTasks(projectElement, tasks);
 
     return projectElement;
@@ -233,10 +230,9 @@ function renderProjectTasks(
 
         if (!taskList) return;
 
-        // Visa tasken i rätt kolumn
+    
         taskList.appendChild(renderTask(task));
 
-        // Uppdatera antalet tasks
         const column = taskList.closest(".kanban__column");
 
         const counter =

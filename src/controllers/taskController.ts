@@ -10,7 +10,7 @@ export function initTaskController() {
         const target = event.target;
 
         if (!(target instanceof Element)) return;
-    // TA BORT TASK
+    
     const deleteButton = target.closest<HTMLButtonElement>(
         ".task__action--delete"
     );
@@ -58,7 +58,7 @@ export function initTaskController() {
             // Använder er befintliga Firebase-funktion
             await deleteTask(projectID, taskID);
 
-            // Hitta kolumnen innan tasken tas bort
+           
             const taskList = taskElement.closest(".task-list");
             const count = taskElement
                 .closest(".kanban__column")

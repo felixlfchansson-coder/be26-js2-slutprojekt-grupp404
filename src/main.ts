@@ -11,81 +11,170 @@ import {
     CalendarDays,
     Folder,
     X,
-    Check
+    Check,
+    Home,
+    Sparkles,
+    Plus,
+    ArrowRight,
+    FolderKanban,
+    ListChecks,
+    ListTodo,
+    Activity
 } from "lucide";
-import { renderMembers } from "./ui/renderMembers";
+
+import { homePage } from "./Pages/homePage";
 import { projectPage } from "./Pages/projectPage";
 import { membersPage } from "./Pages/membersPage";
 
 import { renderProjects } from "./ui/renderProjects.ts";
+import { renderMembers } from "./ui/renderMembers";
+
 import { getData } from "./modules/firebaseRequest.ts";
 
 import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 import { initNewMemberController } from "./controllers/memberController.ts";
+import { renderHome } from "./ui/renderHome";
 
-createIcons({
-    icons: {
-        ChartNoAxesColumnIncreasing,
-        UserRoundPlus,
-        UserRound,
-        UsersRound,
-        BriefcaseBusiness,
-        Folder,
-        CalendarDays,
-        X,
-        Check
-    }
-});
+
+/* ==========================================
+   LUCIDE ICONS
+========================================== */
+
+function renderIcons() {
+    createIcons({
+        icons: {
+            ChartNoAxesColumnIncreasing,
+            Home,
+            UserRoundPlus,
+            UserRound,
+            UsersRound,
+            BriefcaseBusiness,
+            Folder,
+            CalendarDays,
+            X,
+            Check,
+            Sparkles,
+            Plus,
+            ArrowRight,
+            FolderKanban,
+            ListChecks,
+            ListTodo,
+            Activity
+        },
+        attrs: {
+            "stroke-width": 1.8
+        }
+    });
+}
+
 
 async function init() {
     const app = document.getElementById("app");
 
+    const navHome = document.getElementById("nav-home");
     const navProjects = document.getElementById("nav-projects");
     const navMembers = document.getElementById("nav-members");
 
-    if (!app || !navProjects || !navMembers) return;
+    if (!app || !navHome || !navProjects || !navMembers) {
+        return;
+    }
 
-    app.replaceChildren(projectPage());
 
     initProjectController();
     initTaskController();
     initNewMemberController();
 
-    const projects = await getData("projects");
 
-    renderProjects(projects);
 
     function setActiveNav(activeNav: HTMLElement) {
-    if (!navProjects || !navMembers) return;
+        if (!navHome || !navProjects || !navMembers) {
+            return;
+        }
 
-    navProjects.classList.remove("sidebar__link--active");
-    navMembers.classList.remove("sidebar__link--active");
+        navHome.classList.remove("sidebar__link--active");
+        navProjects.classList.remove("sidebar__link--active");
+        navMembers.classList.remove("sidebar__link--active");
 
-    activeNav.classList.add("sidebar__link--active");
-}
+        activeNav.classList.add("sidebar__link--active");
+    }
 
-    navProjects.addEventListener("click", (event) => {
-        event.preventDefault();
+
+   
+    async function showHome() {
+        if (!app || !navHome) return;
+
+        app.replaceChildren(homePage());
+
+        renderIcons();
+        setActiveNav(navHome);
+
+        await renderHome();
+    }
+
+
+
+    async function showProjects() {
+        if (!app) return;
 
         app.replaceChildren(projectPage());
+
+        renderIcons();
+        setActiveNav(navProjects!);
+
+        const projects = await getData("projects");
+
+        if (!app.querySelector("#projects-container")) {
+            return;
+        }
+
         renderProjects(projects);
 
-        setActiveNav(navProjects);
+        renderIcons();
+    }
+
+
+    async function showMembers() {
+        if (!app) return;
+
+        app.replaceChildren(membersPage());
+
+        renderIcons();
+        setActiveNav(navMembers!);
+
+        const members = await getData("members");
+
+        if (!app.querySelector("#members-container")) {
+            return;
+        }
+
+        renderMembers(members);
+
+        renderIcons();
+    }
+
+
+    showHome();
+
+
+    navHome.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        showHome();
     });
 
-   navMembers.addEventListener("click", async () => {
+    navProjects.addEventListener("click", async (event) => {
+        event.preventDefault();
 
-    app.replaceChildren(membersPage());
+        await showProjects();
+    });
 
-    setActiveNav(navMembers);
+    navMembers.addEventListener("click", async (event) => {
+        event.preventDefault();
 
-    const members = await getData("members");
-
-    if (!app.querySelector("#members-container")) return;
-
-    renderMembers(members);
-});
+        await showMembers();
+    });
 }
+
 
 init();

@@ -42,6 +42,13 @@
         <i data-lucide="chart-no-axes-column-increasing"></i>
         <span>Progress</span>
     </button>
+    
+    <button type="button"
+            class="sidebar__link"
+            id="nav-members">
+        <i data-lucide="users-round"></i>
+        <span>Medlemmar</span>
+    </button>
 
     <button type="button"
             class="sidebar__link"
@@ -53,80 +60,9 @@
 </nav>
 
     </aside>
-
-    <main class="dashboard">
-
-      <header class="dashboard__header">
-
-        <div>
-          <h2>Alla projekt</h2>
-          <p>
-            Visa kategori, medlemmar och sortera i deadline.
-          </p>
-        </div>
-
-
-        <div class="dashboard__controls">
-
-          <label>
-            <span>Projekt</span>
-
-            <select id="category-filter">
-              <option value="all">Alla</option>
-            </select>
-          </label>
-
-
-          <label>
-            <span>Medlemmar</span>
-
-            <select id="member-filter">
-              <option value="all">Alla</option>
-            </select>
-          </label>
-
-
-          <label>
-            <!--Can we write Sortera uppgifter so that the user knows what the dropdown is sorting-->
-            <span>Sortera</span>
-             <!--The sorting is supposed to be for the tasks if I understood the instructions right? Should we rename the ID?-->
-            <select id="project-sort">
-               <option value="sortAZ">
-               Titel A->Ö
-              </option>
-               <option value="sortZA">
-               Titel Ö->A
-              </option>
-              <option value="closestDeadline ">
-                Deadline (närmast)
-              </option>
-               <option value="farthestDeadline">
-                Deadline (längst bort)
-              </option>
-             
-            </select>
-          </label>
-
-
-          <button id="new-project-button" type="button">
-            + Nytt projekt
-          </button>
-
-        </div>
-
-      </header>
-
-      <section id="projects-container" class="projects-container">
-        <!-- TypeScript -->
-      </section>
-      <section
-        id="project-list"
-        class="project-list"
-        aria-label="Alla projekt"
-      >
-      </section>
-
-    </main>
+<main class="dashboard" id="app">
+    <!-- Här renderar TypeScript den aktuella sidan -->
+</main>
 
 
     <script type="module" src="/src/main.ts"></script>

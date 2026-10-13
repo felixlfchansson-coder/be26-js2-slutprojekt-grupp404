@@ -28,6 +28,7 @@ import { membersPage } from "./Pages/membersPage";
 
 import { renderProjects } from "./ui/renderProjects.ts";
 import { renderMembers } from "./ui/renderMembers";
+import { renderHomeContent } from "./ui/renderHomeContent.ts";
 
 import { getData } from "./modules/firebaseRequest.ts";
 
@@ -99,16 +100,19 @@ async function init() {
 
 
    
-    async function showHome() {
-        if (!app || !navHome) return;
+      async function showHome() {
+      if (!app || !navHome) return;
 
-        app.replaceChildren(homePage());
+      app.replaceChildren(homePage());
 
-        renderIcons();
-        setActiveNav(navHome);
+      renderIcons();
+      setActiveNav(navHome);
 
-        await renderHome();
-    }
+      await Promise.all([
+          renderHome(),
+          renderHomeContent()
+      ]);
+  }
 
 
 
@@ -172,6 +176,19 @@ async function init() {
 
         await showMembers();
     });
+
+    document.getElementById("app")?.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (!(target instanceof Element)) return;
+
+    if (
+        target.closest("#home-view-projects") ||
+        target.closest("#home-all-projects")
+    ) {
+        navProjects.click();
+    }
+});
 }
 
 

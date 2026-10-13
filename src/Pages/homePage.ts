@@ -25,14 +25,6 @@ export function homePage(): HTMLElement {
                     </p>
 
                     <div class="home__hero-actions">
-                        <button
-                            class="home__btn home__btn-primary"
-                            id="home-create-project"
-                            type="button"
-                        >
-                            <i data-lucide="plus"></i>
-                            Nytt projekt
-                        </button>
 
                         <button
                             class="home__btn home__btn-secondary"
@@ -192,16 +184,16 @@ export function homePage(): HTMLElement {
                 <div class="home__section-header">
                     <div class="home__section-title">
                         <span class="home__section-icon">
-                            <i data-lucide="activity"></i>
+                            <i data-lucide="calendar-clock"></i>
                         </span>
 
-                        <h2>Senaste aktivitet</h2>
+                        <h2>Kommande deadlines</h2>
                     </div>
                 </div>
 
-                <div id="home-activity" class="home__activity">
+               <div id="home-deadlines" class="home__activity">
                     <p class="home__empty">
-                        Ingen aktivitet ännu.
+                        Inga kommande deadlines.
                     </p>
                 </div>
             </section>

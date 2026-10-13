@@ -87,7 +87,6 @@ export function initTaskController() {
         return;
     }
 
-    // UNFINISHED ASSIGN MEMBER
     if (assignMemberButton) {
         assignableMemberOptions()
         const taskElement = assignMemberButton.closest<HTMLElement>(".task");

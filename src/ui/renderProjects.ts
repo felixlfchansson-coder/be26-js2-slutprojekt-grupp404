@@ -4,7 +4,12 @@ import {
     type MemberCategory,
     type TaskPriority,
     type TaskStatus
-} from "../model/task";
+} from "../model/Task";
+import {sortTasksAZ, sortTasksZA, sortTasksByClosestDate, sortTasksByFarthestDate } from "../controllers/sort.ts";
+let sortOrder = "sortAZ";
+const sortTaskBtn=document.querySelector<HTMLSelectElement>("#project-sort")
+
+
 
 type FirebaseTask = {
     taskTitle: string;
@@ -16,7 +21,7 @@ type FirebaseTask = {
     taskMembers?: string[];
     taskCreationDate?: number;
 };
-
+let projectsData:Record<string, FirebaseProject>={}
 type FirebaseProject = {
     projectTitle: string;
     projectDescription: string;
@@ -27,7 +32,7 @@ type FirebaseProject = {
 
 export function renderProjects(projects: Record<string, FirebaseProject>) {
     const projectsContainer = document.getElementById("projects-container");
-
+projectsData=projects
     if (!projectsContainer) return;
 
     projectsContainer.innerHTML = "";
@@ -70,11 +75,28 @@ return new Task(
     projectID
 );
                 });
+                let sortedTasks: Task[];
 
-            const projectElement = renderProject(project, index, tasks);
+if (sortOrder === "sortAZ") {
+    sortedTasks = sortTasksAZ(tasks);
+} else if (sortOrder === "sortZA") {
+    sortedTasks = sortTasksZA(tasks);
+} else if (sortOrder === "closestDate") {
+    sortedTasks = sortTasksByClosestDate(tasks);
+} else {
+    sortedTasks = sortTasksByFarthestDate(tasks);
+}
 
+            const projectElement = renderProject(project, index, sortedTasks);
+//replaced tasks with sortedTask
             projectElement.dataset.projectId = projectID;
 
             projectsContainer.appendChild(projectElement);
         });
 }
+
+sortTaskBtn?.addEventListener("change", () => {
+    sortOrder = sortTaskBtn.value;
+   // console.log("Vald sortering:", sortOrder);
+    renderProjects(projectsData)
+});

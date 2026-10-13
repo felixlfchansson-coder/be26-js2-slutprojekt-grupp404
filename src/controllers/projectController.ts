@@ -2,14 +2,14 @@ import { renderProjectForm } from "../ui/projectForm";
 import { addNewProject } from "../modules/projects";
 
 export function initProjectController() {
-    const newProjectButton = document.getElementById("new-project-button");
+  document.addEventListener("click", (event) => {
+    const target = event.target;
 
-    console.log("Hittade knappen:", newProjectButton);
+    if (!(target instanceof Element)) return;
+
+    const newProjectButton = target.closest("#new-project-button");
 
     if (!newProjectButton) return;
-
-    newProjectButton.addEventListener("click", () => {
-        console.log("Knappen klickades!");
 
         const overlay = renderProjectForm();
 

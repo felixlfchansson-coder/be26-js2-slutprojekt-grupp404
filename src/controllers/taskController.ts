@@ -3,6 +3,7 @@ import { addNewTask, deleteTask, changeTaskStatus, assignMembers } from "../modu
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMemberOptions } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
+import { updateMemberTasks } from "../modules/members";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -38,6 +39,22 @@ export function initTaskController() {
         deleteButton.disabled = true;
 
         try {
+            const members = await getData("members")
+            const projects = await getData("projects")
+            const taskMembers = projects[projectID].tasks[taskID].taskMembers
+            const taskStatus = projects[projectID].tasks[taskID].taskStatus
+            if (taskStatus === "In Progress") {
+                for (const member in taskMembers) {
+                    for (const ID in members) {
+                        let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+                        if (memberName === taskMembers[member]) {
+                            let ongoingTasks = members[ID].ongoingTasks - 1
+                            await updateMemberTasks(ongoingTasks, ID)
+                        }
+                    }
+                }
+            }
+
             // Använder er befintliga Firebase-funktion
             await deleteTask(projectID, taskID);
 
@@ -65,6 +82,8 @@ export function initTaskController() {
     }
 
     if (completeTaskButton) {
+        const members = await getData("members")
+        const projects = await getData("projects")
         const taskElement = completeTaskButton.closest<HTMLElement>(".task");
         const projectElement = completeTaskButton.closest<HTMLElement>(".project");
         const taskID = taskElement?.dataset.taskId;
@@ -80,6 +99,17 @@ export function initTaskController() {
         try {
             const taskStatus = "Completed"
             await changeTaskStatus(taskStatus, projectID, taskID);
+
+            const taskMembers = projects[projectID].tasks[taskID].taskMembers
+            for (const member in taskMembers) {
+                for (const ID in members) {
+                    let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+                    if (memberName === taskMembers[member]) {
+                        let ongoingTasks = members[ID].ongoingTasks - 1
+                        await updateMemberTasks(ongoingTasks, ID)
+                    }
+                }
+            }
         } catch {
             window.alert("Det gick inte att klara tasken.");
         }
@@ -87,15 +117,16 @@ export function initTaskController() {
         return;
     }
 
-    // UNFINISHED ASSIGN MEMBER
     if (assignMemberButton) {
-        assignableMemberOptions()
         const taskElement = assignMemberButton.closest<HTMLElement>(".task");
         const projectElement = assignMemberButton.closest<HTMLElement>(".project");
         const taskID = taskElement?.dataset.taskId;
         const projectID = projectElement?.dataset.projectId;
+
         if (!taskID || !projectID || !taskElement) return;
-        
+
+        assignableMemberOptions(projectID, taskID)
+
         const assignMemberOverlay = renderAssignMember()
 
         document.body.appendChild(assignMemberOverlay);
@@ -126,18 +157,21 @@ export function initTaskController() {
                 if (checkbox?.checked) {
                     let assignedMember = document.querySelector("label[for=" + `${ID}` + "]");
                     if (!assignedMember) return;
-                    assignedMembers.push(assignedMember?.innerHTML)
-                }
-            }
-            
-            try {
-            await assignMembers(assignedMembers, projectID, taskID);
 
-            } catch {
-                window.alert("Something went wrong. Could not assign members to task.");
+                    try {
+                        let ongoingTasks = members[ID].ongoingTasks + 1
+                        await updateMemberTasks(ongoingTasks, ID)
+
+                        assignedMembers.push(assignedMember?.innerHTML)
+                        await assignMembers(assignedMembers, projectID, taskID)
+
+                    } catch {
+                        window.alert("Something went wrong. Could not assign members to task.");
+                    }
+                }
+                closeModal()
+                return;
             }
-            closeModal()
-            return;
         })
     }
 

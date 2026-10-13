@@ -7,18 +7,16 @@ import {
     type TaskStatus
 } from "../model/Task";
 
+
 import {
     sortTasksAZ,
     sortTasksZA,
     sortTasksByClosestDate,
     sortTasksByFarthestDate
 } from "../controllers/sort.ts";
-
+ 
 let sortOrder = "sortAZ";
 
-const sortTaskBtn = document.querySelector<HTMLSelectElement>(
-    "#project-sort"
-);
 
 type FirebaseTask = {
     taskTitle: string;
@@ -42,6 +40,7 @@ type FirebaseProject = {
 };
 
 export function renderProjects(projects: Record<string, FirebaseProject>) {
+    console.log("renderProjects called");
     const projectsContainer = document.getElementById("projects-container");
 projectsData=projects
     if (!projectsContainer) return;
@@ -106,8 +105,11 @@ if (sortOrder === "sortAZ") {
         });
 }
 
-sortTaskBtn?.addEventListener("change", () => {
+document.addEventListener("change", (event) => {
+    const sortTaskBtn = event.target as HTMLSelectElement;
+
+    if (sortTaskBtn.id !== "project-sort") return;
+
     sortOrder = sortTaskBtn.value;
-   // console.log("Vald sortering:", sortOrder);
-    renderProjects(projectsData)
+    renderProjects(projectsData);
 });

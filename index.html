@@ -17,34 +17,43 @@
 
     <aside class="sidebar">
 
-    <header class="sidebar__logo">
+    <header class="sidebarlogo">
   <img
     src="/scrum-manager-logo.png"
     alt=""
-    class="sidebar__logo-image"
+    class="sidebarlogo-image"
   />
 
   <span>Scrum Manager</span>
     </header>
 
-<nav class="sidebar__nav" aria-label="Huvudnavigation">
+<nav class="sidebarnav" aria-label="Huvudnavigation">
+
+
+    <a href="#home-container"
+      class="sidebarlink"
+      id="nav-home">
+        <i data-lucide="home"></i>
+        <span>Hem</span>
+    </a>
+
 
     <a href="#projects-container"
-       class="sidebar__link sidebar__link--active"
+       class="sidebarlink sidebarlink--active"
        id="nav-projects">
         <i data-lucide="folder"></i>
         <span>Projekt</span>
     </a>
 
     <button type="button"
-            class="sidebar__link"
+            class="sidebarlink"
             id="nav-progress">
         <i data-lucide="chart-no-axes-column-increasing"></i>
         <span>Progress</span>
     </button>
-    
+
     <button type="button"
-            class="sidebar__link"
+            class="sidebarlink"
             id="nav-members">
         <i data-lucide="users-round"></i>
         <span>Medlemmar</span>

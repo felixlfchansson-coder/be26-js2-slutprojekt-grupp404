@@ -1,3 +1,4 @@
+
 import { renderProject } from "./renderProject";
 import {
     Task,
@@ -5,11 +6,19 @@ import {
     type TaskPriority,
     type TaskStatus
 } from "../model/Task";
-import {sortTasksAZ, sortTasksZA, sortTasksByClosestDate, sortTasksByFarthestDate } from "../controllers/sort.ts";
+
+import {
+    sortTasksAZ,
+    sortTasksZA,
+    sortTasksByClosestDate,
+    sortTasksByFarthestDate
+} from "../controllers/sort.ts";
+
 let sortOrder = "sortAZ";
-const sortTaskBtn=document.querySelector<HTMLSelectElement>("#project-sort")
 
-
+const sortTaskBtn = document.querySelector<HTMLSelectElement>(
+    "#project-sort"
+);
 
 type FirebaseTask = {
     taskTitle: string;
@@ -21,7 +30,9 @@ type FirebaseTask = {
     taskMembers?: string[];
     taskCreationDate?: number;
 };
-let projectsData:Record<string, FirebaseProject>={}
+
+let projectsData: Record<string, FirebaseProject> = {};
+
 type FirebaseProject = {
     projectTitle: string;
     projectDescription: string;

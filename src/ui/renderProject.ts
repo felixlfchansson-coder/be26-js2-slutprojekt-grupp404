@@ -12,7 +12,8 @@ import {
     Plus,
     ListTodo,
     Clock3,
-    CircleCheck
+    CircleCheck,
+    UserRoundPlus
 } from "lucide";
 
 function formatDeadline(deadline: number): string {
@@ -66,6 +67,11 @@ export function renderProject(
                     <span class="project__members-icon"></span>
                     Medlem: ${project.projectMembers ?? "Inga medlemmar"}
                 </span>
+
+                <button class="project__add-member" type="button">
+                    <span class="project__add-member-icon"></span>
+                    Lägg till medlem
+                </button>
 
                 <button
                     class="project__add-task"
@@ -173,6 +179,7 @@ export function renderProject(
     addIcon(".kanban__icon--todo", ListTodo);
     addIcon(".kanban__icon--progress", Clock3);
     addIcon(".kanban__icon--done", CircleCheck);
+    addIcon(".project__add-member-icon", UserRoundPlus);
 
     toggleButton?.addEventListener("click", () => {
         if (!kanban) return;

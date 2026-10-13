@@ -1,5 +1,5 @@
 import type { Task } from "../model/Task";
-import { createElement, UserRoundPlus, UsersRound, Check, Trash2 } from "lucide";
+import { createElement, UserRoundPlus, Check, Trash2 } from "lucide";
 export function renderTask(task: Task): HTMLElement {
     const taskElement = document.createElement("article");
     taskElement.classList.add("task");

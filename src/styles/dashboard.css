@@ -292,6 +292,35 @@
     width: 16px;
     height: 16px;
 }
+.project__add-member {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 12px;
+
+    background-color: #ffffff;
+    color: #7356d8;
+    border: 1px solid #e1dafa;
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.project__add-member:hover {
+    background-color: #f5f1ff;
+    border-color: #7356d8;
+}
+
+.project__add-member svg {
+    width: 16px;
+    height: 16px;
+}
 
 /* ========================================
    KANBAN BOARD

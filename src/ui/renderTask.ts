@@ -62,10 +62,6 @@ export function renderTask(task: Task): HTMLElement {
 
     if (task.taskStatus === "In Progress") {
         actions.appendChild(
-            createActionButton("reassign", "Omfördela task", UsersRound)
-        );
-
-        actions.appendChild(
             createActionButton("complete", "Markera klar", Check)
         );
     }

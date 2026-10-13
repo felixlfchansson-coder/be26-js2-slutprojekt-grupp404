@@ -50,6 +50,32 @@ export async function updateMemberTasks(ongoingTasksNumber:number, memberID:stri
     }
 }
 
+export async function updateMemberProjects(projectMember:string[], memberID:string) {
+    try {
+        const option = {
+            method: "PATCH",
+            body: JSON.stringify(
+                {
+                    projectMember: projectMember
+                }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const response = await fetch(`${baseURL}/members/${memberID}.json`, option);
+
+        if(!response.ok){
+            throw new Error("Patch failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch(error) {
+        throw error
+    }
+}
+
 export async function deleteMember(memberID:string) {
     const options = {
         method: "DELETE"

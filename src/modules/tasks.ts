@@ -109,7 +109,7 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
     }
 }
 
-export async function assignMembers(newTaskMembers:string[], projectID:string, taskID:string) {
+export async function assignMembersToTask(newTaskMembers:string[], projectID:string, taskID:string) {
     const options = {
         method: "PATCH",
         body: JSON.stringify(

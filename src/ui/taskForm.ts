@@ -108,22 +108,6 @@ export function renderTaskForm(): HTMLDivElement {
                     >
                 </div>
 
-                <div class="form-group">
-                    <label for="task-status">
-                        <span class="task-form__status-icon"></span>
-                        Status
-                    </label>
-                    <select
-                        id="task-status"
-                        name="taskStatus"
-                        required
-                    >
-                        <option value="To Do">Att göra</option>
-                        <option value="In Progress">Pågående</option>
-                        <option value="Completed">Klart</option>
-                    </select>
-                </div>
-
                 <div class="modal__actions">
                     <button
                         type="button"

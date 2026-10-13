@@ -1,5 +1,5 @@
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask, deleteTask, changeTaskStatus, assignMembers } from "../modules/tasks";
+import { addNewTask, deleteTask, changeTaskStatus, assignMembersToTask } from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMemberOptions } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
@@ -163,8 +163,7 @@ export function initTaskController() {
                         await updateMemberTasks(ongoingTasks, ID)
 
                         assignedMembers.push(assignedMember?.innerHTML)
-                        await assignMembers(assignedMembers, projectID, taskID)
-
+                        await assignMembersToTask(assignedMembers, projectID, taskID)
                     } catch {
                         window.alert("Something went wrong. Could not assign members to task.");
                     }
@@ -229,7 +228,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
         const category = String(formData.get("taskCategory") ?? "");
         const deadline = String(formData.get("taskDeadline") ?? "");
         const priority = String(formData.get("taskPriority") ?? "");
-        const taskStatus = String(formData.get("taskStatus") ?? "");
+        const taskStatus = "To Do";
 
         try {
             await addNewTask(

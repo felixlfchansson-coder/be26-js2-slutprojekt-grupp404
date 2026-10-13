@@ -24,6 +24,8 @@ import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 import { initNewMemberController } from "./controllers/memberController.ts";
 
+import { addMembersToProject } from "./controllers/memberController.ts";
+
 createIcons({
     icons: {
         ChartNoAxesColumnIncreasing,
@@ -51,7 +53,8 @@ async function init() {
     initProjectController();
     initTaskController();
     initNewMemberController();
-
+    addMembersToProject()
+    
     const projects = await getData("projects");
 
     renderProjects(projects);

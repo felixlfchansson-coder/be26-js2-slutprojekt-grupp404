@@ -62,12 +62,10 @@ export function renderAssignMember(): HTMLDivElement {
     return overlay;
 }
 
-export async function assignableMemberOptions(projectID:string, taskID:string) {
+export async function assignableMembersToTasks(projectID:string, taskID:string) {
     const members = await getData("members")
     const projects = await getData("projects")
     const assignableMembersWrapper = document.getElementById("assignable-members-wrapper")
-    console.log(projects)
-    console.log(members)
     if (!assignableMembersWrapper) return;
 
     for (const ID in members) {
@@ -80,5 +78,21 @@ export async function assignableMemberOptions(projectID:string, taskID:string) {
             `
             assignableMembersWrapper.append(assignableOptionDiv)
         }
+    }
+}
+
+export async function assignableMembersToProject() {
+    const members = await getData("members")
+    const assignableMembersWrapper = document.getElementById("assignable-members-wrapper")
+    if (!assignableMembersWrapper) return;
+
+    for (const ID in members) {
+        const assignableOptionDiv = document.createElement("div")
+        let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+        assignableOptionDiv.innerHTML = `
+        <input type="checkbox" id="${ID}" name="assignaleMember"/>
+        <label for="${ID}">${memberOptionName}</label>
+        `
+        assignableMembersWrapper.append(assignableOptionDiv)
     }
 }

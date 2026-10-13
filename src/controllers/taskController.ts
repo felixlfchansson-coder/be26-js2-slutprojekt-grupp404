@@ -1,7 +1,7 @@
 import { renderTaskForm } from "../ui/taskForm";
 import { addNewTask, deleteTask, changeTaskStatus, assignMembersToTask } from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
-import { assignableMemberOptions } from "../ui/assignMember";
+import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberTasks } from "../modules/members";
 
@@ -125,7 +125,7 @@ export function initTaskController() {
 
         if (!taskID || !projectID || !taskElement) return;
 
-        assignableMemberOptions(projectID, taskID)
+        assignableMembersToTasks(projectID, taskID)
 
         const assignMemberOverlay = renderAssignMember()
 
@@ -186,7 +186,6 @@ export function initTaskController() {
         openTaskModal(projectID);
     });
 }
-
 
 function openTaskModal(projectID: string) {
     const overlay = renderTaskForm();

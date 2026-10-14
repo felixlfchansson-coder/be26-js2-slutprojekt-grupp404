@@ -125,7 +125,7 @@ async function init() {
         setActiveNav(navProjects!);
 
         const projects = await getData("projects");
-
+console.log(projects);
         if (!app.querySelector("#projects-container")) {
             return;
         }

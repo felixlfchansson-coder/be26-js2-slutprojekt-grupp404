@@ -91,10 +91,11 @@ if (sortOrder === "sortAZ") {
     sortedTasks = sortTasksAZ(tasks);
 } else if (sortOrder === "sortZA") {
     sortedTasks = sortTasksZA(tasks);
-} else if (sortOrder === "closestDate") {
+} else if (sortOrder === "closestDeadline") {
     sortedTasks = sortTasksByClosestDate(tasks);
 } else {
     sortedTasks = sortTasksByFarthestDate(tasks);
+
 }
 
             const projectElement = renderProject(project, index, sortedTasks);

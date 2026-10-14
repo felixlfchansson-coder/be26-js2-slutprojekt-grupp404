@@ -153,7 +153,6 @@ export function initTaskController() {
         const form = assignMemberOverlay.querySelector<HTMLFormElement>("#assign-member-form")
         form?.addEventListener("submit", async event => {
             event.preventDefault()
-
             let assignedMembers:string[] = []
             for (const ID in members) {
                 let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)
@@ -171,9 +170,9 @@ export function initTaskController() {
                         window.alert("Something went wrong. Could not assign members to task.");
                     }
                 }
-                closeModal()
-                return;
             }
+            closeModal()
+            return;
         })
     }
 

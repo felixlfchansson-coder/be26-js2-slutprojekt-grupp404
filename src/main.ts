@@ -36,7 +36,7 @@ import { initProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 import { initNewMemberController, addMembersToProject } from "./controllers/memberController.ts";
 import { renderHome } from "./ui/renderHome";
-
+import { editProjectDeadlineForm } from "./controllers/projectController";
 
 /* ==========================================
    LUCIDE ICONS
@@ -85,7 +85,8 @@ async function init() {
     initTaskController();
     initNewMemberController();
     addMembersToProject()
-
+    editProjectDeadlineForm()
+    
     function setActiveNav(activeNav: HTMLElement) {
         if (!navHome || !navProjects || !navMembers) {
             return;

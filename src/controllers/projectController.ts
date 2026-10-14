@@ -1,15 +1,17 @@
 import { renderProjectForm } from "../ui/projectForm";
-import { addNewProject } from "../modules/projects";
+import { addNewProject, editProjectDeadline } from "../modules/projects";
+import { dateToNumber } from "./taskController";
+import { renderEditProjectForm } from "../ui/editProjectForm";
 
 export function initProjectController() {
-  document.addEventListener("click", (event) => {
-    const target = event.target;
+    document.addEventListener("click", (event) => {
+        const target = event.target;
 
-    if (!(target instanceof Element)) return;
+        if (!(target instanceof Element)) return;
 
-    const newProjectButton = target.closest("#new-project-button");
+        const newProjectButton = target.closest("#new-project-button");
 
-    if (!newProjectButton) return;
+        if (!newProjectButton) return;
 
         const overlay = renderProjectForm();
 
@@ -30,25 +32,23 @@ export function initProjectController() {
                 closeModal();
             }
         });
-        
-        const form = overlay.querySelector<HTMLFormElement>("#project-form")
-        form?.addEventListener("submit", async event =>{
+            
+        const newProjectForm = overlay.querySelector<HTMLFormElement>("#project-form")
+        newProjectForm?.addEventListener("submit", async event =>{
             event.preventDefault()
     
-            const formData = new FormData(form)
+            const formData = new FormData(newProjectForm)
 
             const title = String(formData.get("projectTitle") ?? "")
             const description = String(formData.get("projectDescription") ?? "")
             const deadline = String(formData.get("projectDeadline") ?? "")
-                let returnDeadline: string | number = deadline.replaceAll("-", "")
-                    returnDeadline = parseFloat(returnDeadline)
             const members = Object(formData.get("project-members-list") ?? "")
 
                 try {
                     await addNewProject(
                         title,
                         description,
-                        returnDeadline,
+                        dateToNumber(deadline),
                         members
                 )
 
@@ -59,5 +59,63 @@ export function initProjectController() {
                 console.error("Could not add project: ", error)
             }
         })
+    })
+}
+
+export function editProjectDeadlineForm() {
+        document.addEventListener("click", async (event) => {
+        const target = event.target;
+
+        if (!(target instanceof Element)) return;
+
+        const editProjectButton = target.closest(".project__edit");
+
+        if (!editProjectButton) return;
+
+        const projectElement = editProjectButton.closest<HTMLElement>(".project");
+        const projectID = projectElement?.dataset.projectId;
+        if (!projectID) return;
+
+        openTaskModal(projectID);
+
+    })
+}
+
+async function openTaskModal(projectID:string) {
+
+    const editProjectOverlay = renderEditProjectForm()
+
+    document.body.appendChild(editProjectOverlay);
+
+    const closeButton = editProjectOverlay.querySelector(".modal__close");
+    const cancelButton = editProjectOverlay.querySelector(".modal__cancel");
+
+    function closeModal() {
+        editProjectOverlay.remove();
+    }
+
+    closeButton?.addEventListener("click", closeModal);
+    cancelButton?.addEventListener("click", closeModal);
+
+    editProjectOverlay.addEventListener("click", (event) => {
+        if (event.target === editProjectOverlay) {
+            closeModal();
+        }
     });
+
+    const form = editProjectOverlay.querySelector<HTMLFormElement>("#edit-project-form")
+    form?.addEventListener("submit", async (event) => {
+        event.preventDefault()
+
+        const formData = new FormData(form)
+        const deadline = String(formData.get("projectDeadline") ?? "")
+
+        try {
+            await editProjectDeadline(dateToNumber(deadline), projectID)
+        } catch(error) {
+            console.error("Could not update project deadline.", error)
+        }
+        closeModal()
+        return;
+    })
 }

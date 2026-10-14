@@ -39,7 +39,7 @@ export async function changePriority(newPriority:string, projectID:string, taskI
         method: "PATCH",
         body: JSON.stringify(
             {
-                priority: newPriority
+                taskPriority: newPriority
             }
         ),
         headers: { 
@@ -84,7 +84,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
     }
 }
 
-export async function changeTaskDeadline(newTaskDeadline:string, projectID:string, taskID:string) {
+export async function changeTaskDeadline(newTaskDeadline:number, projectID:string, taskID:string) {
     const options = {
         method: "PATCH",
         body: JSON.stringify(

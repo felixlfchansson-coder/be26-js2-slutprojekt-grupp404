@@ -1,9 +1,10 @@
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask, deleteTask, changeTaskStatus, assignMembersToTask } from "../modules/tasks";
+import { addNewTask, deleteTask, changeTaskStatus, assignMembersToTask, changeTaskDeadline, changePriority } from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberTasks } from "../modules/members";
+import { renderEditTaskTForm } from "../ui/editTaskForm";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -20,7 +21,9 @@ export function initTaskController() {
     const assignMemberButton = target.closest<HTMLButtonElement>(
         ".task__action--assign"
     );
-
+    const editTaskButton = target.closest<HTMLButtonElement>(
+        ".task__action--edit"
+    )
     if (deleteButton) {
         const taskElement = deleteButton.closest<HTMLElement>(".task");
         const projectElement = deleteButton.closest<HTMLElement>(".project");
@@ -174,6 +177,54 @@ export function initTaskController() {
         })
     }
 
+    if (editTaskButton) {
+        const taskElement = editTaskButton.closest<HTMLElement>(".task");
+        const projectElement = editTaskButton.closest<HTMLElement>(".project");
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+
+        if (!taskID || !projectID || !taskElement) return;
+
+        const editTaskOverlay = renderEditTaskTForm()
+
+        document.body.appendChild(editTaskOverlay);
+
+        const closeButton = editTaskOverlay.querySelector(".modal__close");
+        const cancelButton = editTaskOverlay.querySelector(".modal__cancel");
+
+        function closeModal() {
+            editTaskOverlay.remove();
+        }
+
+        closeButton?.addEventListener("click", closeModal);
+        cancelButton?.addEventListener("click", closeModal);
+
+        editTaskOverlay.addEventListener("click", (event) => {
+            if (event.target === editTaskOverlay) {
+                closeModal();
+            }
+        });
+
+        const form = editTaskOverlay.querySelector<HTMLFormElement>("#edit-task-form");
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const deadline = String(formData.get("taskDeadline") ?? "");
+            const priority = String(formData.get("taskPriority") ?? "");
+
+            try {
+                await changePriority(priority, projectID, taskID);
+                await changeTaskDeadline(dateToNumber(deadline), projectID, taskID)
+                editTaskOverlay.remove();
+            } catch (error) {
+                console.error("could no update task.", error);
+            }
+        });
+
+    }
+
         // LÄGG TILL TASK (din befintliga funktion)
         const addTaskButton = target.closest(".project__add-task");
 
@@ -250,7 +301,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
     });
 }
 
-function dateToNumber(date: string): number {
+export function dateToNumber(date: string): number {
     const [year, month, day] = date.split("-");
 
     return Number(`${day}${month}${year.slice(-2)}`);

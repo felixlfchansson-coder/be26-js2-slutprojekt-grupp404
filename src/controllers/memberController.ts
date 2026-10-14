@@ -74,11 +74,11 @@ export function addMembersToProject() {
 
         if (!(target instanceof Element)) return;
 
-        const addTaskButton = target.closest(".project__add-member");
+        const addMembersToProject = target.closest(".project__add-member");
 
-        if (!addTaskButton) return;
+        if (!addMembersToProject) return;
 
-        const projectElement = addTaskButton.closest<HTMLElement>(".project");
+        const projectElement = addMembersToProject.closest<HTMLElement>(".project");
         const projectID = projectElement?.dataset.projectId;
         if (!projectID) return;
 
@@ -115,8 +115,6 @@ async function openTaskModal(projectID: string) {
         let memberProjects:string[] = []
         let projectMembers:string[] = projects[projectID].projectMembers
         for (const ID in members) {
-            console.log("ID ", ID)
-            console.log("Members ", members)
             const projectTitle = projects[projectID].projectTitle
             if (!projectTitle) return;
             let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)

@@ -1,4 +1,5 @@
 import type { Task } from "../model/Task";
+import { setupDescriptionToggle } from "./descriptionToggle";
 import {
     createElement,
     UserRoundPlus,
@@ -89,8 +90,9 @@ export function renderTask(task: Task): HTMLElement {
     actions.appendChild(
         createActionButton("delete", "Ta bort task", Trash2)
     );
-
+    setupDescriptionToggle(taskElement, ".task__description");
     return taskElement;
+
 }
 
 // Skapar action-knappar med Lucide-ikoner
@@ -116,6 +118,7 @@ function createActionButton(
 
     return button;
 }
+
 
 // Formaterar taskens deadline från DDMMYY till DD/MM/YYYY
 function formatDeadline(deadline: number): string {

@@ -32,7 +32,7 @@ import { renderHomeContent } from "./ui/renderHomeContent.ts";
 
 import { getData } from "./modules/firebaseRequest.ts";
 
-import { initProjectController } from "./controllers/projectController";
+import { initProjectController, initDeleteProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";
 import { initNewMemberController, addMembersToProject } from "./controllers/memberController.ts";
 import { renderHome } from "./ui/renderHome";
@@ -82,6 +82,7 @@ async function init() {
 
 
     initProjectController();
+    initDeleteProjectController();
     initTaskController();
     initNewMemberController();
     addMembersToProject()

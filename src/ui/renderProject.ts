@@ -1,6 +1,7 @@
 
 import { renderTask } from "./renderTask";
 import type { Task } from "../model/Task";
+import { setupDescriptionToggle } from "./descriptionToggle";
 import type { ProjectData } from "./projectData";
 
 import {
@@ -19,13 +20,25 @@ import {
 } from "lucide";
 
 function formatDeadline(deadline: number): string {
-    const value = deadline.toString().padStart(6, "0");
+    const value = String(deadline);
 
-    const day = value.slice(0, 2);
-    const month = value.slice(2, 4);
-    const year = `20${value.slice(4, 6)}`;
+    if (!/^\d{8}$/.test(value)) {
+        return "Ingen giltig deadline";
+    }
 
-    const date = new Date(`${year}-${month}-${day}`);
+    const year = Number(value.slice(0, 4));
+    const month = Number(value.slice(4, 6));
+    const day = Number(value.slice(6, 8));
+
+    const date = new Date(year, month - 1, day);
+
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) {
+        return "Ingen giltig deadline";
+    }
 
     return date.toLocaleDateString("sv-SE", {
         day: "numeric",
@@ -44,23 +57,27 @@ export function renderProject(
 
     const isExpanded = index === 0;
 
-    projectElement.innerHTML = `
-        <div class="project__header">
+   projectElement.innerHTML = `
+    <div class="project__header">
 
-            <div class="project__details">
-                <button
-                    class="project__toggle"
-                    type="button"
-                    aria-expanded="${isExpanded}"
-                >
-                    <span class="project__arrow"></span>
-                    <span class="project__title"></span>
-                </button>
+        <div class="project__details">
+            <button
+                class="project__toggle"
+                type="button"
+                aria-expanded="${isExpanded}"
+            >
+                <span class="project__arrow"></span>
+                <span class="project__title"></span>
+            </button>
 
-                <p class="project__description"></p>
-            </div>
+            <p class="project__description"></p>
+        </div>
 
-            <div class="project__info">
+        <div class="project__info">
+
+            <!-- Projektinformation -->
+            <div class="project__meta">
+
                 <span class="project__deadline">
                     <span class="project__deadline-icon"></span>
                     Deadline: ${formatDeadline(project.projectDeadline)}
@@ -70,6 +87,11 @@ export function renderProject(
                     <span class="project__members-icon"></span>
                     <span class="project__members-text"></span>
                 </span>
+
+            </div>
+
+            <!-- Alla knappar samlade -->
+            <div class="project__actions">
 
                 <button
                     class="project__add-member"
@@ -104,53 +126,54 @@ export function renderProject(
                 >
                     <span class="project__delete-icon"></span>
                 </button>
+
             </div>
         </div>
+    </div>
 
-        <div class="kanban" ${isExpanded ? "" : "hidden"}>
+    <div class="kanban" ${isExpanded ? "" : "hidden"}>
 
-            <section class="kanban__column kanban__column--todo">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--todo"></span>
-                        Att göra
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--todo">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--todo"></span>
+                    Att göra
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--todo"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--todo"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-            <section class="kanban__column kanban__column--progress">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--progress"></span>
-                        Pågående
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--progress">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--progress"></span>
+                    Pågående
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--progress"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--progress"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-            <section class="kanban__column kanban__column--done">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--done"></span>
-                        Klart
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--done">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--done"></span>
+                    Klart
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--done"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--done"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-        </div>
-    `;
-
+    </div>
+`;
     // Projektinformation
     projectElement.querySelector<HTMLElement>(
         ".project__title"
@@ -193,6 +216,7 @@ export function renderProject(
             )
         );
     }
+    setupDescriptionToggle(projectElement, ".project__description");
 
     // Lägg till Lucide-ikoner
     function addIcon(

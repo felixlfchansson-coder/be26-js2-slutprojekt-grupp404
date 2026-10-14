@@ -1,8 +1,7 @@
 import { renderProjectForm } from "../ui/projectForm";
-import { addNewProject, editProjectDeadline } from "../modules/projects";
+import { addNewProject, editProjectDeadline, deleteProject } from "../modules/projects";
 import { dateToNumber } from "./taskController";
 import { renderEditProjectForm } from "../ui/editProjectForm";
-
 export function initProjectController() {
     document.addEventListener("click", (event) => {
         const target = event.target;
@@ -59,15 +58,14 @@ export function initProjectController() {
                 console.error("Could not add project: ", error)
             }
         })
-    })
+    });
 }
 
 export function editProjectDeadlineForm() {
-        document.addEventListener("click", async (event) => {
+    document.addEventListener("click", async (event) => {
         const target = event.target;
 
         if (!(target instanceof Element)) return;
-
         const editProjectButton = target.closest(".project__edit");
 
         if (!editProjectButton) return;
@@ -118,4 +116,39 @@ async function openTaskModal(projectID:string) {
         closeModal()
         return;
     })
+}
+
+export function initDeleteProjectController() {
+    document.addEventListener("click", async (event) => {
+        const target = event.target;
+
+        if (!(target instanceof Element)) return;
+
+        const deleteButton = target.closest(".project__delete");
+        if (!deleteButton) return;
+
+        const projectElement = deleteButton.closest<HTMLElement>(".project");
+        if (!projectElement) return;
+
+        const projectID = projectElement.dataset.projectId;
+        if (!projectID) return;
+
+        const projectTitle =
+            projectElement.querySelector(".project__title")?.textContent
+            ?? "det här projektet";
+
+        const confirmed = window.confirm(
+            `Vill du verkligen ta bort "${projectTitle}"?\n\nAlla tasks i projektet kommer också att tas bort.`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await deleteProject(projectID);
+
+            projectElement.remove();
+        } catch {
+            window.alert("Det gick inte att ta bort projektet. Försök igen.");
+        }
+    });
 }

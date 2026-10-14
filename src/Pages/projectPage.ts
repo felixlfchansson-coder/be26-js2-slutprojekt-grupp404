@@ -20,6 +20,9 @@ export function projectPage(): HTMLElement {
 
                     <select id="category-filter">
                         <option value="all">Alla</option>
+                        <option value="frontend">Frontend </option>
+                        <option value="backend">Backend</option>
+                        <option value="ux">UX</option>
                     </select>
                 </label>
 
@@ -28,6 +31,7 @@ export function projectPage(): HTMLElement {
 
                     <select id="member-filter">
                         <option value="all">Alla</option>
+                        
                     </select>
                 </label>
 

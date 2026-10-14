@@ -1,6 +1,7 @@
 
 import { renderTask } from "./renderTask";
 import type { Task } from "../model/Task";
+import { setupDescriptionToggle } from "./descriptionToggle";
 import type { ProjectData } from "./projectData";
 
 import {
@@ -205,6 +206,7 @@ export function renderProject(
             )
         );
     }
+    setupDescriptionToggle(projectElement, ".project__description");
 
     // Lägg till Lucide-ikoner
     function addIcon(

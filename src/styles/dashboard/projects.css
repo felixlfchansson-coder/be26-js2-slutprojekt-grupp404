@@ -1,0 +1,492 @@
+/* ========================================
+
+   PROJECT LIST
+
+======================================== */
+
+.project-list,
+
+.projects-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+.project {
+
+    padding: 20px 22px;
+
+    background-color: var(--color-surface);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 16px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+
+    transition:
+
+        border-color 0.2s ease,
+
+        box-shadow 0.2s ease;
+
+}
+
+.project:hover {
+
+    border-color: #c7c9f5;
+
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.055);
+
+}
+
+/* ========================================
+
+   PROJECT HEADER
+
+======================================== */
+
+/* =========================
+   PROJECT LAYOUT
+========================= */
+
+.project__header {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 1.8fr);
+    align-items: start;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.project__details {
+    min-width: 0;
+}
+
+.project__details p {
+    max-width: 480px;
+    line-height: 1.5;
+}
+
+.project__info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* Mobil och mindre skärmar */
+@media (max-width: 1000px) {
+    .project__header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .project__info {
+        justify-content: flex-start;
+    }
+}
+
+/* Project title and expand button */
+
+.project__toggle {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 6px 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--color-text);
+
+    font: inherit;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+
+}
+
+.project__toggle:hover {
+
+    color: var(--color-primary);
+
+}
+
+.project__toggle:focus-visible {
+
+    outline: 2px solid var(--color-primary);
+
+    outline-offset: 4px;
+
+    border-radius: 4px;
+
+}
+
+.project__arrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 26px;
+
+    height: 26px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background-color: #eef0ff;
+
+    color: var(--color-primary);
+
+}
+
+.project__arrow svg {
+
+    width: 18px;
+
+    height: 18px;
+
+}
+
+/* Project description */
+
+.project__header p {
+
+    margin: 4px 0 0 38px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 13px;
+
+}
+
+/* ========================================
+
+   PROJECT INFORMATION
+
+======================================== */
+
+.project__info {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+/* Only style the outer information badges */
+
+.project__deadline,
+
+.project__members {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 11px;
+
+    background-color: var(--color-surface-secondary);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: 9px;
+
+    color: var(--color-text-secondary);
+
+    font-size: 0.8rem;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+}
+
+/* Icons inside information badges */
+
+.project__deadline-icon,
+
+.project__members-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    color: inherit;
+
+}
+
+.project__deadline-icon svg,
+
+.project__members-icon svg {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+
+/* ========================================
+
+   ADD TASK BUTTON
+
+======================================== */
+
+.project__add-task {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 14px;
+
+    background-color: #f8fafc;
+
+    color: #475569;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 9px;
+
+    font: inherit;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition:
+
+        background-color 0.2s ease,
+
+        border-color 0.2s ease,
+
+        color 0.2s ease;
+
+}
+
+.project__add-task:hover {
+
+    background-color: #eef2ff;
+
+    border-color: #c7d2fe;
+
+    color: #4338ca;
+
+}
+
+.project__add-task:focus-visible {
+
+    outline: 2px solid var(--color-primary);
+
+    outline-offset: 2px;
+
+}
+
+.project__add-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    color: inherit;
+
+}
+
+.project__add-icon svg {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+
+.project__add-member {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    background-color: #ffffff;
+
+    color: #7356d8;
+
+    border: 1px solid #e1dafa;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: background-color 0.2s, border-color 0.2s;
+
+}
+
+.project__add-member:hover {
+
+    background-color: #f5f1ff;
+
+    border-color: #7356d8;
+
+}
+
+.project__add-member svg {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+/* ========================================
+   PROJECT DETAILS & LAYOUT
+======================================== */
+
+.project__header {
+    align-items: flex-start;
+}
+
+.project__details {
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.project__info {
+    flex: 1 1 440px;
+    min-width: 0;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+/* ========================================
+   EDIT & DELETE PROJECT
+======================================== */
+
+.project__edit,
+.project__delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    padding: 0;
+
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    color: #64748b;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Lucide icons */
+.project__edit svg,
+.project__delete svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Edit hover */
+.project__edit:hover {
+    background-color: #ede9fe;
+    border-color: #c4b5fd;
+    color: #7c3aed;
+}
+
+/* Delete hover */
+.project__delete:hover {
+    background-color: #fee2e2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+/* Keyboard focus */
+.project__edit:focus-visible,
+.project__delete:focus-visible {
+    outline: 2px solid #7c3aed;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+    .project__details,
+    .project__info {
+        width: 100%;
+        flex-basis: 100%;
+    }
+}

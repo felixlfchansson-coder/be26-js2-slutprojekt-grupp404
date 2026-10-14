@@ -1,5 +1,5 @@
 
-import { createElement, UserRound } from "lucide";
+import { createElement, UserRound, Pencil } from "lucide";
 
 // Så här sparas medlemmarna i Firebase
 type FirebaseMember = {
@@ -72,7 +72,7 @@ export function renderMembers(
                 <th>Medlem</th>
                 <th>Kategori</th>
                 <th>Projekt</th>
-                <th>Tasks</th>
+                <th>Åtgärder</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -129,11 +129,31 @@ export function renderMembers(
             member.ongoingTasks ?? 0
         );
 
-        row.append(
+        // Redigera medlem
+        const actionsCell = document.createElement("td");
+        actionsCell.classList.add("members-table__actions");
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.classList.add("member__edit");
+        editButton.title = "Redigera medlem";
+        editButton.setAttribute("aria-label", "Redigera medlem");
+
+        editButton.appendChild(
+            createElement(Pencil, {
+                width: 18,
+                height: 18
+            })
+        );
+
+        actionsCell.appendChild(editButton);
+
+       row.append(
             nameCell,
             categoryCell,
             projectsCell,
-            tasksCell
+            tasksCell,
+            actionsCell
         );
 
         tbody.appendChild(row);

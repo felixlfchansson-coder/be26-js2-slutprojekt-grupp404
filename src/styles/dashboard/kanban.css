@@ -1,0 +1,127 @@
+/* ========================================
+
+   KANBAN BOARD
+
+======================================== */
+
+.kanban {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+}
+
+.kanban[hidden] {
+
+    display: none;
+
+}
+
+.kanban__column {
+
+    min-width: 0;
+
+    min-height: 140px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+}
+
+.kanban__column--todo {
+
+    background-color: var(--color-todo-bg);
+
+}
+
+.kanban__column--progress {
+
+    background-color: var(--color-progress-bg);
+
+}
+
+.kanban__column--done {
+
+    background-color: var(--color-done-bg);
+
+}
+
+/* Kanban column headers */
+
+.kanban__header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+
+}
+
+.kanban__header h4 {
+
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+.kanban__count {
+
+    display: inline-flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-width: 25px;
+
+    height: 25px;
+
+    padding: 0 7px;
+
+    border-radius: 999px;
+
+    background-color: rgba(255, 255, 255, 0.8);
+
+    color: var(--color-text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+/* Empty columns */
+
+.kanban__empty {
+
+    margin: 20px 0;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    opacity: 0.8;
+
+}
+
+.task-list:not(:empty) + .kanban__empty {
+
+    display: none;
+
+}

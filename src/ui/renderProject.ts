@@ -13,7 +13,9 @@ import {
     ListTodo,
     Clock3,
     CircleCheck,
-    UserRoundPlus
+    UserRoundPlus,
+    Pencil,
+    Trash2
 } from "lucide";
 
 function formatDeadline(deadline: number): string {
@@ -44,17 +46,18 @@ export function renderProject(
 
     projectElement.innerHTML = `
         <div class="project__header">
-            <div>
+
+            <div class="project__details">
                 <button
                     class="project__toggle"
                     type="button"
                     aria-expanded="${isExpanded}"
                 >
                     <span class="project__arrow"></span>
-                    <span>${project.projectTitle}</span>
+                    <span class="project__title"></span>
                 </button>
 
-                <p>${project.projectDescription}</p>
+                <p class="project__description"></p>
             </div>
 
             <div class="project__info">
@@ -65,10 +68,13 @@ export function renderProject(
 
                 <span class="project__members">
                     <span class="project__members-icon"></span>
-                    Medlem: ${project.projectMembers ?? "Inga medlemmar"}
+                    <span class="project__members-text"></span>
                 </span>
 
-                <button class="project__add-member" type="button">
+                <button
+                    class="project__add-member"
+                    type="button"
+                >
                     <span class="project__add-member-icon"></span>
                     Lägg till medlem
                 </button>
@@ -80,19 +86,37 @@ export function renderProject(
                     <span class="project__add-icon"></span>
                     Lägg till task
                 </button>
+
+                <button
+                    class="project__edit"
+                    type="button"
+                    title="Redigera projekt"
+                    aria-label="Redigera projekt"
+                >
+                    <span class="project__edit-icon"></span>
+                </button>
+
+                <button
+                    class="project__delete"
+                    type="button"
+                    title="Ta bort projekt"
+                    aria-label="Ta bort projekt"
+                >
+                    <span class="project__delete-icon"></span>
+                </button>
             </div>
         </div>
 
         <div class="kanban" ${isExpanded ? "" : "hidden"}>
 
             <section class="kanban__column kanban__column--todo">
-              <div class="kanban__header">
-                <h4>
-                    <span class="kanban__icon kanban__icon--todo"></span>
-                    Att göra
-                </h4>
-                <span class="kanban__count">0</span>
-            </div>
+                <div class="kanban__header">
+                    <h4>
+                        <span class="kanban__icon kanban__icon--todo"></span>
+                        Att göra
+                    </h4>
+                    <span class="kanban__count">0</span>
+                </div>
 
                 <div class="task-list task-list--todo"></div>
                 <p class="kanban__empty">Inga tasks ännu</p>
@@ -127,6 +151,20 @@ export function renderProject(
         </div>
     `;
 
+    // Projektinformation
+    projectElement.querySelector<HTMLElement>(
+        ".project__title"
+    )!.textContent = project.projectTitle;
+
+    projectElement.querySelector<HTMLElement>(
+        ".project__description"
+    )!.textContent = project.projectDescription;
+
+    projectElement.querySelector<HTMLElement>(
+        ".project__members-text"
+    )!.textContent =
+        `Medlem: ${project.projectMembers ?? "Inga medlemmar"}`;
+
     // Hämta element för expandering
     const toggleButton =
         projectElement.querySelector<HTMLButtonElement>(
@@ -142,7 +180,7 @@ export function renderProject(
         );
 
     // Uppdatera pilen beroende på om projektet är öppet
-    function updateArrow(expanded: boolean) {
+    function updateArrow(expanded: boolean): void {
         if (!arrow) return;
 
         arrow.replaceChildren(
@@ -160,7 +198,7 @@ export function renderProject(
     function addIcon(
         selector: string,
         icon: typeof Plus
-    ) {
+    ): void {
         const element = projectElement.querySelector(selector);
 
         element?.appendChild(
@@ -176,11 +214,16 @@ export function renderProject(
     addIcon(".project__deadline-icon", CalendarDays);
     addIcon(".project__members-icon", UsersRound);
     addIcon(".project__add-icon", Plus);
+    addIcon(".project__add-member-icon", UserRoundPlus);
+
+    addIcon(".project__edit-icon", Pencil);
+    addIcon(".project__delete-icon", Trash2);
+
     addIcon(".kanban__icon--todo", ListTodo);
     addIcon(".kanban__icon--progress", Clock3);
     addIcon(".kanban__icon--done", CircleCheck);
-    addIcon(".project__add-member-icon", UserRoundPlus);
 
+    // Expandera eller stäng projektets Kanban
     toggleButton?.addEventListener("click", () => {
         if (!kanban) return;
 
@@ -196,7 +239,7 @@ export function renderProject(
         updateArrow(expanded);
     });
 
-
+    // Rendera projektets tasks
     renderProjectTasks(projectElement, tasks);
 
     return projectElement;
@@ -223,10 +266,6 @@ function renderProjectTasks(
                 break;
 
             default:
-                console.warn(
-                    "Okänd task-status:",
-                    task.taskStatus
-                );
                 return;
         }
 
@@ -237,7 +276,6 @@ function renderProjectTasks(
 
         if (!taskList) return;
 
-    
         taskList.appendChild(renderTask(task));
 
         const column = taskList.closest(".kanban__column");

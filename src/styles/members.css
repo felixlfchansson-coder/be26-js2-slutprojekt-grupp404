@@ -328,3 +328,61 @@
     }
 }
 
+/* =========================
+   MEMBER ACTION BUTTONS
+========================= */
+
+.members-table__actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.member__edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+    padding: 0;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Lucide icon */
+.member__edit svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Hover */
+.member__edit:hover {
+    background: #ede9fe;
+    border-color: #c4b5fd;
+    color: #7c3aed;
+    transform: translateY(-1px);
+}
+
+/* Click */
+.member__edit:active {
+    transform: translateY(0);
+}
+
+/* Keyboard navigation */
+.member__edit:focus-visible {
+    outline: 2px solid #7c3aed;
+    outline-offset: 3px;
+}

@@ -1,5 +1,12 @@
 import type { Task } from "../model/Task";
-import { createElement, UserRoundPlus, Check, Trash2 } from "lucide";
+import {
+    createElement,
+    UserRoundPlus,
+    Check,
+    Trash2,
+    Pencil
+} from "lucide";
+
 export function renderTask(task: Task): HTMLElement {
     const taskElement = document.createElement("article");
     taskElement.classList.add("task");
@@ -22,9 +29,11 @@ export function renderTask(task: Task): HTMLElement {
         <div class="task__actions"></div>
     `;
 
+    // Taskens titel
     taskElement.querySelector<HTMLElement>(".task__title")!.textContent =
         task.taskTitle;
 
+    // Prioritet
     const priorityElement =
         taskElement.querySelector<HTMLElement>(".task__priority")!;
 
@@ -41,31 +50,42 @@ export function renderTask(task: Task): HTMLElement {
         `task__priority--${task.taskPriority.toLowerCase()}`
     );
 
+    // Beskrivning
     taskElement.querySelector<HTMLElement>(".task__description")!.textContent =
         task.taskDescription;
 
+    // Kategori
     taskElement.querySelector<HTMLElement>(".task__category")!.textContent =
         task.taskCategory;
 
+    // Deadline
     taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
         `📅 ${formatDeadline(task.taskDeadline)}`;
 
+    // Knappar
     const actions =
         taskElement.querySelector<HTMLElement>(".task__actions")!;
 
-    // Olika knappar beroende på taskens status
+    // Redigera task
+    actions.appendChild(
+        createActionButton("edit", "Redigera uppgift", Pencil)
+    );
+
+    // Tilldela task om den är "To Do"
     if (task.taskStatus === "To Do") {
         actions.appendChild(
             createActionButton("assign", "Tilldela task", UserRoundPlus)
         );
     }
 
+    // Markera task som klar om den är "In Progress"
     if (task.taskStatus === "In Progress") {
         actions.appendChild(
             createActionButton("complete", "Markera klar", Check)
         );
     }
 
+    // Ta bort task
     actions.appendChild(
         createActionButton("delete", "Ta bort task", Trash2)
     );
@@ -73,6 +93,7 @@ export function renderTask(task: Task): HTMLElement {
     return taskElement;
 }
 
+// Skapar action-knappar med Lucide-ikoner
 function createActionButton(
     action: string,
     label: string,
@@ -86,14 +107,17 @@ function createActionButton(
     button.title = label;
     button.setAttribute("aria-label", label);
 
-    button.appendChild(createElement(icon, {
-        width: 15,
-        height: 15
-    }));
+    button.appendChild(
+        createElement(icon, {
+            width: 15,
+            height: 15
+        })
+    );
 
     return button;
 }
 
+// Formaterar taskens deadline från DDMMYY till DD/MM/YYYY
 function formatDeadline(deadline: number): string {
     const date = String(deadline).padStart(6, "0");
 

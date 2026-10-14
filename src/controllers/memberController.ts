@@ -3,6 +3,7 @@ import { addNewMember } from "../modules/members";
 import { renderAssignMember, assignableMembersToProject } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberProjects  } from "../modules/members";
+import { addProjectMembers } from "../modules/projects";
 
 export function initNewMemberController() {
     document.addEventListener("click", (event) => {
@@ -87,7 +88,7 @@ export function addMembersToProject() {
 
 async function openTaskModal(projectID: string) {
     const assignMemberOverlay = renderAssignMember()
-    assignableMembersToProject()
+    assignableMembersToProject(projectID)
     document.body.appendChild(assignMemberOverlay);
 
     const closeButton = assignMemberOverlay.querySelector(".modal__close");
@@ -112,23 +113,33 @@ async function openTaskModal(projectID: string) {
         event.preventDefault()
 
         let memberProjects:string[] = []
+        let projectMembers:string[] = projects[projectID].projectMembers
         for (const ID in members) {
             console.log("ID ", ID)
             console.log("Members ", members)
             const projectTitle = projects[projectID].projectTitle
             if (!projectTitle) return;
             let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)
+            
             if (checkbox?.checked) {
-                
+                projectMembers.push(`${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`)
+                console.log(projectMembers)
                 memberProjects = members[ID].projectMember
                 memberProjects.push(projectTitle)
-
+                if (projectMembers[0] === "") {
+                    projectMembers.shift()
+                }
                 try {
                     await updateMemberProjects(memberProjects, ID)
                 } catch {
-                    window.alert("Something went wrong. Could not assign members to task.");
+                    window.alert("Something went wrong. Could not assign members to project.");
                 }
             }
+        }
+        try {
+            await addProjectMembers(projectMembers, projectID)
+        } catch {
+            window.alert("Something went wrong. Could not assign members to project.")
         }
         closeModal()
         return;

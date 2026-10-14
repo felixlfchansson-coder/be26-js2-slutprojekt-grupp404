@@ -81,18 +81,20 @@ export async function assignableMembersToTasks(projectID:string, taskID:string) 
     }
 }
 
-export async function assignableMembersToProject() {
+export async function assignableMembersToProject(projectID:string) {
     const members = await getData("members")
+    const projects = await getData("projects")
     const assignableMembersWrapper = document.getElementById("assignable-members-wrapper")
     if (!assignableMembersWrapper) return;
-
     for (const ID in members) {
-        const assignableOptionDiv = document.createElement("div")
-        let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
-        assignableOptionDiv.innerHTML = `
-        <input type="checkbox" id="${ID}" name="assignaleMember"/>
-        <label for="${ID}">${memberOptionName}</label>
-        `
-        assignableMembersWrapper.append(assignableOptionDiv)
+        if (!members[ID].projectMember.includes(projects[projectID].projectTitle)) {
+            const assignableOptionDiv = document.createElement("div")
+            let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+            assignableOptionDiv.innerHTML = `
+            <input type="checkbox" id="${ID}" name="assignaleMember"/>
+            <label for="${ID}">${memberOptionName}</label>
+            `
+            assignableMembersWrapper.append(assignableOptionDiv)
+        }
     }
 }

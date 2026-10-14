@@ -4,7 +4,7 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
     try{
         const option = {
             method: "POST",
-            body: JSON.stringify({firstName: newFirstName, secondName: newSecondName, role: newCategory}),
+            body: JSON.stringify({firstName: newFirstName, secondName: newSecondName, category: newCategory, projectMember:[""]}),
             headers: {
                 "Content-type": "application/json"
             }

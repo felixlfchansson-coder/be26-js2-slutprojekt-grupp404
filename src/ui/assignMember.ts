@@ -67,7 +67,7 @@ export async function assignableMembersToTasks(projectID:string, taskID:string) 
     const projects = await getData("projects")
     const assignableMembersWrapper = document.getElementById("assignable-members-wrapper")
     if (!assignableMembersWrapper) return;
-
+console.log(members)
     for (const ID in members) {
         if (members[ID].category === projects[projectID].tasks[taskID].taskCategory) {
             const assignableOptionDiv = document.createElement("div")

@@ -71,6 +71,7 @@ export async function assignableMembersToTasks(projectID:string, taskID:string) 
     for (const ID in members) {
         if (members[ID].category === projects[projectID].tasks[taskID].taskCategory) {
             const assignableOptionDiv = document.createElement("div")
+            assignableOptionDiv.classList.add("assign-member__option");
             let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
             assignableOptionDiv.innerHTML = `
             <input type="checkbox" id="${ID}" name="assignaleMember"/>
@@ -89,6 +90,7 @@ export async function assignableMembersToProject(projectID:string) {
     for (const ID in members) {
         if (!members[ID].projectMember.includes(projects[projectID].projectTitle)) {
             const assignableOptionDiv = document.createElement("div")
+            assignableOptionDiv.classList.add("assign-member__option");
             let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
             assignableOptionDiv.innerHTML = `
             <input type="checkbox" id="${ID}" name="assignaleMember"/>

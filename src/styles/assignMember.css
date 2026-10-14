@@ -1,0 +1,33 @@
+.assign-member__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.assign-member__option label {
+    flex: 1;
+    order: 1;
+    cursor: pointer;
+    font-size: 14px;
+    color: #334155;
+}
+
+.assign-member__option input[type="checkbox"] {
+    order: 2;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    flex-shrink: 0;
+    accent-color: #6558d3;
+    cursor: pointer;
+}
+
+.assign-member__option:has(input:checked) {
+    background: #f5f3ff;
+    border-color: #a78bfa;
+}

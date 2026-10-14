@@ -87,9 +87,11 @@ export function addMembersToProject() {
 }
 
 async function openTaskModal(projectID: string) {
-    const assignMemberOverlay = renderAssignMember()
-    assignableMembersToProject(projectID)
+    const assignMemberOverlay = renderAssignMember();
+
     document.body.appendChild(assignMemberOverlay);
+
+    await assignableMembersToProject(projectID);
 
     const closeButton = assignMemberOverlay.querySelector(".modal__close");
     const cancelButton = assignMemberOverlay.querySelector(".modal__cancel");
@@ -113,7 +115,7 @@ async function openTaskModal(projectID: string) {
         event.preventDefault()
 
         let memberProjects:string[] = []
-        let projectMembers:string[] = projects[projectID].projectMembers
+        let projectMembers: string[] = [...(projects[projectID].projectMembers ?? [])];
         for (const ID in members) {
             console.log("ID ", ID)
             console.log("Members ", members)

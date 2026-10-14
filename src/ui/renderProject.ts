@@ -19,13 +19,25 @@ import {
 } from "lucide";
 
 function formatDeadline(deadline: number): string {
-    const value = deadline.toString().padStart(6, "0");
+    const value = String(deadline);
 
-    const day = value.slice(0, 2);
-    const month = value.slice(2, 4);
-    const year = `20${value.slice(4, 6)}`;
+    if (!/^\d{8}$/.test(value)) {
+        return "Ingen giltig deadline";
+    }
 
-    const date = new Date(`${year}-${month}-${day}`);
+    const year = Number(value.slice(0, 4));
+    const month = Number(value.slice(4, 6));
+    const day = Number(value.slice(6, 8));
+
+    const date = new Date(year, month - 1, day);
+
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) {
+        return "Ingen giltig deadline";
+    }
 
     return date.toLocaleDateString("sv-SE", {
         day: "numeric",

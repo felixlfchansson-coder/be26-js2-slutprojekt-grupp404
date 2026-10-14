@@ -16,6 +16,28 @@ type FirebaseMember = {
     secondName: string;
 };
 
+function parseProjectDeadline(deadline: number): Date | null {
+    const value = String(deadline);
+
+    if (!/^\d{8}$/.test(value)) return null;
+
+    const year = Number(value.slice(0, 4));
+    const month = Number(value.slice(4, 6));
+    const day = Number(value.slice(6, 8));
+
+    const date = new Date(year, month - 1, day);
+
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+    ) {
+        return null;
+    }
+
+    return date;
+}
+
 export async function renderHome(): Promise<void> {
     const [projects, members] = await Promise.all([
         getData("projects") as Promise<Record<string, FirebaseProject> | null>,
@@ -55,24 +77,31 @@ export async function renderHome(): Promise<void> {
     }
 
     // Närmaste kommande projektdeadline
-    const now = Date.now();
+  
+    // Närmaste kommande projektdeadline
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const deadlines = projectList
-        .map(project => project.projectDeadline)
-        .filter(
-            (deadline): deadline is number =>
-                typeof deadline === "number" && deadline >= now
+        .map(project =>
+            project.projectDeadline
+                ? parseProjectDeadline(project.projectDeadline)
+                : null
         )
-        .sort((a, b) => a - b);
+        .filter(
+            (deadline): deadline is Date =>
+                deadline !== null && deadline >= today
+        )
+        .sort((a, b) => a.getTime() - b.getTime());
 
     const deadlineElement = document.getElementById("home-deadline");
 
-    if (deadlineElement && deadlines.length > 0) {
-        deadlineElement.textContent = new Date(
-            deadlines[0]
-        ).toLocaleDateString("sv-SE", {
-            day: "numeric",
-            month: "short"
-        });
+    if (deadlineElement) {
+        deadlineElement.textContent = deadlines.length > 0
+            ? deadlines[0].toLocaleDateString("sv-SE", {
+                day: "numeric",
+                month: "short"
+            })
+            : "–";
     }
 }

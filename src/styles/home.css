@@ -847,3 +847,42 @@
     height: 21px;
 }
 
+/* HOME DASHBOARD ITEMS */
+
+.home__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    background: #f8f9fc;
+    border: 1px solid #edf0f7;
+    border-radius: 12px;
+    transition: background 0.2s ease;
+}
+
+.home__item:hover {
+    background: #f1efff;
+}
+
+.home__item-title {
+    color: #202743;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.home__item-meta {
+    color: #78829b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.home__projects,
+.home__tasks,
+.home__activity,
+.home__members {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+

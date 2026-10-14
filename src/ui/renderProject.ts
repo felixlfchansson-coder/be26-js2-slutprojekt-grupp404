@@ -57,23 +57,27 @@ export function renderProject(
 
     const isExpanded = index === 0;
 
-    projectElement.innerHTML = `
-        <div class="project__header">
+   projectElement.innerHTML = `
+    <div class="project__header">
 
-            <div class="project__details">
-                <button
-                    class="project__toggle"
-                    type="button"
-                    aria-expanded="${isExpanded}"
-                >
-                    <span class="project__arrow"></span>
-                    <span class="project__title"></span>
-                </button>
+        <div class="project__details">
+            <button
+                class="project__toggle"
+                type="button"
+                aria-expanded="${isExpanded}"
+            >
+                <span class="project__arrow"></span>
+                <span class="project__title"></span>
+            </button>
 
-                <p class="project__description"></p>
-            </div>
+            <p class="project__description"></p>
+        </div>
 
-            <div class="project__info">
+        <div class="project__info">
+
+            <!-- Projektinformation -->
+            <div class="project__meta">
+
                 <span class="project__deadline">
                     <span class="project__deadline-icon"></span>
                     Deadline: ${formatDeadline(project.projectDeadline)}
@@ -83,6 +87,11 @@ export function renderProject(
                     <span class="project__members-icon"></span>
                     <span class="project__members-text"></span>
                 </span>
+
+            </div>
+
+            <!-- Alla knappar samlade -->
+            <div class="project__actions">
 
                 <button
                     class="project__add-member"
@@ -117,53 +126,54 @@ export function renderProject(
                 >
                     <span class="project__delete-icon"></span>
                 </button>
+
             </div>
         </div>
+    </div>
 
-        <div class="kanban" ${isExpanded ? "" : "hidden"}>
+    <div class="kanban" ${isExpanded ? "" : "hidden"}>
 
-            <section class="kanban__column kanban__column--todo">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--todo"></span>
-                        Att göra
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--todo">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--todo"></span>
+                    Att göra
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--todo"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--todo"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-            <section class="kanban__column kanban__column--progress">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--progress"></span>
-                        Pågående
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--progress">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--progress"></span>
+                    Pågående
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--progress"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--progress"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-            <section class="kanban__column kanban__column--done">
-                <div class="kanban__header">
-                    <h4>
-                        <span class="kanban__icon kanban__icon--done"></span>
-                        Klart
-                    </h4>
-                    <span class="kanban__count">0</span>
-                </div>
+        <section class="kanban__column kanban__column--done">
+            <div class="kanban__header">
+                <h4>
+                    <span class="kanban__icon kanban__icon--done"></span>
+                    Klart
+                </h4>
+                <span class="kanban__count">0</span>
+            </div>
 
-                <div class="task-list task-list--done"></div>
-                <p class="kanban__empty">Inga tasks ännu</p>
-            </section>
+            <div class="task-list task-list--done"></div>
+            <p class="kanban__empty">Inga tasks ännu</p>
+        </section>
 
-        </div>
-    `;
-
+    </div>
+`;
     // Projektinformation
     projectElement.querySelector<HTMLElement>(
         ".project__title"

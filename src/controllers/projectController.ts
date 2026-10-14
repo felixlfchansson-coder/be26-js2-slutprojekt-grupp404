@@ -1,5 +1,5 @@
 import { renderProjectForm } from "../ui/projectForm";
-import { addNewProject } from "../modules/projects";
+import { addNewProject, deleteProject } from "../modules/projects";
 
 export function initProjectController() {
   document.addEventListener("click", (event) => {
@@ -59,5 +59,39 @@ export function initProjectController() {
                 console.error("Could not add project: ", error)
             }
         })
+    });   
+}
+export function initDeleteProjectController() {
+    document.addEventListener("click", async (event) => {
+        const target = event.target;
+
+        if (!(target instanceof Element)) return;
+
+        const deleteButton = target.closest(".project__delete");
+        if (!deleteButton) return;
+
+        const projectElement = deleteButton.closest<HTMLElement>(".project");
+        if (!projectElement) return;
+
+        const projectID = projectElement.dataset.projectId;
+        if (!projectID) return;
+
+        const projectTitle =
+            projectElement.querySelector(".project__title")?.textContent
+            ?? "det här projektet";
+
+        const confirmed = window.confirm(
+            `Vill du verkligen ta bort "${projectTitle}"?\n\nAlla tasks i projektet kommer också att tas bort.`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await deleteProject(projectID);
+
+            projectElement.remove();
+        } catch {
+            window.alert("Det gick inte att ta bort projektet. Försök igen.");
+        }
     });
 }

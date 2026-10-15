@@ -55,6 +55,7 @@ export async function addProjectMembers(newProjectMembers:string[], projectID:st
         return data;
     }
     catch(error){
+        window.alert("Something went wrong.The member could not be assigned to the project.");
         throw error;
     }
 }

@@ -107,25 +107,26 @@ export function initTaskController() {
         
         if (!confirmCompletion) return;
         
-        try {
+      try {
             const taskStatus = "Completed"
             const todaysDate = getTodaysDate()
+            console.log("DAGENS DATUM:", todaysDate);
             await changeTaskStatus(taskStatus, projectID, taskID);
 
             await patchCompletedDate(todaysDate, projectID, taskID)
 
-            await refreshProjects();
-
-           const taskMembers = projects[projectID].tasks[taskID].taskMembers
+            const taskMembers = projects[projectID].tasks[taskID].taskMembers
             for (const member in taskMembers) {
                 for (const ID in members) {
-                    let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+                    let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID].category}`
                     if (memberName === taskMembers[member]) {
                         let ongoingTasks = members[ID].ongoingTasks - 1
                         await updateMemberTasks(ongoingTasks, ID)
                     }
                 }
             }
+
+            await refreshProjects();
         } catch {
             window.alert("Det gick inte att klara tasken.");
         }
@@ -321,10 +322,12 @@ export function dateToNumber(date: string): number {
     return Number(`${day}${month}${year.slice(-2)}`);
 }
 
-function getTodaysDate() {
-    let todaysDateString = new Date().toLocaleString()
-    todaysDateString = todaysDateString.substring(0,10)
-    todaysDateString = todaysDateString.replaceAll("/", "")
-    const todaysDateNumber = +todaysDateString
-    return todaysDateNumber
+function getTodaysDate(): number {
+    const today = new Date();
+
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const year = today.getFullYear();
+
+    return Number(`${day}${month}${year}`);
 }

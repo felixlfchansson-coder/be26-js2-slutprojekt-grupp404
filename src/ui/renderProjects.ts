@@ -31,6 +31,7 @@ type FirebaseTask = {
   taskDeadline: number;
   taskMembers?: string[];
   taskCreationDate?: number;
+  taskCompleteDate?: number;
 };
 
 let projectsData: Record<string, FirebaseProject> = {};
@@ -107,6 +108,7 @@ updateMemberDropdown();
             priority,
             task.taskDeadline,
             task.taskCreationDate ?? Date.now(),
+            task.taskCompleteDate ?? 0,
             projectID,
           );
         });

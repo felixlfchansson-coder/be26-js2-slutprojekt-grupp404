@@ -63,10 +63,12 @@ export function renderTask(task: Task): HTMLElement {
     if (task.taskStatus === "To Do" || task.taskStatus === "In Progress") {
         taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
         `📅 ${formatDeadline(task.taskDeadline)}`;
-    } else if (task.taskStatus === "Completed") {
-        taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
-        `Completed on: 📅 ${formatCompleteDate(task.taskCompleteDate)}`;
-    }
+   } else if (task.taskStatus === "Completed") {
+    taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
+        task.taskCompleteDate
+            ? `Completed on: 📅 ${formatCompleteDate(task.taskCompleteDate)}`
+            : "Completed";
+}
     // Knappar
     const actions =
         taskElement.querySelector<HTMLElement>(".task__actions")!;
@@ -134,12 +136,24 @@ export function formatDeadline(deadline: number): string {
     return `${day}/${month}/${year}`;
 }
 
-function formatCompleteDate(completeDate:number): string {
-    const date = String(completeDate)
+function formatCompleteDate(completeDate: number): string {
+    const date = String(completeDate);
 
-    const day = date.slice(0, 2);
-    const month = date.slice(2, 4);
-    const year = date.slice(4, 8);
+    if (date.length === 6) {
+        const day = date.slice(0, 2);
+        const month = date.slice(2, 4);
+        const year = `20${date.slice(4, 6)}`;
 
-    return `${day}/${month}/${year}`;
+        return `${day}/${month}/${year}`;
+    }
+
+    if (date.length === 8) {
+        const day = date.slice(0, 2);
+        const month = date.slice(2, 4);
+        const year = date.slice(4, 8);
+
+        return `${day}/${month}/${year}`;
+    }
+
+    return "Okänt datum";
 }

@@ -29,6 +29,7 @@ type FirebaseTask = {
   taskPriority: TaskPriority;
   taskStatus: TaskStatus;
   taskDeadline: number;
+  taskCompleteDate: number;
   taskMembers?: string[];
   taskCreationDate?: number;
 };
@@ -107,6 +108,7 @@ updateMemberDropdown();
             priority,
             task.taskDeadline,
             task.taskCreationDate ?? Date.now(),
+            task.taskCompleteDate,
             projectID,
           );
         });

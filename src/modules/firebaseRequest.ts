@@ -11,7 +11,10 @@ export async function getData(category: string){
         const data = await response.json();
         return data;
     }
-    catch(error){
+    catch(error){ 
+      window.alert("Something went wrong. The data could not be fetched.");
+
         throw error;
+
     }
 }

@@ -87,7 +87,7 @@ export function initTaskController() {
             }
         } catch {
             deleteButton.disabled = false;
-            window.alert("Det gick inte att ta bort tasken.");
+            window.alert("Something went wrong. The task could not be deleted.");
         }
 
         return;
@@ -127,7 +127,7 @@ export function initTaskController() {
                 }
             }
         } catch {
-            window.alert("Det gick inte att klara tasken.");
+            window.alert("Something went wrong. The task could not be completed");
         }
         return;
     }
@@ -233,6 +233,7 @@ export function initTaskController() {
                 editTaskOverlay.remove();
             } catch (error) {
                 console.error("could no update task.", error);
+                window.alert("Something went wrong. The task could not be updated.");
             }
         });
 
@@ -311,6 +312,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
 
         } catch (error) {
             console.error("Kunde inte skapa task:", error);
+            window.alert("Something went wrong. The task could not be created");
         }
     });
 }

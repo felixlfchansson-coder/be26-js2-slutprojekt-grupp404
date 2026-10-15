@@ -6,6 +6,7 @@ import { updateMemberProjects  } from "../modules/members";
 import { addProjectMembers } from "../modules/projects";
 import { refreshProjects } from "../ui/renderProjects";
 
+
 export function initNewMemberController() {
     document.addEventListener("click", (event) => {
         const target = event.target;
@@ -65,6 +66,8 @@ function openMemberForm() {
             closeModal();
 
         } catch (error) {
+         window.alert("Something went wrong. The new member could not be added.");
+
             console.error("Could not add member:", error);
         }
     });
@@ -135,16 +138,17 @@ async function openTaskModal(projectID: string) {
                     await updateMemberProjects(memberProjects, ID)
                     await refreshProjects();
                 } catch {
-                    window.alert("Something went wrong. Could not assign members to project.");
+                    window.alert("Something went wrong. Could not assign members to the project.");
                 }
             }
         }
         try {
             await addProjectMembers(projectMembers, projectID)
         } catch {
-            window.alert("Something went wrong. Could not assign members to project.")
+            window.alert("Something.")
         }
         closeModal()
         return;
     })
 }
+

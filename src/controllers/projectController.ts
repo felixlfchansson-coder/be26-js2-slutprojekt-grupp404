@@ -58,6 +58,7 @@ export function initProjectController() {
 
             } catch (error) {
                 console.error("Could not add project: ", error)
+                window.alert("Something went wrong. The new project could not be added.");
             }
         })
     });
@@ -114,6 +115,7 @@ async function openTaskModal(projectID:string) {
             await editProjectDeadline(dateToNumber(deadline), projectID)
         } catch(error) {
             console.error("Could not update project deadline.", error)
+            window.alert("Something went wrong. The project's deadline could not be updated.");
         }
         closeModal()
         return;

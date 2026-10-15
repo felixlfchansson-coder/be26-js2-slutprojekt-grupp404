@@ -13,6 +13,7 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
         const response = await fetch(baseURL + "members" + ".json", option);
     
         if(!response.ok){
+            
             throw new Error("Post failed");
         }
     
@@ -46,6 +47,7 @@ export async function updateMemberTasks(ongoingTasksNumber:number, memberID:stri
         return data
     }
     catch(error) {
+        
         throw error
     }
 }
@@ -89,6 +91,7 @@ export async function deleteMember(memberID:string) {
         return "Member Deleted!"
     }
     catch (error) {
+        window.alert("Something went wrong. The member could not be deleted.");
         throw error
         }
 }

@@ -83,7 +83,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
     try {
         const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
-            throw new Error ("patching priority has failed")
+            throw new Error ("patching status has failed")
         }
         const data = await response.json()
         return data
@@ -108,7 +108,7 @@ export async function changeTaskDeadline(newTaskDeadline:number, projectID:strin
     try {
         const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
-            throw new Error ("patching priority has failed")
+            throw new Error ("patching deadline has failed")
         }
         const data = await response.json()
         return data
@@ -140,6 +140,7 @@ export async function assignMembersToTask(newTaskMembers:string[], projectID:str
         return data
     }
     catch (error) {
+
         throw error
     }
 }

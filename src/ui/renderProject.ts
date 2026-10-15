@@ -316,3 +316,6 @@ function renderProjectTasks(
         }
     });
 }
+export function renderError(message: string, element: HTMLElement) {
+  element.innerHTML = `<p>${message}</p>`;
+}

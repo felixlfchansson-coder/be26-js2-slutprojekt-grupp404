@@ -50,9 +50,8 @@ async function updateMemberDropdown() {
   if (!select || select.dataset.loaded === "true") return;
 
   const members = await getData("members");
-
-  Object.values(members).forEach((member: any) => {
-    const name = `${member.firstName} ${member.secondName}, ${member.role}`;
+ Object.values(members).forEach((member: any) => {
+   const name = `${member.firstName} ${member.secondName}`;
 
     const option = document.createElement("option");
     option.value = name;
@@ -67,7 +66,6 @@ async function updateMemberDropdown() {
 
 
 export function renderProjects(projects: Record<string, FirebaseProject>) {
-  console.log("renderProjects called");
   const projectsContainer = document.getElementById("projects-container");
   projectsData = projects;
   
@@ -161,6 +159,17 @@ document.addEventListener("change", (event) => {
   if (filterTasksByMemberBtn.id !== "member-filter") return;
 
   filterMember = filterTasksByMemberBtn.value;
+ console.log("VALD MEDLEM:", filterMember);
+
+console.log(
+  "TASK MEMBERS:",
+  Object.values(projectsData).flatMap(project =>
+    Object.values(project.tasks ?? {}).map(task => ({
+      title: task.taskTitle,
+      members: task.taskMembers ?? []
+    }))
+  )
+);
   renderProjects(projectsData);
 });
 

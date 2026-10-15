@@ -13,6 +13,7 @@ export function filterTasksByMember(tasks: Task[], member: string): Task[] {
   if (member === "all") {
     return tasks;
   } else {
-    return tasks.filter(task => task.taskMembers[0] === member);
+    return tasks.filter(task => task.taskMembers.includes(member));
   }
 }
+

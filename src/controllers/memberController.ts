@@ -4,6 +4,7 @@ import { renderAssignMember, assignableMembersToProject } from "../ui/assignMemb
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberProjects  } from "../modules/members";
 import { addProjectMembers } from "../modules/projects";
+import { refreshProjects } from "../ui/renderProjects";
 
 export function initNewMemberController() {
     document.addEventListener("click", (event) => {
@@ -59,6 +60,7 @@ function openMemberForm() {
                 secondName,
                 category
             );
+            await refreshProjects();
 
             closeModal();
 
@@ -131,6 +133,7 @@ async function openTaskModal(projectID: string) {
                 }
                 try {
                     await updateMemberProjects(memberProjects, ID)
+                    await refreshProjects();
                 } catch {
                     window.alert("Something went wrong. Could not assign members to project.");
                 }

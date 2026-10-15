@@ -172,3 +172,9 @@ document.addEventListener("change", (event) => {
 filterCategory = filterTasksByCategoryBtn.value;
   renderProjects(projectsData);
 });
+
+export async function refreshProjects(): Promise<void> {
+    const projects = await getData("projects");
+
+    renderProjects(projects ?? {});
+}

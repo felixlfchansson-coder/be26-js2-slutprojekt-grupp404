@@ -13,6 +13,7 @@ import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberTasks } from "../modules/members";
 import { renderEditTaskTForm } from "../ui/editTaskForm";
+import { refreshProjects } from "../ui/renderProjects";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -68,7 +69,7 @@ export function initTaskController() {
 
             // Använder er befintliga Firebase-funktion
             await deleteTask(projectID, taskID);
-
+            await refreshProjects();
            
             const taskList = taskElement.closest(".task-list");
             const count = taskElement
@@ -110,8 +111,12 @@ export function initTaskController() {
             const taskStatus = "Completed"
             const todaysDate = getTodaysDate()
             await changeTaskStatus(taskStatus, projectID, taskID);
+
             await patchCompletedDate(todaysDate, projectID, taskID)
-            const taskMembers = projects[projectID].tasks[taskID].taskMembers
+
+            await refreshProjects();
+
+           const taskMembers = projects[projectID].tasks[taskID].taskMembers
             for (const member in taskMembers) {
                 for (const ID in members) {
                     let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
@@ -173,6 +178,7 @@ export function initTaskController() {
 
                         assignedMembers.push(assignedMember?.innerHTML)
                         await assignMembersToTask(assignedMembers, projectID, taskID)
+                        await refreshProjects();
                     } catch {
                         window.alert("Something went wrong. Could not assign members to task.");
                     }
@@ -223,6 +229,7 @@ export function initTaskController() {
             try {
                 await changePriority(priority, projectID, taskID);
                 await changeTaskDeadline(dateToNumber(deadline), projectID, taskID)
+                await refreshProjects();
                 editTaskOverlay.remove();
             } catch (error) {
                 console.error("could no update task.", error);
@@ -296,6 +303,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
                 taskStatus,
                 0
             );
+            await refreshProjects();
 
             console.log("Task sparad i projekt:", projectID);
 

@@ -5,6 +5,7 @@ import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberTasks } from "../modules/members";
 import { renderEditTaskTForm } from "../ui/editTaskForm";
+import { refreshProjects } from "../ui/renderProjects";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {
@@ -60,7 +61,7 @@ export function initTaskController() {
 
             // Använder er befintliga Firebase-funktion
             await deleteTask(projectID, taskID);
-
+            await refreshProjects();
            
             const taskList = taskElement.closest(".task-list");
             const count = taskElement
@@ -102,6 +103,8 @@ export function initTaskController() {
         try {
             const taskStatus = "Completed"
             await changeTaskStatus(taskStatus, projectID, taskID);
+
+            await refreshProjects();
 
             const taskMembers = projects[projectID].tasks[taskID].taskMembers
             for (const member in taskMembers) {
@@ -166,6 +169,7 @@ export function initTaskController() {
 
                         assignedMembers.push(assignedMember?.innerHTML)
                         await assignMembersToTask(assignedMembers, projectID, taskID)
+                        await refreshProjects();
                     } catch {
                         window.alert("Something went wrong. Could not assign members to task.");
                     }
@@ -216,6 +220,7 @@ export function initTaskController() {
             try {
                 await changePriority(priority, projectID, taskID);
                 await changeTaskDeadline(dateToNumber(deadline), projectID, taskID)
+                await refreshProjects();
                 editTaskOverlay.remove();
             } catch (error) {
                 console.error("could no update task.", error);
@@ -289,6 +294,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
                 priority,
                 taskStatus
             );
+            await refreshProjects();
 
             console.log("Task sparad i projekt:", projectID);
 

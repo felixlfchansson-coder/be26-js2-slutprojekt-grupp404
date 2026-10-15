@@ -1,26 +1,42 @@
+
+import {
+    createElement,
+    Folder,
+    FileText,
+    CalendarDays,
+    UsersRound,
+    X,
+    Check
+} from "lucide";
+
 export function renderProjectForm(): HTMLDivElement {
     const overlay = document.createElement("div");
     overlay.classList.add("modal-overlay");
 
     overlay.innerHTML = `
-        <div class="modal" role="dialog"
+        <div class="modal"
+             role="dialog"
              aria-modal="true"
              aria-labelledby="project-form-title">
 
             <div class="modal__header">
                 <h2 id="project-form-title">Nytt projekt</h2>
 
-                <button type="button"
-                        class="modal__close"
-                        aria-label="Stäng">
-                    &times;
+                <button
+                    type="button"
+                    class="modal__close"
+                    aria-label="Stäng">
                 </button>
             </div>
 
             <form id="project-form">
 
                 <div class="form-group">
-                    <label for="project-title">Projektnamn</label>
+                    <label for="project-title">
+                        <span class="project-form__title-icon"></span>
+                        Projektnamn
+                    </label>
+
                     <input
                         id="project-title"
                         name="projectTitle"
@@ -31,6 +47,7 @@ export function renderProjectForm(): HTMLDivElement {
 
                 <div class="form-group">
                     <label for="project-description">
+                        <span class="project-form__description-icon"></span>
                         Beskrivning (Markdown)
                     </label>
 
@@ -44,7 +61,11 @@ export function renderProjectForm(): HTMLDivElement {
                 </div>
 
                 <div class="form-group">
-                    <label for="project-deadline">Deadline</label>
+                    <label for="project-deadline">
+                        <span class="project-form__deadline-icon"></span>
+                        Deadline
+                    </label>
+
                     <input
                         id="project-deadline"
                         name="projectDeadline"
@@ -54,7 +75,10 @@ export function renderProjectForm(): HTMLDivElement {
                 </div>
 
                 <fieldset class="form-group">
-                    <legend>Projektmedlemmar</legend>
+                    <legend>
+                        <span class="project-form__members-icon"></span>
+                        Projektmedlemmar
+                    </legend>
 
                     <div id="project-members-list">
                         <!-- Medlemmar hämtas senare från Firebase -->
@@ -66,7 +90,11 @@ export function renderProjectForm(): HTMLDivElement {
                         Avbryt
                     </button>
 
-                    <button type="submit" class="modal__submit" id="projectSubmitButton">
+                    <button
+                        type="submit"
+                        class="modal__submit"
+                        id="projectSubmitButton">
+                        <span class="project-form__submit-icon"></span>
                         Skapa projekt
                     </button>
                 </div>
@@ -74,6 +102,28 @@ export function renderProjectForm(): HTMLDivElement {
             </form>
         </div>
     `;
+
+    const addIcon = (
+        selector: string,
+        icon: typeof Folder,
+        size = 16
+    ) => {
+        const element = overlay.querySelector(selector);
+
+        element?.appendChild(
+            createElement(icon, {
+                width: size,
+                height: size
+            })
+        );
+    };
+
+    addIcon(".modal__close", X, 18);
+    addIcon(".project-form__title-icon", Folder);
+    addIcon(".project-form__description-icon", FileText);
+    addIcon(".project-form__deadline-icon", CalendarDays);
+    addIcon(".project-form__members-icon", UsersRound);
+    addIcon(".project-form__submit-icon", Check);
 
     return overlay;
 }

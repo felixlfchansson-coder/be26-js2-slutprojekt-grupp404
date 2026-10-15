@@ -1,25 +1,251 @@
-
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask } from "../modules/tasks";
+import { 
+    addNewTask, 
+    deleteTask, 
+    changeTaskStatus, 
+    assignMembersToTask, 
+    changeTaskDeadline, 
+    changePriority, 
+    patchCompletedDate 
+} from "../modules/tasks";
+import { renderAssignMember } from "../ui/assignMember";
+import { assignableMembersToTasks } from "../ui/assignMember";
+import { getData } from "../modules/firebaseRequest";
+import { updateMemberTasks } from "../modules/members";
+import { renderEditTaskTForm } from "../ui/editTaskForm";
+import { refreshProjects } from "../ui/renderProjects";
 
 export function initTaskController() {
-    document.addEventListener("click", (event) => {
+    document.addEventListener("click", async (event) => {
         const target = event.target;
 
         if (!(target instanceof Element)) return;
+    
+    const deleteButton = target.closest<HTMLButtonElement>(
+        ".task__action--delete"
+    );
+    const completeTaskButton = target.closest<HTMLButtonElement>(
+        ".task__action--complete"
+    );
+    const assignMemberButton = target.closest<HTMLButtonElement>(
+        ".task__action--assign"
+    );
+    const editTaskButton = target.closest<HTMLButtonElement>(
+        ".task__action--edit"
+    )
+    if (deleteButton) {
+        const taskElement = deleteButton.closest<HTMLElement>(".task");
+        const projectElement = deleteButton.closest<HTMLElement>(".project");
 
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+
+        if (!taskID || !projectID || !taskElement) return;
+
+        const confirmDeletion = window.confirm(
+            "Är du säker på att du vill ta bort denna task?"
+        );
+
+        if (!confirmDeletion) return;
+
+        deleteButton.disabled = true;
+
+        try {
+            const members = await getData("members")
+            const projects = await getData("projects")
+            const taskMembers = projects[projectID].tasks[taskID].taskMembers
+            const taskStatus = projects[projectID].tasks[taskID].taskStatus
+            if (taskStatus === "In Progress") {
+                for (const member in taskMembers) {
+                    for (const ID in members) {
+                        let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+                        if (memberName === taskMembers[member]) {
+                            let ongoingTasks = members[ID].ongoingTasks - 1
+                            await updateMemberTasks(ongoingTasks, ID)
+                        }
+                    }
+                }
+            }
+
+            // Använder er befintliga Firebase-funktion
+            await deleteTask(projectID, taskID);
+            await refreshProjects();
+           
+            const taskList = taskElement.closest(".task-list");
+            const count = taskElement
+                .closest(".kanban__column")
+                ?.querySelector(".kanban__count");
+
+            // Ta bort kortet från sidan
+            taskElement.remove();
+
+            // Uppdatera antalet tasks
+            if (count && taskList) {
+                count.textContent = String(
+                    taskList.querySelectorAll(".task").length
+                );
+            }
+        } catch {
+            deleteButton.disabled = false;
+            window.alert("Det gick inte att ta bort tasken.");
+        }
+
+        return;
+    }
+
+    if (completeTaskButton) {
+        const members = await getData("members")
+        const projects = await getData("projects")
+        const taskElement = completeTaskButton.closest<HTMLElement>(".task");
+        const projectElement = completeTaskButton.closest<HTMLElement>(".project");
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+        if (!taskID || !projectID || !taskElement) return;
+        const confirmCompletion = window.confirm(
+            "Är du säker på att du vill klara denna task?"
+        );
+        
+        if (!confirmCompletion) return;
+        
+        try {
+            const taskStatus = "Completed"
+            const todaysDate = getTodaysDate()
+            await changeTaskStatus(taskStatus, projectID, taskID);
+
+            await patchCompletedDate(todaysDate, projectID, taskID)
+
+            await refreshProjects();
+
+           const taskMembers = projects[projectID].tasks[taskID].taskMembers
+            for (const member in taskMembers) {
+                for (const ID in members) {
+                    let memberName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`
+                    if (memberName === taskMembers[member]) {
+                        let ongoingTasks = members[ID].ongoingTasks - 1
+                        await updateMemberTasks(ongoingTasks, ID)
+                    }
+                }
+            }
+        } catch {
+            window.alert("Det gick inte att klara tasken.");
+        }
+        return;
+    }
+
+    if (assignMemberButton) {
+        const taskElement = assignMemberButton.closest<HTMLElement>(".task");
+        const projectElement = assignMemberButton.closest<HTMLElement>(".project");
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+
+        if (!taskID || !projectID || !taskElement) return;
+
+        assignableMembersToTasks(projectID, taskID)
+
+        const assignMemberOverlay = renderAssignMember()
+
+        document.body.appendChild(assignMemberOverlay);
+
+        const closeButton = assignMemberOverlay.querySelector(".modal__close");
+        const cancelButton = assignMemberOverlay.querySelector(".modal__cancel");
+
+        function closeModal() {
+            assignMemberOverlay.remove();
+        }
+
+        closeButton?.addEventListener("click", closeModal);
+        cancelButton?.addEventListener("click", closeModal);
+
+        assignMemberOverlay.addEventListener("click", (event) => {
+            if (event.target === assignMemberOverlay) {
+                closeModal();
+            }
+        });
+        const members = await getData("members")
+        const form = assignMemberOverlay.querySelector<HTMLFormElement>("#assign-member-form")
+        form?.addEventListener("submit", async event => {
+            event.preventDefault()
+            let assignedMembers:string[] = []
+            for (const ID in members) {
+                let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)
+                if (checkbox?.checked) {
+                    let assignedMember = document.querySelector("label[for=" + `${ID}` + "]");
+                    if (!assignedMember) return;
+
+                    try {
+                        let ongoingTasks = members[ID].ongoingTasks + 1
+                        await updateMemberTasks(ongoingTasks, ID)
+
+                        assignedMembers.push(assignedMember?.innerHTML)
+                        await assignMembersToTask(assignedMembers, projectID, taskID)
+                        await refreshProjects();
+                    } catch {
+                        window.alert("Something went wrong. Could not assign members to task.");
+                    }
+                }
+            }
+            closeModal()
+            return;
+        })
+    }
+
+    if (editTaskButton) {
+        const taskElement = editTaskButton.closest<HTMLElement>(".task");
+        const projectElement = editTaskButton.closest<HTMLElement>(".project");
+        const taskID = taskElement?.dataset.taskId;
+        const projectID = projectElement?.dataset.projectId;
+
+        if (!taskID || !projectID || !taskElement) return;
+
+        const editTaskOverlay = renderEditTaskTForm()
+
+        document.body.appendChild(editTaskOverlay);
+
+        const closeButton = editTaskOverlay.querySelector(".modal__close");
+        const cancelButton = editTaskOverlay.querySelector(".modal__cancel");
+
+        function closeModal() {
+            editTaskOverlay.remove();
+        }
+
+        closeButton?.addEventListener("click", closeModal);
+        cancelButton?.addEventListener("click", closeModal);
+
+        editTaskOverlay.addEventListener("click", (event) => {
+            if (event.target === editTaskOverlay) {
+                closeModal();
+            }
+        });
+
+        const form = editTaskOverlay.querySelector<HTMLFormElement>("#edit-task-form");
+        form?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const deadline = String(formData.get("taskDeadline") ?? "");
+            const priority = String(formData.get("taskPriority") ?? "");
+
+            try {
+                await changePriority(priority, projectID, taskID);
+                await changeTaskDeadline(dateToNumber(deadline), projectID, taskID)
+                await refreshProjects();
+                editTaskOverlay.remove();
+            } catch (error) {
+                console.error("could no update task.", error);
+            }
+        });
+
+    }
+
+        // LÄGG TILL TASK (din befintliga funktion)
         const addTaskButton = target.closest(".project__add-task");
 
         if (!addTaskButton) return;
 
-        // Hitta projektet som knappen tillhör
         const projectElement = addTaskButton.closest<HTMLElement>(".project");
         const projectID = projectElement?.dataset.projectId;
-
-        if (!projectID) {
-            console.error("Kunde inte hitta projektets ID");
-            return;
-        }
+        if (!projectID) return;
 
         openTaskModal(projectID);
     });
@@ -65,8 +291,7 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
         const category = String(formData.get("taskCategory") ?? "");
         const deadline = String(formData.get("taskDeadline") ?? "");
         const priority = String(formData.get("taskPriority") ?? "");
-        const taskStatus = String(formData.get("taskStatus") ?? "");
-
+        const taskStatus = "To Do";
         try {
             await addNewTask(
                 projectID,
@@ -75,8 +300,10 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
                 category,
                 dateToNumber(deadline),
                 priority,
-                taskStatus
+                taskStatus,
+                0
             );
+            await refreshProjects();
 
             console.log("Task sparad i projekt:", projectID);
 
@@ -88,8 +315,16 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
     });
 }
 
-function dateToNumber(date: string): number {
+export function dateToNumber(date: string): number {
     const [year, month, day] = date.split("-");
 
     return Number(`${day}${month}${year.slice(-2)}`);
+}
+
+function getTodaysDate() {
+    let todaysDateString = new Date().toLocaleString()
+    todaysDateString = todaysDateString.substring(0,10)
+    todaysDateString = todaysDateString.replaceAll("/", "")
+    const todaysDateNumber = +todaysDateString
+    return todaysDateNumber
 }

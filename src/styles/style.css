@@ -2,5 +2,12 @@
 
 @import "./global.css";
 @import "./sidebar.css";
-@import "./dashboard.css";
 @import "./modal.css";
+@import "./members.css";
+@import "./home.css";
+@import "./dashboard/dashboard.css";
+@import "./dashboard/projects.css";
+@import "./dashboard/kanban.css";
+@import "./dashboard/tasks.css";
+@import "./dashboard/responsive.css";
+@import "./assignMember.css";

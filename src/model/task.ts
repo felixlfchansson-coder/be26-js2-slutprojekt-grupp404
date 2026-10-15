@@ -13,6 +13,7 @@ export class Task {
   private _taskStatus: TaskStatus;
   private _taskPriority: TaskPriority;
   private _taskDeadline: number;
+  private _taskCompleteDate: number;
   public readonly taskCreationDate: number;
 
   constructor(
@@ -25,6 +26,7 @@ export class Task {
     taskPriority: TaskPriority,
     taskDeadline: number,
     taskCreationDate: number,
+    taskCompleteDate: number,
     projectID: string,
   ) {
     this.taskID = taskID;
@@ -36,6 +38,7 @@ export class Task {
     this._taskStatus = taskStatus;
     this._taskPriority = taskPriority;
     this._taskDeadline = taskDeadline;
+    this._taskCompleteDate = taskCompleteDate;
     this.taskCreationDate = taskCreationDate;
   }
 
@@ -84,5 +87,12 @@ export class Task {
   }
   set taskDeadline(newTaskDeadline) {
     this._taskDeadline = newTaskDeadline;
+  }
+
+  get taskCompleteDate() {
+    return this._taskCompleteDate
+  }
+  set taskCompleteDate(taskCompletedDate) {
+    this._taskCompleteDate = taskCompletedDate
   }
 }

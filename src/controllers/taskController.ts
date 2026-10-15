@@ -1,5 +1,13 @@
 import { renderTaskForm } from "../ui/taskForm";
-import { addNewTask, deleteTask, changeTaskStatus, assignMembersToTask, changeTaskDeadline, changePriority } from "../modules/tasks";
+import { 
+    addNewTask, 
+    deleteTask, 
+    changeTaskStatus, 
+    assignMembersToTask, 
+    changeTaskDeadline, 
+    changePriority, 
+    patchCompletedDate 
+} from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";
@@ -92,7 +100,6 @@ export function initTaskController() {
         const taskID = taskElement?.dataset.taskId;
         const projectID = projectElement?.dataset.projectId;
         if (!taskID || !projectID || !taskElement) return;
-
         const confirmCompletion = window.confirm(
             "Är du säker på att du vill klara denna task?"
         );
@@ -101,8 +108,9 @@ export function initTaskController() {
         
         try {
             const taskStatus = "Completed"
+            const todaysDate = getTodaysDate()
             await changeTaskStatus(taskStatus, projectID, taskID);
-
+            await patchCompletedDate(todaysDate, projectID, taskID)
             const taskMembers = projects[projectID].tasks[taskID].taskMembers
             for (const member in taskMembers) {
                 for (const ID in members) {
@@ -116,7 +124,6 @@ export function initTaskController() {
         } catch {
             window.alert("Det gick inte att klara tasken.");
         }
-
         return;
     }
 
@@ -278,7 +285,6 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
         const deadline = String(formData.get("taskDeadline") ?? "");
         const priority = String(formData.get("taskPriority") ?? "");
         const taskStatus = "To Do";
-
         try {
             await addNewTask(
                 projectID,
@@ -287,7 +293,8 @@ function setupTaskSubmit(overlay: HTMLDivElement, projectID: string) {
                 category,
                 dateToNumber(deadline),
                 priority,
-                taskStatus
+                taskStatus,
+                0
             );
 
             console.log("Task sparad i projekt:", projectID);
@@ -304,4 +311,12 @@ export function dateToNumber(date: string): number {
     const [year, month, day] = date.split("-");
 
     return Number(`${day}${month}${year.slice(-2)}`);
+}
+
+function getTodaysDate() {
+    let todaysDateString = new Date().toLocaleString()
+    todaysDateString = todaysDateString.substring(0,10)
+    todaysDateString = todaysDateString.replaceAll("/", "")
+    const todaysDateNumber = +todaysDateString
+    return todaysDateNumber
 }

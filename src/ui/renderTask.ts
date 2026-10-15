@@ -59,10 +59,14 @@ export function renderTask(task: Task): HTMLElement {
     taskElement.querySelector<HTMLElement>(".task__category")!.textContent =
         task.taskCategory;
 
-    // Deadline
-    taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
+    // Deadline / Complete date
+    if (task.taskStatus === "To Do" || task.taskStatus === "In Progress") {
+        taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
         `📅 ${formatDeadline(task.taskDeadline)}`;
-
+    } else if (task.taskStatus === "Completed") {
+        taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
+        `Completed on: 📅 ${formatCompleteDate(task.taskCompleteDate)}`;
+    }
     // Knappar
     const actions =
         taskElement.querySelector<HTMLElement>(".task__actions")!;
@@ -119,14 +123,23 @@ function createActionButton(
     return button;
 }
 
-
 // Formaterar taskens deadline från DDMMYY till DD/MM/YYYY
-function formatDeadline(deadline: number): string {
+export function formatDeadline(deadline: number): string {
     const date = String(deadline).padStart(6, "0");
 
     const day = date.slice(0, 2);
     const month = date.slice(2, 4);
     const year = `20${date.slice(4, 6)}`;
+
+    return `${day}/${month}/${year}`;
+}
+
+function formatCompleteDate(completeDate:number): string {
+    const date = String(completeDate)
+
+    const day = date.slice(0, 2);
+    const month = date.slice(2, 4);
+    const year = date.slice(4, 8);
 
     return `${day}/${month}/${year}`;
 }

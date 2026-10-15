@@ -52,7 +52,7 @@ async function updateMemberDropdown() {
 
   const members = await getData("members");
  Object.values(members).forEach((member: any) => {
-   const name = `${member.firstName} ${member.secondName}`;
+   const name = `${member.firstName} ${member.secondName}, ${member.category}`;
 
     const option = document.createElement("option");
     option.value = name;

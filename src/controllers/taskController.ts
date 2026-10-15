@@ -7,7 +7,7 @@ import {
     changeTaskDeadline, 
     changePriority, 
     patchCompletedDate 
-} from "../modules/Tasks";
+} from "../modules/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMembersToTasks } from "../ui/assignMember";
 import { getData } from "../modules/firebaseRequest";

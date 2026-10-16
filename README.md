@@ -17,7 +17,7 @@ src/controllers: Logik som hanterar samt styr olika händelser och funktioner i 
 src/model: Innehåller klasserna för project, task och member och fungerar som en mall över de egenskaper som dessa ska ha.
 
 
-src/modules: Hanterar firebase request såsom patch, post och delete av projekt, uppgifter och medlemmar samt hämtning av dessa data.
+src/firebaseRequests: Hanterar firebase request såsom patch, post och delete av projekt, uppgifter och medlemmar samt hämtning av dessa data.
 
 src/Pages: En uppdelning av HTML koden uppdelat på home page, medlemsida och projektsidan.
 

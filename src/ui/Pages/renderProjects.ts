@@ -7,7 +7,7 @@ import {
     type MemberCategory,
     type TaskPriority,
     type TaskStatus
-} from "../../model/Task.ts";
+} from "../../model/task.ts";
 
 import {
     filterTasksByCategory,

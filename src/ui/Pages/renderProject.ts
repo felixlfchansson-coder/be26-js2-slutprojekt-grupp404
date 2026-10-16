@@ -2,7 +2,7 @@
 import { renderTask } from "../tasks/renderTask";
 import { setupDescriptionToggle } from "../components/descriptionToggle";
 
-import type { Task } from "../../model/Task";
+import type { Task } from "../../model/task";
 import type { ProjectData } from "../projects/projectData";
 
 import {

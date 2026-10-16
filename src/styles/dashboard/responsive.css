@@ -1,0 +1,121 @@
+/* ========================================
+
+   RESPONSIVE
+
+======================================== */
+
+@media (max-width: 900px) {
+
+    .dashboard__header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .dashboard__controls {
+
+        flex-wrap: wrap;
+
+    }
+
+    .project__header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .project__info {
+
+        width: 100%;
+
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .dashboard {
+
+        padding: 12px;
+
+    }
+
+    .project {
+
+        padding: 12px;
+
+    }
+
+    .kanban {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .project__info {
+
+        gap: 8px;
+
+    }
+
+    .project__deadline,
+
+    .project__members {
+
+        white-space: normal;
+
+    }
+
+}
+
+.kanban__header h4 {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+.kanban__icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.kanban__icon svg {
+
+    width: 17px;
+
+    height: 17px;
+
+}
+
+.kanban__icon--todo {
+
+    color: #a16207;
+
+}
+
+.kanban__icon--progress {
+
+    color: #be185d;
+
+}
+
+.kanban__icon--done {
+
+    color: #15803d;
+
+}

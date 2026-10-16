@@ -2,7 +2,15 @@ import { baseURL } from "./firebaseRequest.js";
 
     // DEADLINE set to number - this will be 6 digits refereing to day / month / year
     // will need to be manipulated for display on page vs how its held in database
-export async function addNewTask(projectID:string, newTaskTitle:string, taskDescription:string, taskCategory:string, newTaskDeadline:number, newPriority:string, taskStatus:string){
+export async function addNewTask(
+    projectID:string, 
+    newTaskTitle:string, 
+    taskDescription:string, 
+    taskCategory:string, 
+    newTaskDeadline:number, 
+    newPriority:string, 
+    taskStatus:string,
+    taskCompletedDate:number){
     try{
         const option = {
             method: "POST",
@@ -13,7 +21,8 @@ export async function addNewTask(projectID:string, newTaskTitle:string, taskDesc
                     taskCategory: taskCategory, 
                     taskDeadline: newTaskDeadline, 
                     taskPriority: newPriority, 
-                    taskStatus: taskStatus
+                    taskStatus: taskStatus,
+                    taskCompleteDate: taskCompletedDate
                 }),
             headers: {
                 "Content-type": "application/json"
@@ -39,7 +48,7 @@ export async function changePriority(newPriority:string, projectID:string, taskI
         method: "PATCH",
         body: JSON.stringify(
             {
-                priority: newPriority
+                taskPriority: newPriority
             }
         ),
         headers: { 
@@ -47,7 +56,7 @@ export async function changePriority(newPriority:string, projectID:string, taskI
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("patching priority has failed")
         }
@@ -64,7 +73,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
         method: "PATCH",
         body: JSON.stringify(
             {
-                status: newStatus
+                taskStatus: newStatus
             }
         ),
         headers: { 
@@ -72,9 +81,9 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
-            throw new Error ("patching priority has failed")
+            throw new Error ("patching status has failed")
         }
         const data = await response.json()
         return data
@@ -84,7 +93,7 @@ export async function changeTaskStatus(newStatus:string, projectID:string, taskI
     }
 }
 
-export async function changeTaskDeadline(newTaskDeadline:string, projectID:string, taskID:string) {
+export async function changeTaskDeadline(newTaskDeadline:number, projectID:string, taskID:string) {
     const options = {
         method: "PATCH",
         body: JSON.stringify(
@@ -97,9 +106,61 @@ export async function changeTaskDeadline(newTaskDeadline:string, projectID:strin
         }
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
-            throw new Error ("patching priority has failed")
+            throw new Error ("patching deadline has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function assignMembersToTask(newTaskMembers:string[], projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskMembers: newTaskMembers,
+                taskStatus: "In Progress"
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching task members has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+
+        throw error
+    }
+}
+
+export async function patchCompletedDate(taskCompleteDate:number, projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskCompleteDate: taskCompleteDate
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("posting complete date has failed")
         }
         const data = await response.json()
         return data
@@ -114,7 +175,7 @@ export async function deleteTask(projectID:string, taskID:string) {
         method: "DELETE"
     }
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}tasks${taskID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }

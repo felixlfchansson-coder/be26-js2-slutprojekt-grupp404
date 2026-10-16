@@ -1,0 +1,524 @@
+
+/* ========================================
+   PROJECT LIST
+======================================== */
+
+.project-list,
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ========================================
+   PROJECT CARDS
+======================================== */
+
+.project {
+    padding: 20px 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.project:hover {
+    box-shadow: 0 6px 20px rgba(30, 41, 59, 0.07);
+}
+
+/* Subtle pastel colors */
+
+/* Lavender */
+.project:nth-child(4n + 1) {
+    background: #faf8ff;
+    border-color: #ddd6fe;
+}
+
+/* Mint */
+.project:nth-child(4n + 2) {
+    background: #f5fcf8;
+    border-color: #bbebd1;
+}
+
+/* Peach */
+.project:nth-child(4n + 3) {
+    background: #fff9f4;
+    border-color: #fed7bd;
+}
+
+/* Light blue */
+.project:nth-child(4n + 4) {
+    background: #f5faff;
+    border-color: #bfdbfe;
+}
+
+/* ========================================
+   PROJECT HEADER & LAYOUT
+======================================== */
+
+.project__header {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 1.8fr);
+    align-items: start;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+/* Left side: title and description */
+
+.project__details {
+    min-width: 0;
+}
+
+/* Right side: information and buttons */
+
+.project__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* ========================================
+   PROJECT TITLE & EXPAND BUTTON
+======================================== */
+
+.project__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    max-width: 100%;
+    padding: 6px 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--color-text);
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: left;
+
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.project__toggle:hover {
+    color: var(--color-primary);
+}
+
+.project__toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.project__title {
+    overflow-wrap: anywhere;
+}
+
+.project__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    background: #eef0ff;
+    color: var(--color-primary);
+}
+
+.project__arrow svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ========================================
+   PROJECT DESCRIPTION
+======================================== */
+
+.project__description {
+    margin: 4px 0 0 38px;
+    max-width: 480px;
+
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+
+.project__description.is-expanded {
+    display: block;
+    overflow: visible;
+}
+
+/* ========================================
+   SHOW MORE / HIDE
+======================================== */
+
+.project__details .description__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    width: fit-content;
+    margin: 6px 0 0 38px;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #6558d3;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.project__details .description__toggle:hover {
+    color: #5145bd;
+    text-decoration: underline;
+}
+
+.project__details .description__toggle:focus-visible {
+    outline: 2px solid #6558d3;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* ========================================
+   PROJECT META
+   Deadline and members
+======================================== */
+
+.project__meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.project__deadline,
+.project__members {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    max-width: 100%;
+    min-width: 0;
+    padding: 9px 11px;
+
+    background: var(--color-surface-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+.project__deadline {
+    flex-shrink: 0;
+}
+
+.project__members {
+    max-width: 280px;
+}
+
+.project__members-text {
+    display: block;
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Meta icons */
+
+.project__deadline-icon,
+.project__members-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    color: inherit;
+}
+
+.project__deadline-icon svg,
+.project__members-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   PROJECT ACTIONS
+   All buttons in one group
+======================================== */
+
+.project__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.project__actions button {
+    flex-shrink: 0;
+}
+
+/* ========================================
+   ADD TASK BUTTON
+======================================== */
+
+.project__add-task {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 10px 14px;
+
+    background: #f8fafc;
+    color: #475569;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.project__add-task:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #4338ca;
+}
+
+.project__add-task:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Add task icon */
+
+.project__add-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    color: inherit;
+}
+
+.project__add-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   ADD MEMBER BUTTON
+======================================== */
+
+.project__add-member {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    background: #ffffff;
+    color: #7356d8;
+
+    border: 1px solid #e1dafa;
+    border-radius: 9px;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.project__add-member:hover {
+    background: #f5f1ff;
+    border-color: #7356d8;
+}
+
+.project__add-member:focus-visible {
+    outline: 2px solid #7356d8;
+    outline-offset: 2px;
+}
+
+.project__add-member svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   EDIT & DELETE BUTTONS
+======================================== */
+
+.project__edit,
+.project__delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    padding: 0;
+
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    color: #64748b;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.project__edit svg,
+.project__delete svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Edit hover */
+
+.project__edit:hover {
+    background: #ede9fe;
+    border-color: #c4b5fd;
+    color: #7c3aed;
+}
+
+/* Delete hover */
+
+.project__delete:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+/* Keyboard focus */
+
+.project__edit:focus-visible,
+.project__delete:focus-visible {
+    outline: 2px solid #7c3aed;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+/* Smaller desktops and tablets */
+
+@media (max-width: 1100px) {
+    .project__header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .project__info {
+        align-items: flex-start;
+    }
+
+    .project__meta,
+    .project__actions {
+        justify-content: flex-start;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .project {
+        padding: 16px;
+    }
+
+    .project__header {
+        gap: 14px;
+    }
+
+    .project__toggle {
+        font-size: 16px;
+    }
+
+    .project__meta {
+        gap: 8px;
+    }
+
+    .project__members {
+        max-width: 100%;
+    }
+
+    .project__actions {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .project__add-member,
+    .project__add-task {
+        font-size: 12px;
+        padding: 9px 11px;
+    }
+}

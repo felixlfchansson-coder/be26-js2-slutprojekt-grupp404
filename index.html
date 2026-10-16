@@ -26,128 +26,45 @@
 
   <span>Scrum Manager</span>
     </header>
-    <section class="sidebar__profile">
-      <img
-        class="sidebar__profile-image"
-        src="/placeholder-profile.png"
-        alt="Profilbild"
-      />
 
-      <div class="sidebar__profile-info">
-        <p id="profile-name">Användare</p>
-        <p id="profile-email">user@example.com</p>
-      </div>
-    </section>
+<nav class="sidebar__nav" aria-label="Huvudnavigation">
 
-      <nav class="sidebar__nav">
+    
+    <a href="#home-container"
+      class="sidebar__link"
+      id="nav-home">
+        <i data-lucide="home"></i>
+        <span>Hem</span>
+    </a>
 
-      <a href="#" class="sidebar__link">
-        <i data-lucide="house"></i>
-        <span>Översikt</span>
-      </a>
 
-      <a href="#" class="sidebar__link">
-        <i data-lucide="chart-no-axes-column-increasing"></i>
-        <span>Progress</span>
-      </a>
-
-      <a href="#" class="sidebar__link">
-        <i data-lucide="message-square"></i>
-        <span>Meddelanden</span>
-      </a>
-
-      <a href="#" class="sidebar__link sidebar__link--active">
+    <a href="#projects-container"
+       class="sidebar__link sidebar__link--active"
+       id="nav-projects">
         <i data-lucide="folder"></i>
         <span>Projekt</span>
-      </a>
+    </a>
+    
+    <button type="button"
+            class="sidebar__link"
+            id="nav-members">
+        <i data-lucide="users-round"></i>
+        <span>Medlemmar</span>
+    </button>
 
-      </nav>
+    <button type="button"
+            class="sidebar__link"
+            id="nav-add-member">
+        <i data-lucide="user-round-plus"></i>
+        <span>Ny medlem</span>
+    </button>
 
-
-      <!-- DYNAMISK PROJEKTLISTA -->
-      <section class="sidebar__projects">
-
-        <h2>Mina projekt</h2>
-
-        <nav id="sidebar-project-list">
-          <!-- TypeScript -->
-        </nav>
-
-       <button
-          class="sidebar__add-project"
-          id="add-project-button"
-          type="button"
-        >
-          <i data-lucide="plus"></i>
-          <span>Lägg till projekt</span>
-        </button>
-
-      </section>
+</nav>
 
     </aside>
-
-    <main class="dashboard">
-
-      <header class="dashboard__header">
-
-        <div>
-          <h2>Alla projekt</h2>
-          <p>
-            Visa kategori, medlemmar och sortera i deadline.
-          </p>
-        </div>
-
-
-        <div class="dashboard__controls">
-
-          <label>
-            <span>Projekt</span>
-
-            <select id="category-filter">
-              <option value="all">Alla</option>
-            </select>
-          </label>
-
-
-          <label>
-            <span>Medlemmar</span>
-
-            <select id="member-filter">
-              <option value="all">Alla</option>
-            </select>
-          </label>
-
-
-          <label>
-            <span>Sortera</span>
-
-            <select id="project-sort">
-              <option value="deadline">
-                Deadline (närmast)
-              </option>
-            </select>
-          </label>
-
-
-          <button id="new-project-button" type="button">
-            + Nytt projekt
-          </button>
-
-        </div>
-
-      </header>
-
-      <section id="projects-container" class="projects-container">
-        <!-- TypeScript -->
-      </section>
-      <section
-        id="project-list"
-        class="project-list"
-        aria-label="Alla projekt"
-      >
-      </section>
-
-    </main>
+<main class="dashboard" id="app">
+    <!-- Här renderar TypeScript den aktuella sidan -->
+</main>
 
 
     <script type="module" src="/src/main.ts"></script>

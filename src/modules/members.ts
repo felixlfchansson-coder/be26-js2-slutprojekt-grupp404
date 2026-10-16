@@ -1,10 +1,10 @@
 import { baseURL } from "./firebaseRequest.js";
 
-export async function addNewMember(newFirstName:string, newSecondName:string, newCategory:string){
+export async function addNewMember(newFirstName:string, newSecondName:string, newCategory:string) {
     try{
         const option = {
             method: "POST",
-            body: JSON.stringify({FirstName: newFirstName, secondName: newSecondName, role: newCategory}),
+            body: JSON.stringify({firstName: newFirstName, secondName: newSecondName, category: newCategory, projectMember:[""]}),
             headers: {
                 "Content-type": "application/json"
             }
@@ -13,6 +13,7 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
         const response = await fetch(baseURL + "members" + ".json", option);
     
         if(!response.ok){
+            
             throw new Error("Post failed");
         }
     
@@ -24,12 +25,65 @@ export async function addNewMember(newFirstName:string, newSecondName:string, ne
     }
 }
 
+export async function updateMemberTasks(ongoingTasksNumber:number, memberID:string) {
+    try {
+        const option = {
+            method: "PATCH",
+            body: JSON.stringify(
+                {
+                    ongoingTasks: ongoingTasksNumber
+                }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const response = await fetch(`${baseURL}/members/${memberID}.json`, option);
+
+        if(!response.ok){
+            throw new Error("Patch failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch(error) {
+        
+        throw error
+    }
+}
+
+export async function updateMemberProjects(projectMember:string[], memberID:string) {
+    try {
+        const option = {
+            method: "PATCH",
+            body: JSON.stringify(
+                {
+                    projectMember: projectMember
+                }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const response = await fetch(`${baseURL}/members/${memberID}.json`, option);
+
+        if(!response.ok){
+            throw new Error("Patch failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch(error) {
+        throw error
+    }
+}
+
 export async function deleteMember(memberID:string) {
     const options = {
         method: "DELETE"
     }
     try {
-        const response = await fetch(`${baseURL}/members${memberID}.json`, options)
+        const response = await fetch(`${baseURL}/members/${memberID}.json`, options)
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }
@@ -37,6 +91,7 @@ export async function deleteMember(memberID:string) {
         return "Member Deleted!"
     }
     catch (error) {
+        window.alert("Something went wrong. The member could not be deleted.");
         throw error
         }
 }

@@ -3,7 +3,7 @@ import {
     X,
     Check
 } from "lucide";
-import { getData } from "../modules/firebaseRequest";
+import { getData } from "../firebaseRequests/dataRequest";
 
 export function renderAssignMember(): HTMLDivElement {
     const overlay = document.createElement("div");

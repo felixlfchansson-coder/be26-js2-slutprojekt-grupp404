@@ -1,4 +1,4 @@
-import { baseURL } from "./firebaseRequest.js";
+import { baseURL } from "./dataRequest.js";
 
 export async function addNewMember(newFirstName:string, newSecondName:string, newCategory:string) {
     try{

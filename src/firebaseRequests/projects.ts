@@ -1,4 +1,4 @@
-import { baseURL } from "./firebaseRequest.js";
+import { baseURL } from "./dataRequest.js";
 
 export async function addNewProject(newProjectTitle:string, newProjectDescription:string, newProjectDeadline:number, newProjectMembers:string[]){
 

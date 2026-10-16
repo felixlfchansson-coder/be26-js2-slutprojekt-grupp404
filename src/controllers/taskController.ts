@@ -7,11 +7,11 @@ import {
     changeTaskDeadline, 
     changePriority, 
     patchCompletedDate 
-} from "../modules/tasks";
+} from "../firebaseRequests/tasks";
 import { renderAssignMember } from "../ui/assignMember";
 import { assignableMembersToTasks } from "../ui/assignMember";
-import { getData } from "../modules/firebaseRequest";
-import { updateMemberTasks } from "../modules/members";
+import { getData } from "../firebaseRequests/dataRequest";
+import { updateMemberTasks } from "../firebaseRequests/members";
 import { renderEditTaskTForm } from "../ui/editTaskForm";
 import { refreshProjects } from "../ui/renderProjects";
 

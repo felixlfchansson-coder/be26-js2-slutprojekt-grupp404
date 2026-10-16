@@ -1,9 +1,9 @@
 import { renderMemberForm } from "../ui/memberForm";
-import { addNewMember } from "../modules/members";
+import { addNewMember } from "../firebaseRequests/members";
 import { renderAssignMember, assignableMembersToProject } from "../ui/assignMember";
-import { getData } from "../modules/firebaseRequest";
-import { updateMemberProjects  } from "../modules/members";
-import { addProjectMembers } from "../modules/projects";
+import { getData } from "../firebaseRequests/dataRequest";
+import { updateMemberProjects  } from "../firebaseRequests/members";
+import { addProjectMembers } from "../firebaseRequests/projects";
 import { refreshProjects } from "../ui/renderProjects";
 
 

@@ -1,4 +1,4 @@
-import { baseURL } from "../modules/firebaseRequest.ts";
+import { baseURL } from "../firebaseRequests/dataRequest.ts";
 import { Task } from "./Task.ts"
 //This is a draft for the class, and we can change the properties if you think they are inadequate
 

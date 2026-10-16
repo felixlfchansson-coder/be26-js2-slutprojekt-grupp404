@@ -30,7 +30,7 @@ import { renderProjects } from "./ui/renderProjects.ts";
 import { renderMembers } from "./ui/renderMembers";
 import { renderHomeContent } from "./ui/renderHomeContent.ts";
 
-import { getData } from "./modules/firebaseRequest.ts";
+import { getData } from "./firebaseRequests/dataRequest.ts";
 
 import { initProjectController, initDeleteProjectController } from "./controllers/projectController";
 import { initTaskController } from "./controllers/taskController";

@@ -1,4 +1,4 @@
-import { baseURL } from "./firebaseRequest.js";
+import { baseURL } from "./dataRequest.js";
 
     // DEADLINE set to number - this will be 6 digits refereing to day / month / year
     // will need to be manipulated for display on page vs how its held in database

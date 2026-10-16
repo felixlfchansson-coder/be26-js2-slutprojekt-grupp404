@@ -170,19 +170,23 @@ export async function patchCompletedDate(taskCompleteDate:number, projectID:stri
     }
 }
 
-export async function deleteTask(projectID:string, taskID:string) {
+export async function deleteTask(projectID: string, taskID: string) {
     const options = {
         method: "DELETE"
-    }
+    };
+
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        const response = await fetch(
+            `${baseURL}/projects/${projectID}/tasks/${taskID}.json`,
+            options
+        );
+
         if (!response.ok) {
-            throw new Error ("Deletion failed")
+            throw new Error("Deletion failed");
         }
-        const data = await response.json();
-        return "Task Deleted!"
+
+        return "Task Deleted!";
+    } catch (error) {
+        throw error;
     }
-    catch (error) {
-        throw error
-        }
 }

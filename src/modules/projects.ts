@@ -88,19 +88,20 @@ export async function editProjectDeadline(newProjectDeadline:number, projectID:s
     }
 }
 
-export async function deleteProject(projectID:string) {
+export async function deleteProject(projectID: string) {
     const options = {
         method: "DELETE"
-    }
+    };
+
     try {
-        const response = await fetch(`${baseURL}/projects/${projectID}.json`, options)
+        const response = await fetch(`${baseURL}/projects/${projectID}.json`, options);
+
         if (!response.ok) {
-            throw new Error ("Deletion failed")
+            throw new Error("Deletion failed");
         }
-        const data = await response.json();
-        return "Project Deleted!"
+
+        return "Project Deleted!";
+    } catch (error) {
+        throw error;
     }
-    catch (error) {
-        throw error
-        }
 }

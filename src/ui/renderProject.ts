@@ -20,15 +20,25 @@ import {
 } from "lucide";
 
 function formatDeadline(deadline: number): string {
-    const value = String(deadline);
+    const value = String(deadline).padStart(6, "0");
 
-    if (!/^\d{8}$/.test(value)) {
+    let year: number;
+    let month: number;
+    let day: number;
+
+    if (value.length === 8) {
+        // YYYYMMDD
+        year = Number(value.slice(0, 4));
+        month = Number(value.slice(4, 6));
+        day = Number(value.slice(6, 8));
+    } else if (value.length === 6) {
+        // DDMMYY
+        day = Number(value.slice(0, 2));
+        month = Number(value.slice(2, 4));
+        year = 2000 + Number(value.slice(4, 6));
+    } else {
         return "Ingen giltig deadline";
     }
-
-    const year = Number(value.slice(0, 4));
-    const month = Number(value.slice(4, 6));
-    const day = Number(value.slice(6, 8));
 
     const date = new Date(year, month - 1, day);
 
@@ -174,7 +184,6 @@ export function renderProject(
 
     </div>
 `;
-    // Projektinformation
     projectElement.querySelector<HTMLElement>(
         ".project__title"
     )!.textContent = project.projectTitle;
@@ -188,7 +197,7 @@ export function renderProject(
     )!.textContent =
         `Medlem: ${project.projectMembers ?? "Inga medlemmar"}`;
 
-    // Hämta element för expandering
+
     const toggleButton =
         projectElement.querySelector<HTMLButtonElement>(
             ".project__toggle"
@@ -202,7 +211,6 @@ export function renderProject(
             ".project__arrow"
         );
 
-    // Uppdatera pilen beroende på om projektet är öppet
     function updateArrow(expanded: boolean): void {
         if (!arrow) return;
 
@@ -247,7 +255,7 @@ export function renderProject(
     addIcon(".kanban__icon--progress", Clock3);
     addIcon(".kanban__icon--done", CircleCheck);
 
-    // Expandera eller stäng projektets Kanban
+    
     toggleButton?.addEventListener("click", () => {
         if (!kanban) return;
 
@@ -263,7 +271,6 @@ export function renderProject(
         updateArrow(expanded);
     });
 
-    // Rendera projektets tasks
     renderProjectTasks(projectElement, tasks);
 
     return projectElement;

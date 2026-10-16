@@ -22,25 +22,30 @@ import {
     Activity
 } from "lucide";
 
-import { homePage } from "./Pages/homePage";
-import { projectPage } from "./Pages/projectPage";
-import { membersPage } from "./Pages/membersPage";
+import { homePage } from "./ui/Pages/homePage.ts";
+import { projectPage } from "./ui/Pages/projectPage.ts";
+import { membersPage } from "./ui/Pages/membersPage.ts";
 
-import { renderProjects } from "./ui/renderProjects.ts";
-import { renderMembers } from "./ui/renderMembers";
-import { renderHomeContent } from "./ui/renderHomeContent.ts";
+import { renderHome } from "./ui/Pages/renderHome";
+import { renderHomeContent } from "./ui/Pages/renderHomeContent.ts";
+import { renderProjects } from "./ui/Pages/renderProjects.ts";
+import { renderMembers } from "./ui/members/renderMembers.ts";
 
 import { getData } from "./modules/firebaseRequest.ts";
 
-import { initProjectController, initDeleteProjectController } from "./controllers/projectController";
-import { initTaskController } from "./controllers/taskController";
-import { initNewMemberController, addMembersToProject } from "./controllers/memberController.ts";
-import { renderHome } from "./ui/renderHome";
-import { editProjectDeadlineForm } from "./controllers/projectController";
+import {
+    initProjectController,
+    initDeleteProjectController,
+    editProjectDeadlineForm
+} from "./controllers/projectController";
 
-/* ==========================================
-   LUCIDE ICONS
-========================================== */
+import { initTaskController } from "./controllers/taskController";
+
+import {
+    initNewMemberController,
+    addMembersToProject
+} from "./controllers/memberController.ts";
+
 
 function renderIcons() {
     createIcons({
@@ -69,9 +74,9 @@ function renderIcons() {
     });
 }
 
+
 async function init() {
     const app = document.getElementById("app");
-
     const navHome = document.getElementById("nav-home");
     const navProjects = document.getElementById("nav-projects");
     const navMembers = document.getElementById("nav-members");
@@ -80,71 +85,64 @@ async function init() {
         return;
     }
 
-
     initProjectController();
     initDeleteProjectController();
     initTaskController();
     initNewMemberController();
-    addMembersToProject()
-    editProjectDeadlineForm()
-    
-    function setActiveNav(activeNav: HTMLElement) {
-        if (!navHome || !navProjects || !navMembers) {
-            return;
-        }
+    addMembersToProject();
+    editProjectDeadlineForm();
 
-        navHome.classList.remove("sidebar__link--active");
-        navProjects.classList.remove("sidebar__link--active");
-        navMembers.classList.remove("sidebar__link--active");
+
+    function setActiveNav(activeNav: HTMLElement) {
+        navHome!.classList.remove("sidebar__link--active");
+        navProjects!.classList.remove("sidebar__link--active");
+        navMembers!.classList.remove("sidebar__link--active");
 
         activeNav.classList.add("sidebar__link--active");
     }
 
 
-   
-      async function showHome() {
-      if (!app || !navHome) return;
+    async function showHome() {
+        if (!app || !navHome) return;
 
-      app.replaceChildren(homePage());
+        app.replaceChildren(homePage());
 
-      renderIcons();
-      setActiveNav(navHome);
+        renderIcons();
+        setActiveNav(navHome);
 
-      await Promise.all([
-          renderHome(),
-          renderHomeContent()
-      ]);
-  }
-
+        await Promise.all([
+            renderHome(),
+            renderHomeContent()
+        ]);
+    }
 
 
     async function showProjects() {
-        if (!app) return;
+        if (!app || !navProjects) return;
 
         app.replaceChildren(projectPage());
 
         renderIcons();
-        setActiveNav(navProjects!);
+        setActiveNav(navProjects);
 
         const projects = await getData("projects");
-        console.log(projects);
+
         if (!app.querySelector("#projects-container")) {
             return;
         }
 
         renderProjects(projects);
-
         renderIcons();
     }
 
 
     async function showMembers() {
-        if (!app) return;
+        if (!app || !navMembers) return;
 
         app.replaceChildren(membersPage());
 
         renderIcons();
-        setActiveNav(navMembers!);
+        setActiveNav(navMembers);
 
         const members = await getData("members");
 
@@ -153,44 +151,41 @@ async function init() {
         }
 
         renderMembers(members);
-
         renderIcons();
     }
 
 
-    showHome();
-
-
     navHome.addEventListener("click", (event) => {
         event.preventDefault();
-
         showHome();
     });
 
     navProjects.addEventListener("click", async (event) => {
         event.preventDefault();
-
         await showProjects();
     });
 
     navMembers.addEventListener("click", async (event) => {
         event.preventDefault();
-
         await showMembers();
     });
 
-    document.getElementById("app")?.addEventListener("click", (event) => {
-    const target = event.target;
 
-    if (!(target instanceof Element)) return;
+    app.addEventListener("click", (event) => {
+        const target = event.target;
 
-    if (
-        target.closest("#home-view-projects") ||
-        target.closest("#home-all-projects")
-    ) {
-        navProjects.click();
-    }
-});
+        if (!(target instanceof Element)) return;
+
+        if (
+            target.closest("#home-view-projects") ||
+            target.closest("#home-all-projects")
+        ) {
+            navProjects.click();
+        }
+    });
+
+
+    showHome();
 }
 
 

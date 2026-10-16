@@ -1,4 +1,4 @@
-import { renderTaskForm } from "../ui/taskForm";
+import { renderTaskForm } from "../ui/tasks/taskForm";
 import { 
     addNewTask, 
     deleteTask, 
@@ -8,12 +8,12 @@ import {
     changePriority, 
     patchCompletedDate 
 } from "../modules/tasks";
-import { renderAssignMember } from "../ui/assignMember";
-import { assignableMembersToTasks } from "../ui/assignMember";
+import { renderAssignMember } from "../ui/tasks/assignMember";
+import { assignableMembersToTasks } from "../ui/tasks/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberTasks } from "../modules/members";
-import { renderEditTaskTForm } from "../ui/editTaskForm";
-import { refreshProjects } from "../ui/renderProjects";
+import { renderEditTaskTForm } from "../ui/tasks/editTaskForm";
+import { refreshProjects } from "../ui/Pages/renderProjects";
 
 export function initTaskController() {
     document.addEventListener("click", async (event) => {

@@ -1,5 +1,7 @@
-import type { Task } from "../model/Task";
-import { setupDescriptionToggle } from "./descriptionToggle";
+
+import type { Task } from "../../model/Task";
+import { setupDescriptionToggle } from "../components/descriptionToggle";
+
 import {
     createElement,
     UserRoundPlus,
@@ -8,10 +10,11 @@ import {
     Pencil
 } from "lucide";
 
+
 export function renderTask(task: Task): HTMLElement {
     const taskElement = document.createElement("article");
-    taskElement.classList.add("task");
 
+    taskElement.classList.add("task");
     taskElement.dataset.taskId = task.taskID;
 
     taskElement.innerHTML = `
@@ -30,13 +33,12 @@ export function renderTask(task: Task): HTMLElement {
         <div class="task__actions"></div>
     `;
 
-    // Taskens titel
-    taskElement.querySelector<HTMLElement>(".task__title")!.textContent =
-        task.taskTitle;
-
-    // Prioritet
-    const priorityElement =
-        taskElement.querySelector<HTMLElement>(".task__priority")!;
+    const title = taskElement.querySelector<HTMLElement>(".task__title")!;
+    const priority = taskElement.querySelector<HTMLElement>(".task__priority")!;
+    const description = taskElement.querySelector<HTMLElement>(".task__description")!;
+    const category = taskElement.querySelector<HTMLElement>(".task__category")!;
+    const deadline = taskElement.querySelector<HTMLElement>(".task__deadline")!;
+    const actions = taskElement.querySelector<HTMLElement>(".task__actions")!;
 
     const priorityLabels: Record<string, string> = {
         High: "Hög",
@@ -44,64 +46,53 @@ export function renderTask(task: Task): HTMLElement {
         Low: "Låg"
     };
 
-    priorityElement.textContent =
+    title.textContent = task.taskTitle;
+    description.textContent = task.taskDescription;
+    category.textContent = task.taskCategory;
+
+    priority.textContent =
         priorityLabels[task.taskPriority] ?? task.taskPriority;
 
-    priorityElement.classList.add(
+    priority.classList.add(
         `task__priority--${task.taskPriority.toLowerCase()}`
     );
 
-    // Beskrivning
-    taskElement.querySelector<HTMLElement>(".task__description")!.textContent =
-        task.taskDescription;
-
-    // Kategori
-    taskElement.querySelector<HTMLElement>(".task__category")!.textContent =
-        task.taskCategory;
-
-    // Deadline / Complete date
     if (task.taskStatus === "To Do" || task.taskStatus === "In Progress") {
-        taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
-        `📅 ${formatDeadline(task.taskDeadline)}`;
-   } else if (task.taskStatus === "Completed") {
-    taskElement.querySelector<HTMLElement>(".task__deadline")!.textContent =
-        task.taskCompleteDate
+        deadline.textContent = `📅 ${formatDeadline(task.taskDeadline)}`;
+    }
+
+    if (task.taskStatus === "Completed") {
+        deadline.textContent = task.taskCompleteDate
             ? `Completed on: 📅 ${formatCompleteDate(task.taskCompleteDate)}`
             : "Completed";
-}
-    // Knappar
-    const actions =
-        taskElement.querySelector<HTMLElement>(".task__actions")!;
+    }
 
-    // Redigera task
     actions.appendChild(
         createActionButton("edit", "Redigera uppgift", Pencil)
     );
 
-    // Tilldela task om den är "To Do"
     if (task.taskStatus === "To Do") {
         actions.appendChild(
             createActionButton("assign", "Tilldela task", UserRoundPlus)
         );
     }
 
-    // Markera task som klar om den är "In Progress"
     if (task.taskStatus === "In Progress") {
         actions.appendChild(
             createActionButton("complete", "Markera klar", Check)
         );
     }
 
-    // Ta bort task
     actions.appendChild(
         createActionButton("delete", "Ta bort task", Trash2)
     );
-    setupDescriptionToggle(taskElement, ".task__description");
-    return taskElement;
 
+    setupDescriptionToggle(taskElement, ".task__description");
+
+    return taskElement;
 }
 
-// Skapar action-knappar med Lucide-ikoner
+
 function createActionButton(
     action: string,
     label: string,
@@ -125,7 +116,7 @@ function createActionButton(
     return button;
 }
 
-// Formaterar taskens deadline från DDMMYY till DD/MM/YYYY
+
 export function formatDeadline(deadline: number): string {
     const date = String(deadline).padStart(6, "0");
 
@@ -135,6 +126,7 @@ export function formatDeadline(deadline: number): string {
 
     return `${day}/${month}/${year}`;
 }
+
 
 function formatCompleteDate(completeDate: number): string {
     const date = String(completeDate);

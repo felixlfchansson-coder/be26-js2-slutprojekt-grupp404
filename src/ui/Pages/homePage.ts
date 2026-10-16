@@ -4,10 +4,8 @@ export function homePage(): HTMLElement {
     page.className = "home-page";
 
     page.innerHTML = `
-        <!-- HERO -->
         <header class="home__hero">
             <div class="home__hero-content">
-
                 <div class="home__welcome">
                     <span class="home__eyebrow">
                         <i data-lucide="sparkles"></i>
@@ -25,7 +23,6 @@ export function homePage(): HTMLElement {
                     </p>
 
                     <div class="home__hero-actions">
-
                         <button
                             class="home__btn home__btn-secondary"
                             id="home-view-projects"
@@ -37,10 +34,8 @@ export function homePage(): HTMLElement {
                     </div>
                 </div>
 
-                <!-- DECORATIVE KANBAN -->
                 <div class="home__hero-visual" aria-hidden="true">
                     <div class="home__mini-board">
-
                         <div class="home__mini-column">
                             <div class="home__mini-title">
                                 <span class="home__dot yellow"></span>
@@ -70,16 +65,12 @@ export function homePage(): HTMLElement {
                             <div class="home__mini-task"></div>
                             <div class="home__mini-task short"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- FLOATING STATISTICS -->
         <div class="home__stats">
-
-            <!-- PROJECTS -->
             <article class="home__stat-card">
                 <div class="home__stat-icon purple">
                     <i data-lucide="folder-kanban"></i>
@@ -91,7 +82,6 @@ export function homePage(): HTMLElement {
                 </div>
             </article>
 
-            <!-- TASKS -->
             <article class="home__stat-card">
                 <div class="home__stat-icon blue">
                     <i data-lucide="list-checks"></i>
@@ -103,7 +93,6 @@ export function homePage(): HTMLElement {
                 </div>
             </article>
 
-            <!-- MEMBERS -->
             <article class="home__stat-card">
                 <div class="home__stat-icon green">
                     <i data-lucide="users-round"></i>
@@ -115,7 +104,6 @@ export function homePage(): HTMLElement {
                 </div>
             </article>
 
-            <!-- DEADLINE -->
             <article class="home__stat-card">
                 <div class="home__stat-icon orange">
                     <i data-lucide="calendar-days"></i>
@@ -126,13 +114,9 @@ export function homePage(): HTMLElement {
                     <span>Närmaste deadline</span>
                 </div>
             </article>
-
         </div>
 
-        <!-- DASHBOARD CONTENT -->
         <div class="home__dashboard">
-
-            <!-- PROJECTS -->
             <section class="home__panel home__projects-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -160,7 +144,6 @@ export function homePage(): HTMLElement {
                 </div>
             </section>
 
-            <!-- TASKS -->
             <section class="home__panel home__tasks-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -179,7 +162,6 @@ export function homePage(): HTMLElement {
                 </div>
             </section>
 
-            <!-- ACTIVITY -->
             <section class="home__panel home__activity-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -191,14 +173,13 @@ export function homePage(): HTMLElement {
                     </div>
                 </div>
 
-               <div id="home-deadlines" class="home__activity">
+                <div id="home-deadlines" class="home__activity">
                     <p class="home__empty">
                         Inga kommande deadlines.
                     </p>
                 </div>
             </section>
 
-            <!-- MEMBERS -->
             <section class="home__panel home__members-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -216,7 +197,6 @@ export function homePage(): HTMLElement {
                     </p>
                 </div>
             </section>
-
         </div>
     `;
 

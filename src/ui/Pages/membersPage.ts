@@ -21,7 +21,10 @@ export function membersPage(): HTMLElement {
                 </p>
             </div>
 
-            <button id="new-member-button" type="button">
+            <button
+                id="new-member-button"
+                type="button"
+            >
                 <span class="members-page__add-icon"></span>
                 Ny medlem
             </button>
@@ -53,6 +56,7 @@ export function membersPage(): HTMLElement {
 
                 <label class="members-overview__search">
                     <span class="members-overview__search-icon"></span>
+
                     <input
                         id="members-search"
                         type="search"
@@ -69,8 +73,15 @@ export function membersPage(): HTMLElement {
         </section>
     `;
 
-    function addIcon(selector: string, icon: typeof UserRoundPlus) {
-        page.querySelector(selector)?.appendChild(
+    function addIcon(
+        selector: string,
+        icon: typeof UserRoundPlus
+    ): void {
+        const element = page.querySelector(selector);
+
+        if (!element) return;
+
+        element.appendChild(
             createElement(icon, {
                 width: 18,
                 height: 18

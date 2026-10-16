@@ -1,5 +1,5 @@
 
-import { getData } from "../modules/firebaseRequest.ts";
+import { getData } from "../../modules/firebaseRequest.ts";
 
 type FirebaseTask = {
     taskStatus?: string;
@@ -15,6 +15,7 @@ type FirebaseMember = {
     firstName: string;
     secondName: string;
 };
+
 
 function parseProjectDeadline(deadline: number): Date | null {
     const value = String(deadline);
@@ -38,52 +39,28 @@ function parseProjectDeadline(deadline: number): Date | null {
     return date;
 }
 
-export async function renderHome(): Promise<void> {
-    const [projects, members] = await Promise.all([
-        getData("projects") as Promise<Record<string, FirebaseProject> | null>,
-        getData("members") as Promise<Record<string, FirebaseMember> | null>
-    ]);
 
-    const projectList = Object.values(projects ?? {});
-    const memberList = Object.values(members ?? {});
-
-    // Totalt antal projekt
-    const projectsTotal = document.getElementById("home-projects-total");
-
-    if (projectsTotal) {
-        projectsTotal.textContent = String(projectList.length);
-    }
-
-    // Totalt antal medlemmar
-    const membersTotal = document.getElementById("home-members-total");
-
-    if (membersTotal) {
-        membersTotal.textContent = String(memberList.length);
-    }
-
-    // Pågående uppgifter
-    const ongoingTasks = projectList.reduce((total, project) => {
+function countOngoingTasks(projects: FirebaseProject[]): number {
+    return projects.reduce((total, project) => {
         const tasks = Object.values(project.tasks ?? {});
 
-        return total + tasks.filter(
-            task => task.taskStatus === "In Progress"
-        ).length;
+        const ongoingTasks = tasks.filter(
+            (task) => task.taskStatus === "In Progress"
+        );
+
+        return total + ongoingTasks.length;
     }, 0);
+}
 
-    const tasksTotal = document.getElementById("home-tasks-total");
 
-    if (tasksTotal) {
-        tasksTotal.textContent = String(ongoingTasks);
-    }
-
-    // Närmaste kommande projektdeadline
-  
-    // Närmaste kommande projektdeadline
+function getClosestProjectDeadline(
+    projects: FirebaseProject[]
+): Date | null {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const deadlines = projectList
-        .map(project =>
+    const deadlines = projects
+        .map((project) =>
             project.projectDeadline
                 ? parseProjectDeadline(project.projectDeadline)
                 : null
@@ -94,11 +71,42 @@ export async function renderHome(): Promise<void> {
         )
         .sort((a, b) => a.getTime() - b.getTime());
 
+    return deadlines[0] ?? null;
+}
+
+
+export async function renderHome(): Promise<void> {
+    const [projects, members] = await Promise.all([
+        getData("projects") as Promise<Record<string, FirebaseProject> | null>,
+        getData("members") as Promise<Record<string, FirebaseMember> | null>
+    ]);
+
+    const projectList = Object.values(projects ?? {});
+    const memberList = Object.values(members ?? {});
+
+    const projectsTotal = document.getElementById("home-projects-total");
+    const membersTotal = document.getElementById("home-members-total");
+    const tasksTotal = document.getElementById("home-tasks-total");
     const deadlineElement = document.getElementById("home-deadline");
 
+    const ongoingTasks = countOngoingTasks(projectList);
+    const closestDeadline = getClosestProjectDeadline(projectList);
+
+    if (projectsTotal) {
+        projectsTotal.textContent = String(projectList.length);
+    }
+
+    if (membersTotal) {
+        membersTotal.textContent = String(memberList.length);
+    }
+
+    if (tasksTotal) {
+        tasksTotal.textContent = String(ongoingTasks);
+    }
+
     if (deadlineElement) {
-        deadlineElement.textContent = deadlines.length > 0
-            ? deadlines[0].toLocaleDateString("sv-SE", {
+        deadlineElement.textContent = closestDeadline
+            ? closestDeadline.toLocaleDateString("sv-SE", {
                 day: "numeric",
                 month: "short"
             })

@@ -1,26 +1,27 @@
+
 import { createElement, Plus } from "lucide";
+
 export function projectPage(): HTMLElement {
     const page = document.createElement("div");
     page.classList.add("projects-page");
 
     page.innerHTML = `
         <header class="dashboard__header">
-
             <div>
                 <h2>Alla projekt</h2>
                 <p>
-                    Visa kategori, medlemmar och sortera i deadline.
+                    Filtrera efter kategori och medlemmar,
+                    eller sortera projekten.
                 </p>
             </div>
 
             <div class="dashboard__controls">
-
                 <label>
                     <span>Projekt</span>
 
                     <select id="category-filter">
                         <option value="all">Alla</option>
-                        <option value="frontend">Frontend </option>
+                        <option value="frontend">Frontend</option>
                         <option value="backend">Backend</option>
                         <option value="ux">UX</option>
                     </select>
@@ -31,7 +32,6 @@ export function projectPage(): HTMLElement {
 
                     <select id="member-filter">
                         <option value="all">Alla</option>
-                        
                     </select>
                 </label>
 
@@ -39,12 +39,8 @@ export function projectPage(): HTMLElement {
                     <span>Sortera</span>
 
                     <select id="project-sort">
-                        <option value="sortAZ">
-                            Titel A->Ö
-                        </option>
-                        <option value="sortZA">
-                            Titel Ö->A
-                        </option>
+                        <option value="sortAZ">Titel A–Ö</option>
+                        <option value="sortZA">Titel Ö–A</option>
                         <option value="closestDeadline">
                             Deadline (närmast)
                         </option>
@@ -54,13 +50,14 @@ export function projectPage(): HTMLElement {
                     </select>
                 </label>
 
-                <button id="new-project-button" type="button">
+                <button
+                    id="new-project-button"
+                    type="button"
+                >
                     <span class="new-project-button__icon"></span>
                     Nytt projekt
                 </button>
-
             </div>
-
         </header>
 
         <section
@@ -74,17 +71,17 @@ export function projectPage(): HTMLElement {
             aria-label="Alla projekt"
         ></section>
     `;
+
     const addProjectIcon = page.querySelector(
-    ".new-project-button__icon"
-);
+        ".new-project-button__icon"
+    );
 
-addProjectIcon?.appendChild(
-    createElement(Plus, {
-        width: 16,
-        height: 16
-    })
-);
-    
-    return page;  
+    addProjectIcon?.appendChild(
+        createElement(Plus, {
+            width: 16,
+            height: 16
+        })
+    );
+
+    return page;
 }
-

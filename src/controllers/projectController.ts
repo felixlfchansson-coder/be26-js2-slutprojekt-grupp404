@@ -1,8 +1,8 @@
-import { renderProjectForm } from "../ui/projectForm";
+import { renderProjectForm } from "../ui/projects/projectForm";
 import { addNewProject, editProjectDeadline, deleteProject } from "../modules/projects";
 import { dateToNumber } from "./taskController";
-import { renderEditProjectForm } from "../ui/editProjectForm";
-import { refreshProjects } from "../ui/renderProjects";
+import { renderEditProjectForm } from "../ui/projects/editProjectForm";
+import { refreshProjects } from "../ui/Pages/renderProjects";
 export function initProjectController() {
     document.addEventListener("click", (event) => {
         const target = event.target;

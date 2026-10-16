@@ -1,10 +1,10 @@
-import { renderMemberForm } from "../ui/memberForm";
+import { renderMemberForm } from "../ui/members/memberForm";
 import { addNewMember } from "../modules/members";
-import { renderAssignMember, assignableMembersToProject } from "../ui/assignMember";
+import { renderAssignMember, assignableMembersToProject } from "../ui/tasks/assignMember";
 import { getData } from "../modules/firebaseRequest";
 import { updateMemberProjects  } from "../modules/members";
 import { addProjectMembers } from "../modules/projects";
-import { refreshProjects } from "../ui/renderProjects";
+import { refreshProjects } from "../ui/Pages/renderProjects";
 
 
 export function initNewMemberController() {

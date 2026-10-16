@@ -1,4 +1,4 @@
-import { Task } from "../model/Task.ts";
+import { Task } from "../model/task.ts";
 //import {renderHome}
 
 

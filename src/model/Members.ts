@@ -1,5 +1,5 @@
 import { baseURL } from "../modules/firebaseRequest.ts";
-import type { MemberCategory } from "./Task.ts";
+import type { MemberCategory } from "./task.ts";
 
 export class Member {
   public readonly memberID: number;

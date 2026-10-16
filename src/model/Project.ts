@@ -1,5 +1,5 @@
 import { baseURL } from "../modules/firebaseRequest.ts";
-import { Task } from "./Task.ts"
+import { Task } from "./task.ts"
 //This is a draft for the class, and we can change the properties if you think they are inadequate
 
 export class Project {

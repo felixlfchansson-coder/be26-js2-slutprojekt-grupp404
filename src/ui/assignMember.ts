@@ -69,7 +69,7 @@ export async function assignableMembersToTasks(projectID:string, taskID:string) 
     if (!assignableMembersWrapper) return;
 console.log(members)
     for (const ID in members) {
-        if (members[ID].category === projects[projectID].tasks[taskID].taskCategory) {
+        if (members[ID].category === projects[projectID].tasks[taskID].taskCategory && projects[projectID].projectMembers.includes(`${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`)) {
             const assignableOptionDiv = document.createElement("div")
             assignableOptionDiv.classList.add("assign-member__option");
             let memberOptionName = `${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`

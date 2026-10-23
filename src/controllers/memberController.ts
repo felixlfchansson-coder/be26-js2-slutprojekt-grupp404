@@ -134,6 +134,9 @@ async function openTaskModal(projectID: string) {
                 if (projectMembers[0] === "") {
                     projectMembers.shift()
                 }
+                if (memberProjects[0] === "") {
+                    memberProjects.shift()
+                }
                 try {
                     await updateMemberProjects(memberProjects, ID)
                     await refreshProjects();

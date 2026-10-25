@@ -3,10 +3,10 @@ import {
     deleteTask,
     changeTaskStatus,
     patchCompletedDate
-} from "../modules/tasks";
+} from "../firebaseRequests/tasks";
 
-import { getData } from "../modules/firebaseRequest";
-import { updateMemberTasks } from "../modules/members";
+import { getData } from "../firebaseRequests/dataRequest.ts";
+import { updateMemberTasks } from "../firebaseRequests/members";
 import { getTodaysDate } from "../ui/components/DateFormater";
 import { refreshPage } from "./refreshPage.ts";
 

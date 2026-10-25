@@ -4,9 +4,9 @@ import {
     assignableMembersToTasks
 } from "../ui/tasks/assignMember";
 
-import { getData } from "../modules/firebaseRequest";
-import { updateMemberTasks } from "../modules/members";
-import { assignMembersToTask } from "../modules/tasks";
+import { getData } from "../firebaseRequests/dataRequest";
+import { updateMemberTasks } from "../firebaseRequests/members";
+import { assignMembersToTask } from "../firebaseRequests/tasks";
 import { refreshPage } from "./refreshPage.ts";
 
 export async function openAssignTaskModal(

@@ -1,6 +1,6 @@
 
 import { renderEditTaskTForm } from "../ui/tasks/editTaskForm";
-import { changeTaskDeadline, changePriority } from "../modules/tasks";
+import { changeTaskDeadline, changePriority } from "../firebaseRequests/tasks";
 import { dateToNumber } from "../ui/components/DateFormater";
 import { refreshPage } from "./refreshPage.ts";
 

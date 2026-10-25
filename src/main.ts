@@ -31,7 +31,7 @@ import { renderHomeContent } from "./ui/Pages/renderHomeContent.ts";
 import { renderProjects } from "./ui/Pages/renderProjects.ts";
 import { renderMembers } from "./ui/members/renderMembers.ts";
 
-import { getData } from "./modules/firebaseRequest.ts";
+import { getData } from "./firebaseRequests/dataRequest.ts";
 
 import {
     initProjectController,

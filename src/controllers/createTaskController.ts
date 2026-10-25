@@ -1,6 +1,6 @@
 
 import { renderTaskForm } from "../ui/tasks/taskForm";
-import { addNewTask } from "../modules/tasks";
+import { addNewTask } from "../firebaseRequests/tasks";
 import { dateToNumber } from "../ui/components/DateFormater";
 import { refreshPage } from "./refreshPage.ts";
 

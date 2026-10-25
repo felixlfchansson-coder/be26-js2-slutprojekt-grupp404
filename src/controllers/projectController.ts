@@ -1,5 +1,5 @@
 import { renderProjectForm } from "../ui/projects/projectForm";
-import { addNewProject, editProjectDeadline, deleteProject } from "../modules/projects";
+import { addNewProject, editProjectDeadline, deleteProject } from "../firebaseRequests/projects";
 import { dateToNumber } from "../ui/components/DateFormater";
 import { renderEditProjectForm } from "../ui/projects/editProjectForm";
 import { refreshPage } from "./refreshPage.ts";

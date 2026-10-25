@@ -1,5 +1,5 @@
 
-import { getData } from "../../modules/firebaseRequest.ts";
+import { getData } from "../../firebaseRequests/dataRequest.ts";
 
 import type {
     FirebaseProject,

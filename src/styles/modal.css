@@ -240,3 +240,9 @@ fieldset.form-group legend svg {
 #project-form .modal__submit:hover {
     background: #5145bd;
 }
+
+.modal__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}

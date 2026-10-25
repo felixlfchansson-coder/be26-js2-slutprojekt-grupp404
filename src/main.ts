@@ -31,7 +31,7 @@ import { renderHomeContent } from "./ui/Pages/renderHomeContent.ts";
 import { renderProjects } from "./ui/Pages/renderProjects.ts";
 import { renderMembers } from "./ui/members/renderMembers.ts";
 
-import { getData } from "./modules/firebaseRequest.ts";
+import { getData } from "./firebaseRequests/dataRequest.ts";
 
 import {
     initProjectController,
@@ -45,6 +45,8 @@ import {
     initNewMemberController,
     addMembersToProject
 } from "./controllers/memberController.ts";
+
+import { registerPageRefresh } from "./controllers/refreshPage.ts";
 
 
 function renderIcons() {
@@ -102,32 +104,20 @@ async function init() {
     }
 
 
-    async function showHome() {
-        if (!app || !navHome) return;
-
-        app.replaceChildren(homePage());
-
-        renderIcons();
-        setActiveNav(navHome);
-
+    async function refreshHome() {
         await Promise.all([
             renderHome(),
             renderHomeContent()
         ]);
+
+        renderIcons();
     }
 
 
-    async function showProjects() {
-        if (!app || !navProjects) return;
-
-        app.replaceChildren(projectPage());
-
-        renderIcons();
-        setActiveNav(navProjects);
-
+    async function refreshProjects() {
         const projects = await getData("projects");
 
-        if (!app.querySelector("#projects-container")) {
+        if (!app!.querySelector("#projects-container")) {
             return;
         }
 
@@ -136,38 +126,84 @@ async function init() {
     }
 
 
+
+async function refreshMembers() {
+    const [members, projects] = await Promise.all([
+        getData("members"),
+        getData("projects")
+    ]);
+
+    if (!app!.querySelector("#members-container")) {
+        return;
+    }
+
+    renderMembers(members, projects);
+    renderIcons();
+}
+
+
+
+    async function showHome() {
+        if (!app || !navHome) return;
+
+        sessionStorage.setItem("activePage", "home");
+
+        app.replaceChildren(homePage());
+
+        renderIcons();
+        setActiveNav(navHome);
+
+        registerPageRefresh(refreshHome);
+
+        await refreshHome();
+    }
+
+
+    async function showProjects() {
+        if (!app || !navProjects) return;
+
+        sessionStorage.setItem("activePage", "projects");
+
+        app.replaceChildren(projectPage());
+
+        renderIcons();
+        setActiveNav(navProjects);
+
+        registerPageRefresh(refreshProjects);
+
+        await refreshProjects();
+    }
+
+
     async function showMembers() {
         if (!app || !navMembers) return;
+
+        sessionStorage.setItem("activePage", "members");
 
         app.replaceChildren(membersPage());
 
         renderIcons();
         setActiveNav(navMembers);
 
-        const members = await getData("members");
+        registerPageRefresh(refreshMembers);
 
-        if (!app.querySelector("#members-container")) {
-            return;
-        }
-
-        renderMembers(members);
-        renderIcons();
+        await refreshMembers();
     }
 
 
     navHome.addEventListener("click", (event) => {
         event.preventDefault();
-        showHome();
+        void showHome();
     });
 
-    navProjects.addEventListener("click", async (event) => {
+    navProjects.addEventListener("click", (event) => {
         event.preventDefault();
-        await showProjects();
+        void showProjects();
     });
 
-    navMembers.addEventListener("click", async (event) => {
+    navMembers.addEventListener("click", (event) => {
         event.preventDefault();
-        await showMembers();
+        void showMembers();
     });
 
 
@@ -185,8 +221,21 @@ async function init() {
     });
 
 
-    showHome();
+   const savedPage = sessionStorage.getItem("activePage");
+
+switch (savedPage) {
+    case "projects":
+        await showProjects();
+        break;
+
+    case "members":
+        await showMembers();
+        break;
+
+    default:
+        await showHome();
+}
 }
 
 
-init();
+void init();

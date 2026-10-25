@@ -9,17 +9,17 @@ export function homePage(): HTMLElement {
                 <div class="home__welcome">
                     <span class="home__eyebrow">
                         <i data-lucide="sparkles"></i>
-                        DIN ARBETSYTA
+                        DIN PERSONLIGA ARBETSYTA
                     </span>
 
                     <h1>
                         Välkommen tillbaka!
-                        <span>Redo att skapa något bra?</span>
+                        <span>Här börjar din arbetsdag.</span>
                     </h1>
 
                     <p>
-                        Håll koll på dina projekt, uppgifter och
-                        teamets framsteg – allt på ett ställe.
+                        Få en tydlig överblick över dina projekt,
+                        tilldelade uppgifter och kommande deadlines.
                     </p>
 
                     <div class="home__hero-actions">
@@ -70,6 +70,34 @@ export function homePage(): HTMLElement {
             </div>
         </header>
 
+        <!-- VÄLJ MEDLEM -->
+        <section class="home__member-selector">
+            <div class="home__member-selector-text">
+                <span class="home__eyebrow">
+                    <i data-lucide="user-round"></i>
+                    PERSONLIG ÖVERBLICK
+                </span>
+
+                <h2>Min arbetsöverblick</h2>
+
+                <p>
+                    Välj en teammedlem för att se personens
+                    projekt, uppgifter och deadlines.
+                </p>
+            </div>
+
+            <div class="home__member-selector-field">
+                <label for="home-member-select">
+                    Visa överblick för
+                </label>
+
+                <select id="home-member-select">
+                    <option value="">Välj medlem</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- PERSONLIG STATISTIK -->
         <div class="home__stats">
             <article class="home__stat-card">
                 <div class="home__stat-icon purple">
@@ -78,7 +106,7 @@ export function homePage(): HTMLElement {
 
                 <div>
                     <h2 id="home-projects-total">0</h2>
-                    <span>Totalt antal projekt</span>
+                    <span>Mina projekt</span>
                 </div>
             </article>
 
@@ -95,12 +123,12 @@ export function homePage(): HTMLElement {
 
             <article class="home__stat-card">
                 <div class="home__stat-icon green">
-                    <i data-lucide="users-round"></i>
+                    <i data-lucide="user-round-check"></i>
                 </div>
 
                 <div>
                     <h2 id="home-members-total">0</h2>
-                    <span>Totalt antal medlemmar</span>
+                    <span>Vald medlem</span>
                 </div>
             </article>
 
@@ -116,7 +144,10 @@ export function homePage(): HTMLElement {
             </article>
         </div>
 
+        <!-- PERSONLIG DASHBOARD -->
         <div class="home__dashboard">
+
+            <!-- MINA PROJEKT -->
             <section class="home__panel home__projects-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -137,13 +168,17 @@ export function homePage(): HTMLElement {
                     </button>
                 </div>
 
-                <div id="home-projects" class="home__projects">
+                <div
+                    id="home-member-projects"
+                    class="home__projects"
+                >
                     <p class="home__empty">
-                        Inga projekt att visa ännu.
+                        Välj en medlem för att se projekt.
                     </p>
                 </div>
             </section>
 
+            <!-- MINA UPPGIFTER -->
             <section class="home__panel home__tasks-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -155,13 +190,17 @@ export function homePage(): HTMLElement {
                     </div>
                 </div>
 
-                <div id="home-tasks" class="home__tasks">
+                <div
+                    id="home-member-tasks"
+                    class="home__tasks"
+                >
                     <p class="home__empty">
-                        Inga uppgifter att visa ännu.
+                        Välj en medlem för att se uppgifter.
                     </p>
                 </div>
             </section>
 
+            <!-- KOMMANDE DEADLINES -->
             <section class="home__panel home__activity-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
@@ -173,30 +212,38 @@ export function homePage(): HTMLElement {
                     </div>
                 </div>
 
-                <div id="home-deadlines" class="home__activity">
+                <div
+                    id="home-member-deadlines"
+                    class="home__activity"
+                >
                     <p class="home__empty">
-                        Inga kommande deadlines.
+                        Välj en medlem för att se deadlines.
                     </p>
                 </div>
             </section>
 
+            <!-- Deadlinekoll -->
             <section class="home__panel home__members-panel">
                 <div class="home__section-header">
                     <div class="home__section-title">
                         <span class="home__section-icon">
-                            <i data-lucide="users-round"></i>
+                            <i data-lucide="alert-circle"></i>
                         </span>
 
-                        <h2>Teammedlemmar</h2>
+                        <h2>Deadlinekoll</h2>
                     </div>
                 </div>
 
-                <div id="home-members" class="home__members">
+                <div
+                    id="home-member-overdue"
+                    class="home__members"
+                >
                     <p class="home__empty">
-                        Inga medlemmar att visa ännu.
+                        Inga försenade uppgifter att visa.
                     </p>
                 </div>
             </section>
+
         </div>
     `;
 

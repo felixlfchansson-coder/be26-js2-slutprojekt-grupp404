@@ -1,17 +1,43 @@
 
 import { createElement, UserRound, Pencil } from "lucide";
 
-// Så här sparas medlemmarna i Firebase
-type FirebaseMember = {
-    firstName: string;
-    secondName: string;
-    category?: string;
-    ongoingTasks?: number;
-    projectMember?: string[];
-};
+import type {
+    FirebaseMember,
+    FirebaseProject
+} from "../../model/HomeType.ts";
+
+// Hämta medlemmens befintliga projekt
+function getMemberProjects(
+    member: FirebaseMember,
+    projects: Record<string, FirebaseProject>
+): Map<string, string> {
+    const matchedProjects = new Map<string, string>();
+
+    for (const reference of member.projectMember ?? []) {
+        const value = String(reference ?? "").trim();
+
+        if (!value) continue;
+
+        const match = Object.entries(projects).find(
+            ([projectID, project]) =>
+                projectID === value ||
+                project.projectTitle === value
+        );
+
+        if (match && match[1].projectTitle.trim()) {
+            matchedProjects.set(
+                match[0],
+                match[1].projectTitle
+            );
+        }
+    }
+
+    return matchedProjects;
+}
 
 export function renderMembers(
-    members: Record<string, FirebaseMember> | null
+    members: Record<string, FirebaseMember> | null,
+    projects: Record<string, FirebaseProject> | null
 ): void {
     const container = document.getElementById("members-container");
 
@@ -24,24 +50,32 @@ export function renderMembers(
     container.replaceChildren();
 
     const memberEntries = Object.entries(members ?? {});
+    const projectData = projects ?? {};
 
-    // Uppdatera statistiken
+    // Totalt antal medlemmar
     if (membersTotal) {
         membersTotal.textContent = String(memberEntries.length);
     }
 
-    // Räkna unika projekt som medlemmarna är kopplade till
+    // Antal unika befintliga projekt
     if (projectsTotal) {
-        const projectIDs = new Set(
-            memberEntries.flatMap(([, member]) =>
-                member.projectMember ?? []
-            )
-        );
+        const uniqueProjectIDs = new Set<string>();
 
-        projectsTotal.textContent = String(projectIDs.size);
+        memberEntries.forEach(([, member]) => {
+            const memberProjects = getMemberProjects(
+                member,
+                projectData
+            );
+
+            memberProjects.forEach((_, projectID) => {
+                uniqueProjectIDs.add(projectID);
+            });
+        });
+
+        projectsTotal.textContent = String(uniqueProjectIDs.size);
     }
 
-    // Räkna medlemmarnas pågående tasks från Firebase
+    // Totalt antal pågående tasks
     if (tasksTotal) {
         const totalOngoingTasks = memberEntries.reduce(
             (total, [, member]) =>
@@ -72,6 +106,7 @@ export function renderMembers(
                 <th>Medlem</th>
                 <th>Kategori</th>
                 <th>Projekt</th>
+                <th>Pågående tasks</th>
                 <th>Åtgärder</th>
             </tr>
         </thead>
@@ -117,14 +152,43 @@ export function renderMembers(
 
         categoryCell.appendChild(category);
 
-        // Antal projekt
+        // Medlemmens projekt
         const projectsCell = document.createElement("td");
-        projectsCell.textContent = String(
-            member.projectMember?.length ?? 0
+
+        const memberProjects = getMemberProjects(
+            member,
+            projectData
         );
 
-        // Antal pågående tasks från Firebase
+        const projectNames = [...memberProjects.values()];
+
+        // Visa antal projekt
+        const projectCount = document.createElement("strong");
+
+        projectCount.textContent =
+            `${projectNames.length} projekt`;
+
+        projectsCell.appendChild(projectCount);
+
+        // Visa projektnamn som etiketter
+        if (projectNames.length > 0) {
+            const projectList = document.createElement("div");
+            projectList.classList.add("members-table__projects");
+
+            projectNames.forEach(projectName => {
+                const tag = document.createElement("span");
+                tag.classList.add("members-table__project-tag");
+                tag.textContent = projectName;
+
+                projectList.appendChild(tag);
+            });
+
+            projectsCell.appendChild(projectList);
+        }
+
+        // Pågående tasks
         const tasksCell = document.createElement("td");
+
         tasksCell.textContent = String(
             member.ongoingTasks ?? 0
         );
@@ -148,7 +212,8 @@ export function renderMembers(
 
         actionsCell.appendChild(editButton);
 
-       row.append(
+        // Lägg till cellerna i rätt ordning
+        row.append(
             nameCell,
             categoryCell,
             projectsCell,

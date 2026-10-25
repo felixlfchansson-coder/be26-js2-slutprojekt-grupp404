@@ -1,0 +1,188 @@
+import { baseURL } from "./dataRequest.js";
+
+    // DEADLINE set to number - this will be 6 digits refereing to day / month / year
+    // will need to be manipulated for display on page vs how its held in database
+export async function addNewTask(
+    projectID:string, 
+    newTaskTitle:string, 
+    taskDescription:string, 
+    taskCategory:string, 
+    newTaskDeadline:number, 
+    newPriority:string, 
+    taskStatus:string,
+    taskCompletedDate:number){
+    try{
+        const option = {
+            method: "POST",
+            body: JSON.stringify(
+                {
+                    taskTitle: newTaskTitle, 
+                    taskDescription: taskDescription,
+                    taskCategory: taskCategory, 
+                    taskDeadline: newTaskDeadline, 
+                    taskPriority: newPriority, 
+                    taskStatus: taskStatus,
+                    taskCompleteDate: taskCompletedDate
+                }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+    
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks.json`, option);
+    
+        if(!response.ok){
+            throw new Error("Post failed");
+        }
+    
+        const data = await response.json();
+        return data;
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+export async function changePriority(newPriority:string, projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskPriority: newPriority
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching priority has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function changeTaskStatus(newStatus:string, projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskStatus: newStatus
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching status has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function changeTaskDeadline(newTaskDeadline:number, projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskDeadline: newTaskDeadline
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching deadline has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function assignMembersToTask(newTaskMembers:string[], projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskMembers: newTaskMembers,
+                taskStatus: "In Progress"
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("patching task members has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+
+        throw error
+    }
+}
+
+export async function patchCompletedDate(taskCompleteDate:number, projectID:string, taskID:string) {
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(
+            {
+                taskCompleteDate: taskCompleteDate
+            }
+        ),
+        headers: { 
+            "content-type": "application/json"
+        }
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("posting complete date has failed")
+        }
+        const data = await response.json()
+        return data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function deleteTask(projectID:string, taskID:string) {
+    const options = {
+        method: "DELETE"
+    }
+    try {
+        const response = await fetch(`${baseURL}/projects/${projectID}/tasks/${taskID}.json`, options)
+        if (!response.ok) {
+            throw new Error ("Deletion failed")
+        }
+        const data = await response.json();
+        return "Task Deleted!"
+    }
+    catch (error) {
+        throw error
+        }
+}

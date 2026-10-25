@@ -501,3 +501,10 @@
     color: #5145bd;
     text-decoration: underline;
 }
+
+.task__members {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #64748b);
+    margin: 0.5rem 0;
+    overflow-wrap: anywhere;
+}

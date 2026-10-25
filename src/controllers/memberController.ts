@@ -1,10 +1,11 @@
+
 import { renderMemberForm } from "../ui/members/memberForm";
-import { addNewMember } from "../modules/members";
+import { addNewMember } from "../firebaseRequests/members";
 import { renderAssignMember, assignableMembersToProject } from "../ui/tasks/assignMember";
-import { getData } from "../modules/firebaseRequest";
-import { updateMemberProjects  } from "../modules/members";
-import { addProjectMembers } from "../modules/projects";
-import { refreshProjects } from "../ui/Pages/renderProjects";
+import { getData } from "../firebaseRequests/dataRequest.ts";
+import { updateMemberProjects } from "../firebaseRequests/members";
+import { addProjectMembers } from "../firebaseRequests/projects";
+import { refreshPage } from "./refreshPage.ts";
 
 
 export function initNewMemberController() {
@@ -61,12 +62,16 @@ function openMemberForm() {
                 secondName,
                 category
             );
-            await refreshProjects();
+
+            // NYTT: Uppdatera den aktiva sidan efter sparning
+            await refreshPage();
 
             closeModal();
 
         } catch (error) {
-         window.alert("Something went wrong. The new member could not be added.");
+            window.alert(
+                "Something went wrong. The new member could not be added."
+            );
 
             console.error("Could not add member:", error);
         }
@@ -85,10 +90,11 @@ export function addMembersToProject() {
 
         const projectElement = addMembersToProject.closest<HTMLElement>(".project");
         const projectID = projectElement?.dataset.projectId;
+
         if (!projectID) return;
 
         openTaskModal(projectID);
-    })
+    });
 }
 
 async function openTaskModal(projectID: string) {
@@ -113,42 +119,78 @@ async function openTaskModal(projectID: string) {
             closeModal();
         }
     });
-    const members = await getData("members")
-    const projects = await getData("projects")
-    const form = assignMemberOverlay.querySelector<HTMLFormElement>("#assign-member-form")
-    form?.addEventListener("submit", async event => {
-        event.preventDefault()
 
-        let memberProjects:string[] = []
-        let projectMembers: string[] = [...(projects[projectID].projectMembers ?? [])];
-        for (const ID in members) {
-            const projectTitle = projects[projectID].projectTitle
-            if (!projectTitle) return;
-            let checkbox = assignMemberOverlay.querySelector<HTMLFormElement>(`#${ID}`)
-            
-            if (checkbox?.checked) {
-                projectMembers.push(`${members[ID].firstName} ${members[ID].secondName}, ${members[ID]. category}`)
-                console.log(projectMembers)
-                memberProjects = members[ID].projectMember
-                memberProjects.push(projectTitle)
-                if (projectMembers[0] === "") {
-                    projectMembers.shift()
-                }
-                try {
-                    await updateMemberProjects(memberProjects, ID)
-                    await refreshProjects();
-                } catch {
-                    window.alert("Something went wrong. Could not assign members to the project.");
+    const members = await getData("members");
+    const projects = await getData("projects");
+
+    const form = assignMemberOverlay.querySelector<HTMLFormElement>(
+        "#assign-member-form"
+    );
+
+    form?.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        let memberProjects: string[] = [];
+
+        // ÄNDRAT: Skapa en kopia av projektets medlemslista
+        let projectMembers: string[] = [
+            ...(projects[projectID].projectMembers ?? [])
+        ];
+
+        try {
+            for (const ID in members) {
+                const projectTitle = projects[projectID].projectTitle;
+
+                if (!projectTitle) return;
+
+                const checkbox = assignMemberOverlay.querySelector<HTMLInputElement>(
+                    `#${ID}`
+                );
+
+                if (checkbox?.checked) {
+                    const memberName =
+                        `${members[ID].firstName} ${members[ID].secondName}, ${members[ID].category}`;
+
+                    // NYTT: Undvik dubbla medlemmar i projektet
+                    if (!projectMembers.includes(memberName)) {
+                        projectMembers.push(memberName);
+                    }
+
+                    // ÄNDRAT: Hantera medlemmar utan tidigare projekt
+                    memberProjects = [
+                        ...(members[ID].projectMember ?? [])
+                    ];
+
+                    // NYTT: Undvik dubbla projekt hos medlemmen
+                    if (!memberProjects.includes(projectTitle)) {
+                        memberProjects.push(projectTitle);
+                    }
+
+                    if (projectMembers[0] === "") {
+                        projectMembers.shift();
+                    }
+
+                    await updateMemberProjects(memberProjects, ID);
                 }
             }
-        }
-        try {
-            await addProjectMembers(projectMembers, projectID)
-        } catch {
-            window.alert("Something.")
-        }
-        closeModal()
-        return;
-    })
-}
 
+            // ÄNDRAT: Spara projektets medlemslista först
+            await addProjectMembers(projectMembers, projectID);
+
+            // NYTT: Uppdatera sidan efter att allt har sparats
+            await refreshPage();
+
+            closeModal();
+
+        } catch (error) {
+            console.error(
+                "Could not assign members to project:",
+                error
+            );
+
+            window.alert(
+                "Something went wrong. Could not assign members to the project."
+            );
+        }
+    });
+}

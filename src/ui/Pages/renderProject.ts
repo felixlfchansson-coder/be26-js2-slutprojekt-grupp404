@@ -60,13 +60,12 @@ function formatDeadline(deadline: number): string {
 
 export function renderProject(
     project: ProjectData,
-    index: number,
     tasks: Task[] = []
 ): HTMLElement {
     const projectElement = document.createElement("div");
     projectElement.classList.add("project");
 
-    const isExpanded = index === 0;
+    const isExpanded = false;
 
     projectElement.innerHTML = `
         <div class="project__header">
@@ -90,10 +89,20 @@ export function renderProject(
                         Deadline: ${formatDeadline(project.projectDeadline)}
                     </span>
 
-                    <span class="project__members">
-                        <span class="project__members-icon"></span>
-                        <span class="project__members-text"></span>
-                    </span>
+                   <div class="project__members">
+                    <span class="project__members-icon"></span>
+                    <span class="project__members-text"></span>
+
+                    <button
+                        class="project__members-toggle"
+                        type="button"
+                        aria-expanded="false"
+                    >
+                        Visa alla medlemmar
+                    </button>
+
+                    <ul class="project__members-list" hidden></ul>
+                </div>
                 </div>
 
                 <div class="project__actions">
@@ -176,17 +185,74 @@ export function renderProject(
         </div>
     `;
 
-    const title = projectElement.querySelector<HTMLElement>(".project__title")!;
-    const description = projectElement.querySelector<HTMLElement>(".project__description")!;
-    const members = projectElement.querySelector<HTMLElement>(".project__members-text")!;
+   
+const title = projectElement.querySelector<HTMLElement>(".project__title")!;
+const description = projectElement.querySelector<HTMLElement>(".project__description")!;
+const members = projectElement.querySelector<HTMLElement>(".project__members-text")!;
 
-    const toggleButton = projectElement.querySelector<HTMLButtonElement>(".project__toggle");
-    const kanban = projectElement.querySelector<HTMLElement>(".kanban");
-    const arrow = projectElement.querySelector<HTMLElement>(".project__arrow");
+const toggleButton = projectElement.querySelector<HTMLButtonElement>(".project__toggle");
+const kanban = projectElement.querySelector<HTMLElement>(".kanban");
+const arrow = projectElement.querySelector<HTMLElement>(".project__arrow");
 
-    title.textContent = project.projectTitle;
-    description.textContent = project.projectDescription;
-    members.textContent = `Medlem: ${project.projectMembers ?? "Inga medlemmar"}`;
+title.textContent = project.projectTitle;
+description.textContent = project.projectDescription;
+
+const projectMembers = project.projectMembers ?? [];
+
+const membersToggle = projectElement.querySelector<HTMLButtonElement>(
+    ".project__members-toggle"
+)!;
+
+const membersList = projectElement.querySelector<HTMLUListElement>(
+    ".project__members-list"
+)!;
+
+members.textContent = `Medlemmar: ${projectMembers.length}`;
+
+if (projectMembers.length === 0) {
+    membersToggle.hidden = true;
+    membersList.hidden = true;
+} else {
+    projectMembers.forEach(member => {
+        const listItem = document.createElement("li");
+
+        // Projektmedlemmar sparas som "Namn, kategori"
+        const memberName = member.split(",")[0].trim();
+
+        // Räkna pågående tasks för medlemmen i detta projekt
+       const ongoingTasks = tasks.filter(task =>
+            task.taskStatus === "In Progress" &&
+            (task.taskMembers ?? []).some(assignedMember =>
+                assignedMember.split(",")[0].trim() === memberName
+            )
+        ).length;
+
+        const memberText = document.createElement("span");
+        memberText.textContent = member;
+
+        const taskCount = document.createElement("span");
+        taskCount.classList.add("project__member-task-count");
+        taskCount.textContent = `${ongoingTasks} pågående`;
+
+        listItem.append(memberText, taskCount);
+        membersList.appendChild(listItem);
+    });
+
+    membersToggle.addEventListener("click", () => {
+        membersList.hidden = !membersList.hidden;
+
+        const expanded = !membersList.hidden;
+
+        membersToggle.setAttribute(
+            "aria-expanded",
+            String(expanded)
+        );
+
+        membersToggle.textContent = expanded
+            ? "Dölj medlemmar"
+            : "Visa alla medlemmar";
+    });
+}
 
     function updateArrow(expanded: boolean): void {
         if (!arrow) return;

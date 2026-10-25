@@ -522,3 +522,107 @@
         padding: 9px 11px;
     }
 }
+
+/* ========================================
+   PROJECT MEMBERS
+======================================== */
+
+.project__members {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+
+    position: relative;
+    white-space: normal;
+}
+
+.project__members-text {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.project__members-toggle {
+    border: none;
+    background: transparent;
+    color: #7564e8;
+
+    padding: 4px 6px;
+    border-radius: 6px;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.project__members-toggle:hover {
+    background: #f0edff;
+}
+
+/* Member list */
+
+.project__members-list {
+    flex-basis: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    margin: 4px 0 0;
+    padding: 12px;
+
+    list-style: none;
+
+    background: #ffffff;
+    border: 1px solid #e8ebf2;
+    border-radius: 10px;
+
+    white-space: normal;
+}
+
+.project__members-list li {
+    position: relative;
+    padding-left: 16px;
+
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.project__members-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #7564e8;
+}
+
+.project__members-list[hidden],
+.project__members-toggle[hidden] {
+    display: none;
+}
+
+.project__members-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.project__member-task-count {
+    flex-shrink: 0;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: #fce7f3;
+    color: #9d174d;
+    font-size: 0.75rem;
+    font-weight: 600;
+}

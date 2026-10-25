@@ -386,3 +386,20 @@
     outline: 2px solid #7c3aed;
     outline-offset: 3px;
 }
+
+.members-table__projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.members-table__project-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background-color: #eee9ff;
+    color: #5b45c8;
+    font-size: 12px;
+    font-weight: 500;
+}

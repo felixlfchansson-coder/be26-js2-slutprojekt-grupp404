@@ -23,7 +23,9 @@ export function renderTask(task: Task): HTMLElement {
             <span class="task__priority"></span>
         </div>
 
-        <p class="task__description"></p>
+       <p class="task__description"></p>
+
+        <div class="task__members"></div>
 
         <div class="task__footer">
             <span class="task__category"></span>
@@ -36,6 +38,7 @@ export function renderTask(task: Task): HTMLElement {
     const title = taskElement.querySelector<HTMLElement>(".task__title")!;
     const priority = taskElement.querySelector<HTMLElement>(".task__priority")!;
     const description = taskElement.querySelector<HTMLElement>(".task__description")!;
+    const members = taskElement.querySelector<HTMLElement>(".task__members")!;
     const category = taskElement.querySelector<HTMLElement>(".task__category")!;
     const deadline = taskElement.querySelector<HTMLElement>(".task__deadline")!;
     const actions = taskElement.querySelector<HTMLElement>(".task__actions")!;
@@ -49,6 +52,11 @@ export function renderTask(task: Task): HTMLElement {
     title.textContent = task.taskTitle;
     description.textContent = task.taskDescription;
     category.textContent = task.taskCategory;
+    const assignedMembers = task.taskMembers ?? [];
+
+    members.textContent = assignedMembers.length > 0
+        ? `👤 ${assignedMembers.join(", ")}`
+        : "👤 Ej tilldelad";
 
     priority.textContent =
         priorityLabels[task.taskPriority] ?? task.taskPriority;

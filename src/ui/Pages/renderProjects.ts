@@ -163,22 +163,48 @@ export function renderProjects(
 
     void updateMemberDropdown();
 
+    // Spara vilka projekt som är öppna före uppdateringen
+    const openProjectIDs = new Set<string>();
+
+    container.querySelectorAll<HTMLElement>(".project").forEach(project => {
+        const toggle = project.querySelector<HTMLButtonElement>(
+            ".project__toggle"
+        );
+
+        if (toggle?.getAttribute("aria-expanded") === "true") {
+            const projectID = project.dataset.projectId;
+
+            if (projectID) {
+                openProjectIDs.add(projectID);
+            }
+        }
+    });
+
+    // Bygg om projektlistan med aktuell data
     container.replaceChildren();
 
     Object.entries(projects)
         .filter(([projectID]) => projectID !== "tasks")
-        .forEach(([projectID, project], index) => {
+        .forEach(([projectID, project]) => {
             const tasks = createProjectTasks(projectID, project);
             const sortedTasks = sortProjectTasks(tasks);
             const filteredTasks = filterProjectTasks(sortedTasks);
 
             const projectElement = renderProject(
                 project,
-                index,
                 filteredTasks
             );
 
             projectElement.dataset.projectId = projectID;
+
+            // Återställ projekt som var öppna
+            if (openProjectIDs.has(projectID)) {
+                const toggle = projectElement.querySelector<HTMLButtonElement>(
+                    ".project__toggle"
+                );
+
+                toggle?.click();
+            }
 
             container.appendChild(projectElement);
         });

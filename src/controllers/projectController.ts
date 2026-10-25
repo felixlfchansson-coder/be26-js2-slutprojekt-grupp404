@@ -1,8 +1,9 @@
 import { renderProjectForm } from "../ui/projects/projectForm";
 import { addNewProject, editProjectDeadline, deleteProject } from "../modules/projects";
-import { dateToNumber } from "./taskController";
+import { dateToNumber } from "../ui/components/DateFormater";
 import { renderEditProjectForm } from "../ui/projects/editProjectForm";
-import { refreshProjects } from "../ui/Pages/renderProjects";
+import { refreshPage } from "./refreshPage.ts";
+
 export function initProjectController() {
     document.addEventListener("click", (event) => {
         const target = event.target;
@@ -45,13 +46,14 @@ export function initProjectController() {
             const members = Object(formData.get("project-members-list") ?? "")
 
                 try {
-                    await addNewProject(
-                        title,
-                        description,
-                        dateToNumber(deadline),
-                        members
-                )
-                await refreshProjects();
+                 await addNewProject(
+                    title,
+                    description,
+                    dateToNumber(deadline),
+                    members
+                );
+
+                await refreshPage();
 
             console.log("Project added!")
             closeModal()
@@ -111,13 +113,15 @@ async function openTaskModal(projectID:string) {
         const formData = new FormData(form)
         const deadline = String(formData.get("projectDeadline") ?? "")
 
-        try {
-            await editProjectDeadline(dateToNumber(deadline), projectID)
-        } catch(error) {
-            console.error("Could not update project deadline.", error)
+       try {
+            await editProjectDeadline(dateToNumber(deadline), projectID);
+
+            await refreshPage();
+            closeModal();
+        } catch (error) {
+            console.error("Could not update project deadline.", error);
             window.alert("Something went wrong. The project's deadline could not be updated.");
         }
-        closeModal()
         return;
     })
 }
@@ -150,7 +154,7 @@ export function initDeleteProjectController() {
         try {
             await deleteProject(projectID);
 
-            projectElement.remove();
+            await refreshPage();
         } catch {
             window.alert("Det gick inte att ta bort projektet. Försök igen.");
         }

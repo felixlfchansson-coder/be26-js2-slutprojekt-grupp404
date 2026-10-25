@@ -100,6 +100,7 @@ function createMemberOption(
 }
 
 
+
 export async function assignableMembersToTasks(
     projectID: string,
     taskID: string
@@ -107,16 +108,32 @@ export async function assignableMembersToTasks(
     const members = await getData("members");
     const projects = await getData("projects");
 
-    const wrapper = document.getElementById("assignable-members-wrapper");
+    const wrapper = document.getElementById(
+        "assignable-members-wrapper"
+    );
 
     if (!wrapper) return;
 
-    const taskCategory = projects[projectID].tasks[taskID].taskCategory;
+    wrapper.replaceChildren();
+
+    const project = projects[projectID];
+    const taskCategory = project.tasks[taskID].taskCategory;
+    const projectTitle = project.projectTitle;
+
+    let matchingMembers = 0;
 
     for (const memberID in members) {
         const member = members[memberID];
 
+        // Medlemmen måste ha samma kategori som tasken
         if (member.category !== taskCategory) continue;
+
+        // Medlemmen måste redan tillhöra projektet
+        const belongsToProject =
+            (member.projectMember ?? []).includes(projectTitle) ||
+            (member.projectMember ?? []).includes(projectID);
+
+        if (!belongsToProject) continue;
 
         const option = createMemberOption(
             memberID,
@@ -126,8 +143,33 @@ export async function assignableMembersToTasks(
         );
 
         wrapper.appendChild(option);
+        matchingMembers++;
+    }
+
+    // Om projektet saknar medlem med rätt kategori
+    if (matchingMembers === 0) {
+        const message = document.createElement("p");
+        
+
+        message.classList.add("assign-member__empty");
+
+        message.textContent =
+            `Det finns ingen ${taskCategory}-medlem i projektet. ` +
+            `Lägg först till en medlem med denna kategori ` +
+            `via "Lägg till medlem" i projektet.`;
+
+        wrapper.appendChild(message);
+
+       const submitButton = wrapper
+            .closest("form")
+            ?.querySelector<HTMLButtonElement>(".modal__submit");
+
+        if (submitButton) {
+            submitButton.disabled = true;
+        }
     }
 }
+
 
 
 export async function assignableMembersToProject(

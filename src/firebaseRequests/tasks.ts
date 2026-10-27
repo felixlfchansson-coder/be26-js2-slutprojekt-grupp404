@@ -177,7 +177,7 @@ export async function deleteTask(projectID:string, taskID:string) {
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }
-        const data = await response.json();
+        await response.json();
         return "Task Deleted!"
     }
     catch (error) {

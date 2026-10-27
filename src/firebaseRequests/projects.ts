@@ -97,7 +97,7 @@ export async function deleteProject(projectID:string) {
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }
-        const data = await response.json();
+        await response.json();
         return "Project Deleted!"
     }
     catch (error) {

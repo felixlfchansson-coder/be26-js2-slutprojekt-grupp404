@@ -87,7 +87,7 @@ export async function deleteMember(memberID:string) {
         if (!response.ok) {
             throw new Error ("Deletion failed")
         }
-        const data = await response.json();
+        await response.json();
         return "Member Deleted!"
     }
     catch (error) {

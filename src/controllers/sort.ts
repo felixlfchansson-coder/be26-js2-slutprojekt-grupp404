@@ -1,4 +1,4 @@
-import { Task } from "../model/task.ts";
+import { Task } from "../model/task";
 
 
 export function sortTasksAZ(tasks:Task[]):Task[]{ 

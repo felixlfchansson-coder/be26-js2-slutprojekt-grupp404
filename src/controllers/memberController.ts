@@ -1,4 +1,3 @@
-
 import { renderMemberForm } from "../ui/members/memberForm";
 import { addNewMember } from "../firebaseRequests/members";
 import { renderAssignMember, assignableMembersToProject } from "../ui/tasks/assignMember";
@@ -63,7 +62,6 @@ function openMemberForm() {
                 category
             );
 
-            // NYTT: Uppdatera den aktiva sidan efter sparning
             await refreshPage();
 
             closeModal();
@@ -151,17 +149,14 @@ async function openTaskModal(projectID: string) {
                     const memberName =
                         `${members[ID].firstName} ${members[ID].secondName}, ${members[ID].category}`;
 
-                    // NYTT: Undvik dubbla medlemmar i projektet
                     if (!projectMembers.includes(memberName)) {
                         projectMembers.push(memberName);
                     }
 
-                    // ÄNDRAT: Hantera medlemmar utan tidigare projekt
                     memberProjects = [
                         ...(members[ID].projectMember ?? [])
                     ];
 
-                    // NYTT: Undvik dubbla projekt hos medlemmen
                     if (!memberProjects.includes(projectTitle)) {
                         memberProjects.push(projectTitle);
                     }
@@ -174,10 +169,8 @@ async function openTaskModal(projectID: string) {
                 }
             }
 
-            // ÄNDRAT: Spara projektets medlemslista först
             await addProjectMembers(projectMembers, projectID);
 
-            // NYTT: Uppdatera sidan efter att allt har sparats
             await refreshPage();
 
             closeModal();

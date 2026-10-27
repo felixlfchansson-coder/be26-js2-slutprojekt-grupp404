@@ -1,4 +1,4 @@
-import { baseURL } from "../modules/firebaseRequest.ts";
+import { baseURL } from "../firebaseRequests/dataRequest";
 import type { MemberCategory } from "./task.ts";
 
 export class Member {

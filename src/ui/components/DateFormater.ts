@@ -1,4 +1,3 @@
-
 export function dateToNumber(date: string): number {
     const [year, month, day] = date.split("-");
 

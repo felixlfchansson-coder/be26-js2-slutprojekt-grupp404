@@ -1,4 +1,3 @@
-
 import { renderTaskForm } from "../ui/tasks/taskForm";
 import { addNewTask } from "../firebaseRequests/tasks";
 import { dateToNumber } from "../ui/components/DateFormater";

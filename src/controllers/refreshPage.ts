@@ -1,4 +1,3 @@
-
 type RefreshFunction = () => void | Promise<void>;
 
 let activePageRefresh: RefreshFunction | null = null;

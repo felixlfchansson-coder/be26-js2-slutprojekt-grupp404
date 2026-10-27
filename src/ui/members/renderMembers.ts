@@ -1,4 +1,3 @@
-
 import { createElement, UserRound, Pencil } from "lucide";
 
 import type {
@@ -6,7 +5,6 @@ import type {
     FirebaseProject
 } from "../../model/HomeType.ts";
 
-// Hämta medlemmens befintliga projekt
 function getMemberProjects(
     member: FirebaseMember,
     projects: Record<string, FirebaseProject>
@@ -52,12 +50,10 @@ export function renderMembers(
     const memberEntries = Object.entries(members ?? {});
     const projectData = projects ?? {};
 
-    // Totalt antal medlemmar
     if (membersTotal) {
         membersTotal.textContent = String(memberEntries.length);
     }
 
-    // Antal unika befintliga projekt
     if (projectsTotal) {
         const uniqueProjectIDs = new Set<string>();
 
@@ -75,7 +71,6 @@ export function renderMembers(
         projectsTotal.textContent = String(uniqueProjectIDs.size);
     }
 
-    // Totalt antal pågående tasks
     if (tasksTotal) {
         const totalOngoingTasks = memberEntries.reduce(
             (total, [, member]) =>
@@ -86,7 +81,6 @@ export function renderMembers(
         tasksTotal.textContent = String(totalOngoingTasks);
     }
 
-    // Om det inte finns några medlemmar
     if (memberEntries.length === 0) {
         const emptyMessage = document.createElement("p");
         emptyMessage.classList.add("members-container__empty");
@@ -96,7 +90,6 @@ export function renderMembers(
         return;
     }
 
-    // Skapa tabellen
     const table = document.createElement("table");
     table.classList.add("members-table");
 
@@ -117,12 +110,10 @@ export function renderMembers(
 
     if (!tbody) return;
 
-    // Rendera varje medlem
     memberEntries.forEach(([memberID, member]) => {
         const row = document.createElement("tr");
         row.dataset.memberId = memberID;
 
-        // Medlemsnamn och avatar
         const nameCell = document.createElement("td");
         nameCell.classList.add("members-table__member");
 
@@ -142,7 +133,6 @@ export function renderMembers(
 
         nameCell.append(avatar, name);
 
-        // Medlemmens kategori
         const categoryCell = document.createElement("td");
 
         const category = document.createElement("span");
@@ -152,7 +142,6 @@ export function renderMembers(
 
         categoryCell.appendChild(category);
 
-        // Medlemmens projekt
         const projectsCell = document.createElement("td");
 
         const memberProjects = getMemberProjects(
@@ -162,7 +151,6 @@ export function renderMembers(
 
         const projectNames = [...memberProjects.values()];
 
-        // Visa antal projekt
         const projectCount = document.createElement("strong");
 
         projectCount.textContent =
@@ -170,7 +158,6 @@ export function renderMembers(
 
         projectsCell.appendChild(projectCount);
 
-        // Visa projektnamn som etiketter
         if (projectNames.length > 0) {
             const projectList = document.createElement("div");
             projectList.classList.add("members-table__projects");
@@ -186,14 +173,12 @@ export function renderMembers(
             projectsCell.appendChild(projectList);
         }
 
-        // Pågående tasks
         const tasksCell = document.createElement("td");
 
         tasksCell.textContent = String(
             member.ongoingTasks ?? 0
         );
 
-        // Redigera medlem
         const actionsCell = document.createElement("td");
         actionsCell.classList.add("members-table__actions");
 
@@ -212,7 +197,6 @@ export function renderMembers(
 
         actionsCell.appendChild(editButton);
 
-        // Lägg till cellerna i rätt ordning
         row.append(
             nameCell,
             categoryCell,

@@ -1,6 +1,6 @@
-import { baseURL } from "../modules/firebaseRequest.ts";
+import { baseURL } from "../firebaseRequests/dataRequest";
 import { Task } from "./task.ts"
-//This is a draft for the class, and we can change the properties if you think they are inadequate
+
 
 export class Project {
   public readonly projectID: number;
@@ -9,12 +9,8 @@ export class Project {
   private _projectDescription: string;
   private _projectDeadline: number;
   
-  //Ash you said to change projectMember to string[], right?
-  //Should i change the member variable in the user too?
   private _projectMembers: string[];
-  //Not sure about having Task as the type...
   private _projectTasks: Task[];
-//Felix: i changed to tile instead of name to make it match firebase.
   constructor(
     projectID: number,
     projectTitle: string,

@@ -1,4 +1,3 @@
-
 import type { FirebaseMember } from "../model/HomeType";
 
 export function belongsToMember(

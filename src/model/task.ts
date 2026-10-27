@@ -1,4 +1,4 @@
-import { baseURL } from "../modules/firebaseRequest.ts";
+import { baseURL } from "../firebaseRequests/dataRequest";
 export type MemberCategory = "frontend" | "backend" | "ux";
 export type TaskPriority = "High" | "Medium" | "Low";
 export type TaskStatus = "To Do" | "In Progress" | "Completed";

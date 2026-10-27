@@ -1,4 +1,3 @@
-
 import type {
     FirebaseProject,
     FirebaseMember,
@@ -110,7 +109,6 @@ export function renderDashboardLists(
             a.deadline!.getTime() - b.deadline!.getTime()
         );
 
-    // Mina projekt
     if (projectsContainer) {
         projectsContainer.replaceChildren();
 
@@ -133,7 +131,6 @@ export function renderDashboardLists(
         }
     }
 
-    // Mina uppgifter
     if (tasksContainer) {
         tasksContainer.replaceChildren();
 
@@ -162,8 +159,6 @@ export function renderDashboardLists(
             );
         }
     }
-
-    // Kommande deadlines
     if (deadlinesContainer) {
         deadlinesContainer.replaceChildren();
 
@@ -184,7 +179,6 @@ export function renderDashboardLists(
         }
     }
 
-    // Försenade uppgifter
     if (overdueContainer) {
         overdueContainer.replaceChildren();
 

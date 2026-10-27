@@ -1,4 +1,3 @@
-
 import { getData } from "../../firebaseRequests/dataRequest";
 import { renderProject } from "./renderProject.ts";
 

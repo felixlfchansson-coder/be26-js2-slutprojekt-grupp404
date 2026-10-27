@@ -1,5 +1,4 @@
 import { Task } from "../model/task.ts";
-//import {renderHome}
 
 
 export function sortTasksAZ(tasks:Task[]):Task[]{ 

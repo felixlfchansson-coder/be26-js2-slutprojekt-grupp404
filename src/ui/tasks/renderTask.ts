@@ -1,4 +1,3 @@
-
 import type { Task } from "../../model/task";
 import { setupDescriptionToggle } from "../components/descriptionToggle";
 

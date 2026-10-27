@@ -1,4 +1,3 @@
-
 import {
     renderAssignMember,
     assignableMembersToTasks
@@ -44,41 +43,33 @@ export async function openAssignTaskModal(
 
         form?.addEventListener("submit", async (event) => {
             event.preventDefault();
-
             const assignedMembers: string[] = [];
-
             try {
                 for (const ID in members) {
                     const checkbox =
                         assignMemberOverlay.querySelector<HTMLInputElement>(
                             `#${ID}`
                         );
-
                     if (checkbox?.checked) {
                         const assignedMember =
                             assignMemberOverlay.querySelector<HTMLLabelElement>(
                                 `label[for="${ID}"]`
                             );
+                    if (!assignedMember) continue;
+                    const memberName =
+                        assignedMember.textContent?.trim() ?? "";
+                    if (!memberName) continue;
 
-                        if (!assignedMember) continue;
-
-                        const memberName =
-                            assignedMember.textContent?.trim() ?? "";
-
-                        if (!memberName) continue;
-
-                        assignedMembers.push(memberName);
+                    assignedMembers.push(memberName);
                     }
                 }
 
-                // Spara alla valda medlemmar samtidigt
                 await assignMembersToTask(
                     assignedMembers,
                     projectID,
                     taskID
                 );
 
-                // Behåll din befintliga räknarlogik
                 for (const ID in members) {
                     const checkbox =
                         assignMemberOverlay.querySelector<HTMLInputElement>(
@@ -93,7 +84,6 @@ export async function openAssignTaskModal(
                     }
                 }
 
-                // Uppdatera sidan när sparningen är klar
                 await refreshPage();
 
                 closeModal();
@@ -103,7 +93,6 @@ export async function openAssignTaskModal(
                     "Could not assign members to task:",
                     error
                 );
-
                 window.alert(
                     "Something went wrong. Could not assign members to task."
                 );

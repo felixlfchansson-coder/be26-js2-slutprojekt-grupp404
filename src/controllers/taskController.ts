@@ -1,4 +1,3 @@
-
 import { openTaskModal } from "./createTaskController";
 import { openEditTaskModal } from "./editTaskController";
 import { openAssignTaskModal } from "./assignTaskController";

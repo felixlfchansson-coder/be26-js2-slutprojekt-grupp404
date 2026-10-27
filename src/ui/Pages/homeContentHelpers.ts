@@ -1,4 +1,3 @@
-
 export function createTextElement(
     tag: string,
     className: string,

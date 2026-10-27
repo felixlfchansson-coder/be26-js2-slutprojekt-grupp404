@@ -1,4 +1,3 @@
-
 export function homePage(): HTMLElement {
     const page = document.createElement("section");
     page.className = "home-page";

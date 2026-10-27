@@ -1,4 +1,3 @@
-
 import { renderEditTaskTForm } from "../ui/tasks/editTaskForm";
 import { changeTaskDeadline, changePriority } from "../firebaseRequests/tasks";
 import { dateToNumber } from "../ui/components/DateFormater";

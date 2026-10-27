@@ -1,4 +1,3 @@
-
 import { createElement, Plus } from "lucide";
 
 export function projectPage(): HTMLElement {

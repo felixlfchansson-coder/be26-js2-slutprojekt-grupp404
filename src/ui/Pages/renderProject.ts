@@ -1,4 +1,3 @@
-
 import { renderTask } from "../tasks/renderTask";
 import { setupDescriptionToggle } from "../components/descriptionToggle";
 
